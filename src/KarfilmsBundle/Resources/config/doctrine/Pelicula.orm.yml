@@ -1,6 +1,10 @@
 KarfilmsBundle\Entity\Pelicula:
     type: entity
     table: peliculas
+    indexes:
+        fk_edad_idx:
+            columns:
+                - id_edad
     id:
         id:
             type: integer
@@ -17,11 +21,6 @@ KarfilmsBundle\Entity\Pelicula:
             length: 65535
             options:
                 fixed: false
-        edad:
-            type: integer
-            nullable: false
-            options:
-                unsigned: false
         sinopsis:
             type: text
             nullable: false
@@ -31,13 +30,13 @@ KarfilmsBundle\Entity\Pelicula:
         cartel:
             type: string
             nullable: false
-            length: 45
+            length: 255
             options:
                 fixed: false
         trailer:
             type: string
             nullable: false
-            length: 45
+            length: 255
             options:
                 fixed: false
         duracion:
@@ -45,4 +44,15 @@ KarfilmsBundle\Entity\Pelicula:
             nullable: false
             options:
                 unsigned: false
+    manyToOne:
+        idEdad:
+            targetEntity: Edad
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_edad:
+                    referencedColumnName: id
+            orphanRemoval: false
     lifecycleCallbacks: {  }

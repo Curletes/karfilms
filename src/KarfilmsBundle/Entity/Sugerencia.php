@@ -37,6 +37,7 @@ class Sugerencia
      * })
      */
     private $idUsuario;
+
     function getId() {
         return $this->id;
     }

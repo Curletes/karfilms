@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Pelicula
  *
- * @ORM\Table(name="peliculas")
+ * @ORM\Table(name="peliculas", indexes={@ORM\Index(name="fk_edad_idx", columns={"id_edad"})})
  * @ORM\Entity
  */
 class Pelicula
@@ -29,13 +29,6 @@ class Pelicula
     private $titulo;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="edad", type="integer", nullable=false)
-     */
-    private $edad;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="sinopsis", type="text", length=65535, nullable=false)
@@ -45,14 +38,14 @@ class Pelicula
     /**
      * @var string
      *
-     * @ORM\Column(name="cartel", type="string", length=45, nullable=false)
+     * @ORM\Column(name="cartel", type="string", length=255, nullable=false)
      */
     private $cartel;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="trailer", type="string", length=45, nullable=false)
+     * @ORM\Column(name="trailer", type="string", length=255, nullable=false)
      */
     private $trailer;
 
@@ -63,16 +56,22 @@ class Pelicula
      */
     private $duracion;
 
+    /**
+     * @var \KarfilmsBundle\Entity\Edad
+     *
+     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Edad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_edad", referencedColumnName="id")
+     * })
+     */
+    private $idEdad;
+
     function getId() {
         return $this->id;
     }
 
     function getTitulo() {
         return $this->titulo;
-    }
-
-    function getEdad() {
-        return $this->edad;
     }
 
     function getSinopsis() {
@@ -91,16 +90,16 @@ class Pelicula
         return $this->duracion;
     }
 
+    function getIdEdad(): \KarfilmsBundle\Entity\Edad {
+        return $this->idEdad;
+    }
+
     function setId($id) {
         $this->id = $id;
     }
 
     function setTitulo($titulo) {
         $this->titulo = $titulo;
-    }
-
-    function setEdad($edad) {
-        $this->edad = $edad;
     }
 
     function setSinopsis($sinopsis) {
@@ -117,6 +116,10 @@ class Pelicula
 
     function setDuracion($duracion) {
         $this->duracion = $duracion;
+    }
+
+    function setIdEdad(\KarfilmsBundle\Entity\Edad $idEdad) {
+        $this->idEdad = $idEdad;
     }
 
 

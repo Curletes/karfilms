@@ -27,7 +27,6 @@ class Sala
      * @ORM\Column(name="nombre", type="string", length=1, nullable=false)
      */
     private $nombre;
-
     function getId() {
         return $this->id;
     }
@@ -43,6 +42,7 @@ class Sala
     function setNombre($nombre) {
         $this->nombre = $nombre;
     }
+
 
 
 }

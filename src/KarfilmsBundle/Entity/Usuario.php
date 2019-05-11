@@ -62,6 +62,7 @@ class Usuario
      * @ORM\Column(name="icono", type="string", length=45, nullable=false)
      */
     private $icono;
+
     function getId() {
         return $this->id;
     }
@@ -117,5 +118,7 @@ class Usuario
     function setIcono($icono) {
         $this->icono = $icono;
     }
+
+
 }
 
