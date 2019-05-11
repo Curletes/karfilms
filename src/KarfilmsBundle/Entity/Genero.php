@@ -2,54 +2,48 @@
 
 namespace KarfilmsBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Genero
+ *
+ * @ORM\Table(name="generos")
+ * @ORM\Entity
  */
 class Genero
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="genero", type="text", length=65535, nullable=false)
      */
     private $genero;
 
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
+    function getId() {
         return $this->id;
     }
 
-    /**
-     * Set genero
-     *
-     * @param string $genero
-     *
-     * @return Genero
-     */
-    public function setGenero($genero)
-    {
-        $this->genero = $genero;
-
-        return $this;
-    }
-
-    /**
-     * Get genero
-     *
-     * @return string
-     */
-    public function getGenero()
-    {
+    function getGenero() {
         return $this->genero;
     }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
+    function setGenero($genero) {
+        $this->genero = $genero;
+    }
+
+
 }
 

@@ -2,199 +2,123 @@
 
 namespace KarfilmsBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Pelicula
+ *
+ * @ORM\Table(name="peliculas")
+ * @ORM\Entity
  */
 class Pelicula
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="titulo", type="text", length=65535, nullable=false)
      */
     private $titulo;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="edad", type="integer", nullable=false)
      */
     private $edad;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="sinopsis", type="text", length=65535, nullable=false)
      */
     private $sinopsis;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="cartel", type="string", length=45, nullable=false)
      */
     private $cartel;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="trailer", type="string", length=45, nullable=false)
      */
     private $trailer;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="duracion", type="integer", nullable=false)
      */
     private $duracion;
 
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
+    function getId() {
         return $this->id;
     }
 
-    /**
-     * Set titulo
-     *
-     * @param string $titulo
-     *
-     * @return Pelicula
-     */
-    public function setTitulo($titulo)
-    {
-        $this->titulo = $titulo;
-
-        return $this;
-    }
-
-    /**
-     * Get titulo
-     *
-     * @return string
-     */
-    public function getTitulo()
-    {
+    function getTitulo() {
         return $this->titulo;
     }
 
-    /**
-     * Set edad
-     *
-     * @param integer $edad
-     *
-     * @return Pelicula
-     */
-    public function setEdad($edad)
-    {
-        $this->edad = $edad;
-
-        return $this;
-    }
-
-    /**
-     * Get edad
-     *
-     * @return integer
-     */
-    public function getEdad()
-    {
+    function getEdad() {
         return $this->edad;
     }
 
-    /**
-     * Set sinopsis
-     *
-     * @param string $sinopsis
-     *
-     * @return Pelicula
-     */
-    public function setSinopsis($sinopsis)
-    {
-        $this->sinopsis = $sinopsis;
-
-        return $this;
-    }
-
-    /**
-     * Get sinopsis
-     *
-     * @return string
-     */
-    public function getSinopsis()
-    {
+    function getSinopsis() {
         return $this->sinopsis;
     }
 
-    /**
-     * Set cartel
-     *
-     * @param string $cartel
-     *
-     * @return Pelicula
-     */
-    public function setCartel($cartel)
-    {
-        $this->cartel = $cartel;
-
-        return $this;
-    }
-
-    /**
-     * Get cartel
-     *
-     * @return string
-     */
-    public function getCartel()
-    {
+    function getCartel() {
         return $this->cartel;
     }
 
-    /**
-     * Set trailer
-     *
-     * @param string $trailer
-     *
-     * @return Pelicula
-     */
-    public function setTrailer($trailer)
-    {
-        $this->trailer = $trailer;
-
-        return $this;
-    }
-
-    /**
-     * Get trailer
-     *
-     * @return string
-     */
-    public function getTrailer()
-    {
+    function getTrailer() {
         return $this->trailer;
     }
 
-    /**
-     * Set duracion
-     *
-     * @param integer $duracion
-     *
-     * @return Pelicula
-     */
-    public function setDuracion($duracion)
-    {
-        $this->duracion = $duracion;
-
-        return $this;
-    }
-
-    /**
-     * Get duracion
-     *
-     * @return integer
-     */
-    public function getDuracion()
-    {
+    function getDuracion() {
         return $this->duracion;
     }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
+    function setTitulo($titulo) {
+        $this->titulo = $titulo;
+    }
+
+    function setEdad($edad) {
+        $this->edad = $edad;
+    }
+
+    function setSinopsis($sinopsis) {
+        $this->sinopsis = $sinopsis;
+    }
+
+    function setCartel($cartel) {
+        $this->cartel = $cartel;
+    }
+
+    function setTrailer($trailer) {
+        $this->trailer = $trailer;
+    }
+
+    function setDuracion($duracion) {
+        $this->duracion = $duracion;
+    }
+
+
 }
 

@@ -2,83 +2,69 @@
 
 namespace KarfilmsBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Valoracion
+ *
+ * @ORM\Table(name="valoraciones", indexes={@ORM\Index(name="fk_id_user_idx", columns={"id_usuario"}), @ORM\Index(name="fk_id_sugerencia_idx", columns={"id_sugerencia"})})
+ * @ORM\Entity
  */
 class Valoracion
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var \KarfilmsBundle\Entity\Sugerencia
+     *
+     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Sugerencia")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_sugerencia", referencedColumnName="id")
+     * })
      */
     private $idSugerencia;
 
     /**
      * @var \KarfilmsBundle\Entity\Usuario
+     *
+     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_usuario", referencedColumnName="id")
+     * })
      */
     private $idUsuario;
 
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
+    function getId() {
         return $this->id;
     }
 
-    /**
-     * Set idSugerencia
-     *
-     * @param \KarfilmsBundle\Entity\Sugerencia $idSugerencia
-     *
-     * @return Valoracion
-     */
-    public function setIdSugerencia(\KarfilmsBundle\Entity\Sugerencia $idSugerencia = null)
-    {
-        $this->idSugerencia = $idSugerencia;
-
-        return $this;
-    }
-
-    /**
-     * Get idSugerencia
-     *
-     * @return \KarfilmsBundle\Entity\Sugerencia
-     */
-    public function getIdSugerencia()
-    {
+    function getIdSugerencia(): \KarfilmsBundle\Entity\Sugerencia {
         return $this->idSugerencia;
     }
 
-    /**
-     * Set idUsuario
-     *
-     * @param \KarfilmsBundle\Entity\Usuario $idUsuario
-     *
-     * @return Valoracion
-     */
-    public function setIdUsuario(\KarfilmsBundle\Entity\Usuario $idUsuario = null)
-    {
-        $this->idUsuario = $idUsuario;
-
-        return $this;
-    }
-
-    /**
-     * Get idUsuario
-     *
-     * @return \KarfilmsBundle\Entity\Usuario
-     */
-    public function getIdUsuario()
-    {
+    function getIdUsuario(): \KarfilmsBundle\Entity\Usuario {
         return $this->idUsuario;
     }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
+    function setIdSugerencia(\KarfilmsBundle\Entity\Sugerencia $idSugerencia) {
+        $this->idSugerencia = $idSugerencia;
+    }
+
+    function setIdUsuario(\KarfilmsBundle\Entity\Usuario $idUsuario) {
+        $this->idUsuario = $idUsuario;
+    }
+
+
 }
 

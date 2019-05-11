@@ -2,199 +2,120 @@
 
 namespace KarfilmsBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Usuario
+ *
+ * @ORM\Table(name="usuarios", uniqueConstraints={@ORM\UniqueConstraint(name="nombre_UNIQUE", columns={"nombre"}), @ORM\UniqueConstraint(name="email_UNIQUE", columns={"email"})})
+ * @ORM\Entity
  */
 class Usuario
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=45, nullable=false)
      */
     private $nombre;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=45, nullable=false)
      */
     private $email;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=255, nullable=false)
      */
     private $password;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="estado", type="string", length=45, nullable=false)
      */
     private $estado;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="rol", type="string", length=45, nullable=false)
      */
     private $rol;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="icono", type="string", length=45, nullable=false)
      */
     private $icono;
-
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
+    function getId() {
         return $this->id;
     }
 
-    /**
-     * Set nombre
-     *
-     * @param string $nombre
-     *
-     * @return Usuario
-     */
-    public function setNombre($nombre)
-    {
-        $this->nombre = $nombre;
-
-        return $this;
-    }
-
-    /**
-     * Get nombre
-     *
-     * @return string
-     */
-    public function getNombre()
-    {
+    function getNombre() {
         return $this->nombre;
     }
 
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return Usuario
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
+    function getEmail() {
         return $this->email;
     }
 
-    /**
-     * Set password
-     *
-     * @param string $password
-     *
-     * @return Usuario
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Get password
-     *
-     * @return string
-     */
-    public function getPassword()
-    {
+    function getPassword() {
         return $this->password;
     }
 
-    /**
-     * Set estado
-     *
-     * @param string $estado
-     *
-     * @return Usuario
-     */
-    public function setEstado($estado)
-    {
-        $this->estado = $estado;
-
-        return $this;
-    }
-
-    /**
-     * Get estado
-     *
-     * @return string
-     */
-    public function getEstado()
-    {
+    function getEstado() {
         return $this->estado;
     }
 
-    /**
-     * Set rol
-     *
-     * @param string $rol
-     *
-     * @return Usuario
-     */
-    public function setRol($rol)
-    {
-        $this->rol = $rol;
-
-        return $this;
-    }
-
-    /**
-     * Get rol
-     *
-     * @return string
-     */
-    public function getRol()
-    {
+    function getRol() {
         return $this->rol;
     }
 
-    /**
-     * Set icono
-     *
-     * @param string $icono
-     *
-     * @return Usuario
-     */
-    public function setIcono($icono)
-    {
-        $this->icono = $icono;
-
-        return $this;
+    function getIcono() {
+        return $this->icono;
     }
 
-    /**
-     * Get icono
-     *
-     * @return string
-     */
-    public function getIcono()
-    {
-        return $this->icono;
+    function setId($id) {
+        $this->id = $id;
+    }
+
+    function setNombre($nombre) {
+        $this->nombre = $nombre;
+    }
+
+    function setEmail($email) {
+        $this->email = $email;
+    }
+
+    function setPassword($password) {
+        $this->password = $password;
+    }
+
+    function setEstado($estado) {
+        $this->estado = $estado;
+    }
+
+    function setRol($rol) {
+        $this->rol = $rol;
+    }
+
+    function setIcono($icono) {
+        $this->icono = $icono;
     }
 }
 

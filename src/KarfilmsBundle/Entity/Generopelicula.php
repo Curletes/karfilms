@@ -5,12 +5,12 @@ namespace KarfilmsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Directorpelicula
+ * Generopelicula
  *
- * @ORM\Table(name="directorespeliculas", indexes={@ORM\Index(name="fk_id_director_idx", columns={"id_director"}), @ORM\Index(name="fk_id_pelicula_idx", columns={"id_pelicula"})})
+ * @ORM\Table(name="generospeliculas", indexes={@ORM\Index(name="fk_genero_idx", columns={"id_genero"}), @ORM\Index(name="fk_pelicula_idx", columns={"id_pelicula"})})
  * @ORM\Entity
  */
-class Directorpelicula
+class Generopelicula
 {
     /**
      * @var integer
@@ -22,14 +22,14 @@ class Directorpelicula
     private $id;
 
     /**
-     * @var \KarfilmsBundle\Entity\Director
+     * @var \KarfilmsBundle\Entity\Genero
      *
-     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Director")
+     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Genero")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_director", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_genero", referencedColumnName="id")
      * })
      */
-    private $idDirector;
+    private $idGenero;
 
     /**
      * @var \KarfilmsBundle\Entity\Pelicula
@@ -45,8 +45,8 @@ class Directorpelicula
         return $this->id;
     }
 
-    function getIdDirector(): \KarfilmsBundle\Entity\Director {
-        return $this->idDirector;
+    function getIdGenero(): \KarfilmsBundle\Entity\Genero {
+        return $this->idGenero;
     }
 
     function getIdPelicula(): \KarfilmsBundle\Entity\Pelicula {
@@ -57,8 +57,8 @@ class Directorpelicula
         $this->id = $id;
     }
 
-    function setIdDirector(\KarfilmsBundle\Entity\Director $idDirector) {
-        $this->idDirector = $idDirector;
+    function setIdGenero(\KarfilmsBundle\Entity\Genero $idGenero) {
+        $this->idGenero = $idGenero;
     }
 
     function setIdPelicula(\KarfilmsBundle\Entity\Pelicula $idPelicula) {

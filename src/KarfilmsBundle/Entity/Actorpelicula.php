@@ -2,83 +2,69 @@
 
 namespace KarfilmsBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Actorpelicula
+ *
+ * @ORM\Table(name="actorespeliculas", indexes={@ORM\Index(name="fk_id_actor_idx", columns={"id_actor"}), @ORM\Index(name="fk_id_pelicula_idx", columns={"id_pelicula"})})
+ * @ORM\Entity
  */
 class Actorpelicula
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var \KarfilmsBundle\Entity\Actor
+     *
+     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Actor")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_actor", referencedColumnName="id")
+     * })
      */
     private $idActor;
 
     /**
-     * @var \KarfilmsBundle\Entity\Peliculas
+     * @var \KarfilmsBundle\Entity\Pelicula
+     *
+     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Pelicula")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_pelicula", referencedColumnName="id")
+     * })
      */
     private $idPelicula;
 
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
+    function getId() {
         return $this->id;
     }
 
-    /**
-     * Set idActor
-     *
-     * @param \KarfilmsBundle\Entity\Actor $idActor
-     *
-     * @return Actorpelicula
-     */
-    public function setIdActor(\KarfilmsBundle\Entity\Actor $idActor = null)
-    {
-        $this->idActor = $idActor;
-
-        return $this;
-    }
-
-    /**
-     * Get idActor
-     *
-     * @return \KarfilmsBundle\Entity\Actor
-     */
-    public function getIdActor()
-    {
+    function getIdActor(): \KarfilmsBundle\Entity\Actor {
         return $this->idActor;
     }
 
-    /**
-     * Set idPelicula
-     *
-     * @param \KarfilmsBundle\Entity\Peliculas $idPelicula
-     *
-     * @return Actorpelicula
-     */
-    public function setIdPelicula(\KarfilmsBundle\Entity\Peliculas $idPelicula = null)
-    {
-        $this->idPelicula = $idPelicula;
-
-        return $this;
-    }
-
-    /**
-     * Get idPelicula
-     *
-     * @return \KarfilmsBundle\Entity\Peliculas
-     */
-    public function getIdPelicula()
-    {
+    function getIdPelicula(): \KarfilmsBundle\Entity\Pelicula {
         return $this->idPelicula;
     }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
+    function setIdActor(\KarfilmsBundle\Entity\Actor $idActor) {
+        $this->idActor = $idActor;
+    }
+
+    function setIdPelicula(\KarfilmsBundle\Entity\Pelicula $idPelicula) {
+        $this->idPelicula = $idPelicula;
+    }
+
+
 }
 

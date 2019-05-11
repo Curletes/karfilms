@@ -29,7 +29,7 @@ KarfilmsBundle\Entity\Actorpelicula:
                     referencedColumnName: id
             orphanRemoval: false
         idPelicula:
-            targetEntity: Peliculas
+            targetEntity: Pelicula
             cascade: {  }
             fetch: LAZY
             mappedBy: null

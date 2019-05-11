@@ -2,141 +2,99 @@
 
 namespace KarfilmsBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Sesion
+ *
+ * @ORM\Table(name="sesiones", indexes={@ORM\Index(name="fk_id_sala_idx", columns={"id_sala"}), @ORM\Index(name="fk_id_pelicula_idx", columns={"id_pelicula"})})
+ * @ORM\Entity
  */
 class Sesion
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="date", nullable=false)
      */
     private $fecha;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="hora", type="time", nullable=false)
      */
     private $hora;
 
     /**
      * @var \KarfilmsBundle\Entity\Pelicula
+     *
+     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Pelicula")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_pelicula", referencedColumnName="id")
+     * })
      */
     private $idPelicula;
 
     /**
      * @var \KarfilmsBundle\Entity\Sala
+     *
+     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Sala")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_sala", referencedColumnName="id")
+     * })
      */
     private $idSala;
-
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
+    function getId() {
         return $this->id;
     }
 
-    /**
-     * Set fecha
-     *
-     * @param \DateTime $fecha
-     *
-     * @return Sesion
-     */
-    public function setFecha($fecha)
-    {
-        $this->fecha = $fecha;
-
-        return $this;
-    }
-
-    /**
-     * Get fecha
-     *
-     * @return \DateTime
-     */
-    public function getFecha()
-    {
+    function getFecha(): \DateTime {
         return $this->fecha;
     }
 
-    /**
-     * Set hora
-     *
-     * @param \DateTime $hora
-     *
-     * @return Sesion
-     */
-    public function setHora($hora)
-    {
-        $this->hora = $hora;
-
-        return $this;
-    }
-
-    /**
-     * Get hora
-     *
-     * @return \DateTime
-     */
-    public function getHora()
-    {
+    function getHora(): \DateTime {
         return $this->hora;
     }
 
-    /**
-     * Set idPelicula
-     *
-     * @param \KarfilmsBundle\Entity\Pelicula $idPelicula
-     *
-     * @return Sesion
-     */
-    public function setIdPelicula(\KarfilmsBundle\Entity\Pelicula $idPelicula = null)
-    {
-        $this->idPelicula = $idPelicula;
-
-        return $this;
-    }
-
-    /**
-     * Get idPelicula
-     *
-     * @return \KarfilmsBundle\Entity\Pelicula
-     */
-    public function getIdPelicula()
-    {
+    function getIdPelicula(): \KarfilmsBundle\Entity\Pelicula {
         return $this->idPelicula;
     }
 
-    /**
-     * Set idSala
-     *
-     * @param \KarfilmsBundle\Entity\Sala $idSala
-     *
-     * @return Sesion
-     */
-    public function setIdSala(\KarfilmsBundle\Entity\Sala $idSala = null)
-    {
-        $this->idSala = $idSala;
-
-        return $this;
-    }
-
-    /**
-     * Get idSala
-     *
-     * @return \KarfilmsBundle\Entity\Sala
-     */
-    public function getIdSala()
-    {
+    function getIdSala(): \KarfilmsBundle\Entity\Sala {
         return $this->idSala;
     }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
+    function setFecha(\DateTime $fecha) {
+        $this->fecha = $fecha;
+    }
+
+    function setHora(\DateTime $hora) {
+        $this->hora = $hora;
+    }
+
+    function setIdPelicula(\KarfilmsBundle\Entity\Pelicula $idPelicula) {
+        $this->idPelicula = $idPelicula;
+    }
+
+    function setIdSala(\KarfilmsBundle\Entity\Sala $idSala) {
+        $this->idSala = $idSala;
+    }
+
+
+
 }
 

@@ -1,0 +1,41 @@
+KarfilmsBundle\Entity\Generopelicula:
+    type: entity
+    table: generospeliculas
+    indexes:
+        fk_genero_idx:
+            columns:
+                - id_genero
+        fk_pelicula_idx:
+            columns:
+                - id_pelicula
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        idGenero:
+            targetEntity: Genero
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_genero:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idPelicula:
+            targetEntity: Pelicula
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_pelicula:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

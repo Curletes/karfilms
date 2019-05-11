@@ -2,141 +2,99 @@
 
 namespace KarfilmsBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Entrada
+ *
+ * @ORM\Table(name="entradas", indexes={@ORM\Index(name="fk_id_sesion_idx", columns={"id_sesion"}), @ORM\Index(name="fk_id_user_idx", columns={"id_usuario"})})
+ * @ORM\Entity
  */
 class Entrada
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="fila", type="integer", nullable=false)
      */
     private $fila;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="butaca", type="integer", nullable=false)
      */
     private $butaca;
 
     /**
      * @var \KarfilmsBundle\Entity\Sesion
+     *
+     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Sesion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_sesion", referencedColumnName="id")
+     * })
      */
     private $idSesion;
 
     /**
      * @var \KarfilmsBundle\Entity\Usuario
+     *
+     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_usuario", referencedColumnName="id")
+     * })
      */
     private $idUsuario;
 
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
+    function getId() {
         return $this->id;
     }
 
-    /**
-     * Set fila
-     *
-     * @param integer $fila
-     *
-     * @return Entrada
-     */
-    public function setFila($fila)
-    {
-        $this->fila = $fila;
-
-        return $this;
-    }
-
-    /**
-     * Get fila
-     *
-     * @return integer
-     */
-    public function getFila()
-    {
+    function getFila() {
         return $this->fila;
     }
 
-    /**
-     * Set butaca
-     *
-     * @param integer $butaca
-     *
-     * @return Entrada
-     */
-    public function setButaca($butaca)
-    {
-        $this->butaca = $butaca;
-
-        return $this;
-    }
-
-    /**
-     * Get butaca
-     *
-     * @return integer
-     */
-    public function getButaca()
-    {
+    function getButaca() {
         return $this->butaca;
     }
 
-    /**
-     * Set idSesion
-     *
-     * @param \KarfilmsBundle\Entity\Sesion $idSesion
-     *
-     * @return Entrada
-     */
-    public function setIdSesion(\KarfilmsBundle\Entity\Sesion $idSesion = null)
-    {
-        $this->idSesion = $idSesion;
-
-        return $this;
-    }
-
-    /**
-     * Get idSesion
-     *
-     * @return \KarfilmsBundle\Entity\Sesion
-     */
-    public function getIdSesion()
-    {
+    function getIdSesion(): \KarfilmsBundle\Entity\Sesion {
         return $this->idSesion;
     }
 
-    /**
-     * Set idUsuario
-     *
-     * @param \KarfilmsBundle\Entity\Usuario $idUsuario
-     *
-     * @return Entrada
-     */
-    public function setIdUsuario(\KarfilmsBundle\Entity\Usuario $idUsuario = null)
-    {
-        $this->idUsuario = $idUsuario;
-
-        return $this;
-    }
-
-    /**
-     * Get idUsuario
-     *
-     * @return \KarfilmsBundle\Entity\Usuario
-     */
-    public function getIdUsuario()
-    {
+    function getIdUsuario(): \KarfilmsBundle\Entity\Usuario {
         return $this->idUsuario;
     }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
+    function setFila($fila) {
+        $this->fila = $fila;
+    }
+
+    function setButaca($butaca) {
+        $this->butaca = $butaca;
+    }
+
+    function setIdSesion(\KarfilmsBundle\Entity\Sesion $idSesion) {
+        $this->idSesion = $idSesion;
+    }
+
+    function setIdUsuario(\KarfilmsBundle\Entity\Usuario $idUsuario) {
+        $this->idUsuario = $idUsuario;
+    }
+
+
 }
 
