@@ -1,0 +1,20 @@
+KarfilmsBundle\Entity\Edad:
+    type: entity
+    table: edades
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        clasificacion:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+    lifecycleCallbacks: {  }

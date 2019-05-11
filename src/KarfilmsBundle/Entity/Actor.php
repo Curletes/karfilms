@@ -43,7 +43,4 @@ class Actor
     function setNombre($nombre) {
         $this->nombre = $nombre;
     }
-
-
 }
-

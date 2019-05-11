@@ -40,7 +40,6 @@ class Actorpelicula
      * })
      */
     private $idPelicula;
-
     function getId() {
         return $this->id;
     }
@@ -66,5 +65,5 @@ class Actorpelicula
     }
 
 
-}
 
+}

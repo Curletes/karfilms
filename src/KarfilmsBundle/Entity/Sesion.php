@@ -54,7 +54,6 @@ class Sesion
      * })
      */
     private $idSala;
-
     function getId() {
         return $this->id;
     }
@@ -94,6 +93,7 @@ class Sesion
     function setIdSala(\KarfilmsBundle\Entity\Sala $idSala) {
         $this->idSala = $idSala;
     }
+
 
 
 }

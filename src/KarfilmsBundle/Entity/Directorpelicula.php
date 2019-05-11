@@ -40,7 +40,6 @@ class Directorpelicula
      * })
      */
     private $idPelicula;
-
     function getId() {
         return $this->id;
     }
@@ -64,6 +63,7 @@ class Directorpelicula
     function setIdPelicula(\KarfilmsBundle\Entity\Pelicula $idPelicula) {
         $this->idPelicula = $idPelicula;
     }
+
 
 
 }

@@ -5,12 +5,12 @@ namespace KarfilmsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Director
+ * Edad
  *
- * @ORM\Table(name="directores")
+ * @ORM\Table(name="edades")
  * @ORM\Entity
  */
-class Director
+class Edad
 {
     /**
      * @var integer
@@ -24,25 +24,26 @@ class Director
     /**
      * @var string
      *
-     * @ORM\Column(name="nombre", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="clasificacion", type="string", length=255, nullable=false)
      */
-    private $nombre;
-
+    private $clasificacion;
     function getId() {
         return $this->id;
     }
 
-    function getNombre() {
-        return $this->nombre;
+    function getClasificacion() {
+        return $this->clasificacion;
     }
 
     function setId($id) {
         $this->id = $id;
     }
 
-    function setNombre($nombre) {
-        $this->nombre = $nombre;
+    function setClasificacion($clasificacion) {
+        $this->clasificacion = $clasificacion;
     }
 
 
+
 }
+
