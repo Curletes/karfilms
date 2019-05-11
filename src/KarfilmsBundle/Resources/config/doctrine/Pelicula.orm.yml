@@ -1,0 +1,48 @@
+KarfilmsBundle\Entity\Pelicula:
+    type: entity
+    table: peliculas
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        titulo:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+        edad:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+        sinopsis:
+            type: text
+            nullable: false
+            length: 65535
+            options:
+                fixed: false
+        cartel:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+        trailer:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+        duracion:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,52 @@
+KarfilmsBundle\Entity\Entrada:
+    type: entity
+    table: entradas
+    indexes:
+        fk_id_sesion_idx:
+            columns:
+                - id_sesion
+        fk_id_user_idx:
+            columns:
+                - id_usuario
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        fila:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+        butaca:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+    manyToOne:
+        idSesion:
+            targetEntity: Sesion
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_sesion:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idUsuario:
+            targetEntity: Usuario
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_usuario:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

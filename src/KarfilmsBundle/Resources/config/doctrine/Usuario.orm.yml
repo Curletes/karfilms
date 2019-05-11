@@ -1,0 +1,57 @@
+KarfilmsBundle\Entity\Usuario:
+    type: entity
+    table: usuarios
+    uniqueConstraints:
+        nombre_UNIQUE:
+            columns:
+                - nombre
+        email_UNIQUE:
+            columns:
+                - email
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        nombre:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+        email:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+        password:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        estado:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+        rol:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+        icono:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+    lifecycleCallbacks: {  }

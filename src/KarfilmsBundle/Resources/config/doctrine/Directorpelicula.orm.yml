@@ -1,0 +1,41 @@
+KarfilmsBundle\Entity\Directorpelicula:
+    type: entity
+    table: directorespeliculas
+    indexes:
+        fk_id_director_idx:
+            columns:
+                - id_director
+        fk_id_pelicula_idx:
+            columns:
+                - id_pelicula
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        idDirector:
+            targetEntity: Director
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_director:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idPelicula:
+            targetEntity: Pelicula
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_pelicula:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

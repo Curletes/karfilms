@@ -1,0 +1,41 @@
+KarfilmsBundle\Entity\Actorpelicula:
+    type: entity
+    table: actorespeliculas
+    indexes:
+        fk_id_actor_idx:
+            columns:
+                - id_actor
+        fk_id_pelicula_idx:
+            columns:
+                - id_pelicula
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        idActor:
+            targetEntity: Actor
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_actor:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idPelicula:
+            targetEntity: Peliculas
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_pelicula:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,48 @@
+KarfilmsBundle\Entity\Sesion:
+    type: entity
+    table: sesiones
+    indexes:
+        fk_id_sala_idx:
+            columns:
+                - id_sala
+        fk_id_pelicula_idx:
+            columns:
+                - id_pelicula
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        fecha:
+            type: date
+            nullable: false
+        hora:
+            type: time
+            nullable: false
+    manyToOne:
+        idPelicula:
+            targetEntity: Pelicula
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_pelicula:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idSala:
+            targetEntity: Sala
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_sala:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

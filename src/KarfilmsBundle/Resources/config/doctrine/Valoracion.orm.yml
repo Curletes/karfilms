@@ -1,0 +1,41 @@
+KarfilmsBundle\Entity\Valoracion:
+    type: entity
+    table: valoraciones
+    indexes:
+        fk_id_user_idx:
+            columns:
+                - id_usuario
+        fk_id_sugerencia_idx:
+            columns:
+                - id_sugerencia
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        idSugerencia:
+            targetEntity: Sugerencia
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_sugerencia:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idUsuario:
+            targetEntity: Usuario
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_usuario:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,24 @@
+KarfilmsBundle\Entity\Sala:
+    type: entity
+    table: salas
+    uniqueConstraints:
+        nombre_UNIQUE:
+            columns:
+                - nombre
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        nombre:
+            type: string
+            nullable: false
+            length: 1
+            options:
+                fixed: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,3 @@
+karfilms_homepage:
+    path:     /
+    defaults: { _controller: KarfilmsBundle:Default:index }
