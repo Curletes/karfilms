@@ -27,6 +27,7 @@ class Edad
      * @ORM\Column(name="clasificacion", type="string", length=255, nullable=false)
      */
     private $clasificacion;
+
     function getId() {
         return $this->id;
     }
@@ -42,7 +43,6 @@ class Edad
     function setClasificacion($clasificacion) {
         $this->clasificacion = $clasificacion;
     }
-
 
 
 }

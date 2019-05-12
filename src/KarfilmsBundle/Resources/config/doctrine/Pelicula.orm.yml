@@ -46,7 +46,7 @@ KarfilmsBundle\Entity\Pelicula:
                 unsigned: false
     manyToOne:
         idEdad:
-            targetEntity: Edad
+            targetEntity: Edades
             cascade: {  }
             fetch: LAZY
             mappedBy: null

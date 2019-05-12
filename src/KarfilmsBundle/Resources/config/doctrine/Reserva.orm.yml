@@ -1,0 +1,35 @@
+KarfilmsBundle\Entity\Reserva:
+    type: entity
+    table: reservas
+    indexes:
+        fk_session_idx:
+            columns:
+                - id_sesion
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        reservado:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+                default: '0'
+    manyToOne:
+        idSesion:
+            targetEntity: Sesion
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_sesion:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

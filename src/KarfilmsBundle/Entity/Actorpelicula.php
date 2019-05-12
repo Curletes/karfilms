@@ -22,6 +22,16 @@ class Actorpelicula
     private $id;
 
     /**
+     * @var \KarfilmsBundle\Entity\Pelicula
+     *
+     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Pelicula")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_pelicula", referencedColumnName="id")
+     * })
+     */
+    private $idPelicula;
+
+    /**
      * @var \KarfilmsBundle\Entity\Actor
      *
      * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Actor")
@@ -31,39 +41,30 @@ class Actorpelicula
      */
     private $idActor;
 
-    /**
-     * @var \KarfilmsBundle\Entity\Pelicula
-     *
-     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Pelicula")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_pelicula", referencedColumnName="id")
-     * })
-     */
-    private $idPelicula;
     function getId() {
         return $this->id;
-    }
-
-    function getIdActor(): \KarfilmsBundle\Entity\Actor {
-        return $this->idActor;
     }
 
     function getIdPelicula(): \KarfilmsBundle\Entity\Pelicula {
         return $this->idPelicula;
     }
 
-    function setId($id) {
-        $this->id = $id;
+    function getIdActor(): \KarfilmsBundle\Entity\Actor {
+        return $this->idActor;
     }
 
-    function setIdActor(\KarfilmsBundle\Entity\Actor $idActor) {
-        $this->idActor = $idActor;
+    function setId($id) {
+        $this->id = $id;
     }
 
     function setIdPelicula(\KarfilmsBundle\Entity\Pelicula $idPelicula) {
         $this->idPelicula = $idPelicula;
     }
 
+    function setIdActor(\KarfilmsBundle\Entity\Actor $idActor) {
+        $this->idActor = $idActor;
+    }
 
 
 }
+

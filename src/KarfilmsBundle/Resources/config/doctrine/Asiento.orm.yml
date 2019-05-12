@@ -1,0 +1,39 @@
+KarfilmsBundle\Entity\Asiento:
+    type: entity
+    table: asientos
+    indexes:
+        fk_sala_idx:
+            columns:
+                - id_sala
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        fila:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+        butaca:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+    manyToOne:
+        idSala:
+            targetEntity: Sala
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_sala:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -27,7 +27,6 @@ class Director
      * @ORM\Column(name="nombre", type="text", length=65535, nullable=false)
      */
     private $nombre;
-
     function getId() {
         return $this->id;
     }
@@ -45,4 +44,6 @@ class Director
     }
 
 
+
 }
+

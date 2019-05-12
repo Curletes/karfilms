@@ -18,16 +18,6 @@ KarfilmsBundle\Entity\Directorpelicula:
             generator:
                 strategy: IDENTITY
     manyToOne:
-        idDirector:
-            targetEntity: Director
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                id_director:
-                    referencedColumnName: id
-            orphanRemoval: false
         idPelicula:
             targetEntity: Pelicula
             cascade: {  }
@@ -36,6 +26,16 @@ KarfilmsBundle\Entity\Directorpelicula:
             inversedBy: null
             joinColumns:
                 id_pelicula:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idDirector:
+            targetEntity: Director
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_director:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

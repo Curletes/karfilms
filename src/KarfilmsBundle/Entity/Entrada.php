@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Entrada
  *
- * @ORM\Table(name="entradas", indexes={@ORM\Index(name="fk_id_sesion_idx", columns={"id_sesion"}), @ORM\Index(name="fk_id_user_idx", columns={"id_usuario"})})
+ * @ORM\Table(name="entradas", indexes={@ORM\Index(name="fk_id_sesion_idx", columns={"id_sesion"}), @ORM\Index(name="fk_id_user_idx", columns={"id_usuario"}), @ORM\Index(name="fk_asiento_idx", columns={"id_asiento"})})
  * @ORM\Entity
  */
 class Entrada
@@ -20,20 +20,6 @@ class Entrada
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="fila", type="integer", nullable=false)
-     */
-    private $fila;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="butaca", type="integer", nullable=false)
-     */
-    private $butaca;
 
     /**
      * @var \KarfilmsBundle\Entity\Sesion
@@ -55,16 +41,18 @@ class Entrada
      */
     private $idUsuario;
 
+    /**
+     * @var \KarfilmsBundle\Entity\Asiento
+     *
+     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Asiento")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_asiento", referencedColumnName="id")
+     * })
+     */
+    private $idAsiento;
+
     function getId() {
         return $this->id;
-    }
-
-    function getFila() {
-        return $this->fila;
-    }
-
-    function getButaca() {
-        return $this->butaca;
     }
 
     function getIdSesion(): \KarfilmsBundle\Entity\Sesion {
@@ -75,16 +63,12 @@ class Entrada
         return $this->idUsuario;
     }
 
+    function getIdAsiento(): \KarfilmsBundle\Entity\Asiento {
+        return $this->idAsiento;
+    }
+
     function setId($id) {
         $this->id = $id;
-    }
-
-    function setFila($fila) {
-        $this->fila = $fila;
-    }
-
-    function setButaca($butaca) {
-        $this->butaca = $butaca;
     }
 
     function setIdSesion(\KarfilmsBundle\Entity\Sesion $idSesion) {
@@ -93,6 +77,10 @@ class Entrada
 
     function setIdUsuario(\KarfilmsBundle\Entity\Usuario $idUsuario) {
         $this->idUsuario = $idUsuario;
+    }
+
+    function setIdAsiento(\KarfilmsBundle\Entity\Asiento $idAsiento) {
+        $this->idAsiento = $idAsiento;
     }
 
 

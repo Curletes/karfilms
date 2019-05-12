@@ -27,6 +27,7 @@ class Genero
      * @ORM\Column(name="genero", type="text", length=65535, nullable=false)
      */
     private $genero;
+
     function getId() {
         return $this->id;
     }
@@ -42,7 +43,6 @@ class Genero
     function setGenero($genero) {
         $this->genero = $genero;
     }
-
 
 
 }

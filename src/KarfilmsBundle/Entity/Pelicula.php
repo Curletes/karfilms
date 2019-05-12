@@ -57,9 +57,9 @@ class Pelicula
     private $duracion;
 
     /**
-     * @var \KarfilmsBundle\Entity\Edad
+     * @var \KarfilmsBundle\Entity\Edades
      *
-     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Edad")
+     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Edades")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_edad", referencedColumnName="id")
      * })
@@ -90,7 +90,7 @@ class Pelicula
         return $this->duracion;
     }
 
-    function getIdEdad(): \KarfilmsBundle\Entity\Edad {
+    function getIdEdad(): \KarfilmsBundle\Entity\Edades {
         return $this->idEdad;
     }
 
@@ -118,7 +118,7 @@ class Pelicula
         $this->duracion = $duracion;
     }
 
-    function setIdEdad(\KarfilmsBundle\Entity\Edad $idEdad) {
+    function setIdEdad(\KarfilmsBundle\Entity\Edades $idEdad) {
         $this->idEdad = $idEdad;
     }
 
