@@ -16,6 +16,7 @@ class DefaultController extends Controller
             echo $pelicula->getTitulo()."<br>";
             echo $pelicula->getSinopsis()."<br>";
             echo $pelicula->getDuracion()."<br>";
+            echo $pelicula->getIdEdad()->getClasificacion()."<br>";
 
             $generos = $pelicula->getGeneropelicula();
             $actores = $pelicula->getActorpelicula();
@@ -32,9 +33,10 @@ class DefaultController extends Controller
             foreach ($directores as $director) {
                 echo $director->getIdDirector()->getNombre().", ";
             }
+            
+            echo "<hr>";
         }
-        
-        echo "<hr>";
+
         die();
         //return $this->render('Default/index.html.twig');
     }
