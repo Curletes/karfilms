@@ -73,8 +73,11 @@ class Pelicula
     
     protected $Directorpelicula;
     
+    protected $sesion;
+    
     public function __construct() {
         $this->Generopelicula = new ArrayCollection();
+        $this->sesion = new ArrayCollection();
     }
 
     function getId() {
@@ -161,6 +164,10 @@ class Pelicula
     
     public function getDirectorpelicula() {
         return $this->Directorpelicula;
+    }
+    
+    public function getSesiones() {
+        return $this->sesion;
     }
 }
 

@@ -30,7 +30,7 @@ KarfilmsBundle\Entity\Sesion:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: null
+            inversedBy: sesion
             joinColumns:
                 id_pelicula:
                     referencedColumnName: id

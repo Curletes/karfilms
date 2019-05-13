@@ -50,7 +50,7 @@ KarfilmsBundle\Entity\Pelicula:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: null
+            inversedBy: pelicula
             joinColumns:
                 id_edad:
                     referencedColumnName: id
@@ -66,6 +66,10 @@ KarfilmsBundle\Entity\Pelicula:
             cascade: ["persist"]
         Directorpelicula:
             targetEntity: Directorpelicula
+            mappedBy: idPelicula
+            cascade: ["persist"]
+        sesion:
+            targetEntity: Sesion
             mappedBy: idPelicula
             cascade: ["persist"]
     lifecycleCallbacks: {  }

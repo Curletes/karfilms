@@ -3,6 +3,7 @@
 namespace KarfilmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Edad
@@ -27,6 +28,12 @@ class Edad
      * @ORM\Column(name="clasificacion", type="string", length=255, nullable=false)
      */
     private $clasificacion;
+    
+    protected $pelicula;
+    
+    public function __construct() {
+        $this->pelicula = new ArrayCollection();
+    }
 
     function getId() {
         return $this->id;
@@ -44,6 +51,8 @@ class Edad
         $this->clasificacion = $clasificacion;
     }
 
-
+    public function getPeliculas() {
+        return $this->pelicula;
+    }
 }
 

@@ -67,7 +67,7 @@ class DefaultController extends Controller
             echo "<br><hr>";
         }*/
         
-        $em = $this->getDoctrine()->getEntityManager();
+        /*$em = $this->getDoctrine()->getEntityManager();
         $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
         $actores = $actor_repo->findAll();
         
@@ -80,7 +80,39 @@ class DefaultController extends Controller
                 echo $pelicula->getIdPelicula()->getTitulo().", ";
             }
             echo "<br><hr>";
-        }
+        }*/
+        
+        /*$em = $this->getDoctrine()->getEntityManager();
+        $edad_repo = $em->getRepository("KarfilmsBundle:Edad");
+        $edades = $edad_repo->findAll();
+        
+        foreach ($edades as $edad) {
+            echo $edad->getClasificacion()."<br>";
+            
+            $peliculas = $edad->getPeliculas();
+            
+            foreach ($peliculas as $pelicula) {
+                echo $pelicula->getTitulo().", ";
+            }
+            echo "<br><hr>";
+        }*/
+        
+        /*$em = $this->getDoctrine()->getEntityManager();
+        $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
+        $peliculas = $pelicula_repo->findAll();
+        
+        foreach ($peliculas as $pelicula) {
+            echo $pelicula->getTitulo()."<br>";
+            
+            $sesiones = $pelicula->getSesiones();
+            
+            foreach ($sesiones as $sesion) {
+                echo $sesion->getFecha()->format("Y-m-d")." - ";
+                echo $sesion->getHora()->format("H:i:s")."<br>";
+                echo $sesion->getIdSala()->getNombre()."<br>";
+            }
+            echo "<br><hr>";
+        }*/
         
         die();
         //return $this->render('Default/index.html.twig');

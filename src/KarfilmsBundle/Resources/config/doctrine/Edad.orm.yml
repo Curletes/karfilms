@@ -17,4 +17,9 @@ KarfilmsBundle\Entity\Edad:
             length: 255
             options:
                 fixed: false
+    oneToMany:
+        pelicula:
+            targetEntity: Pelicula
+            mappedBy: idEdad
+            cascade: ["persist"]
     lifecycleCallbacks: {  }
