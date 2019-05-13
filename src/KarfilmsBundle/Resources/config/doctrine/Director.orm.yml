@@ -17,4 +17,9 @@ KarfilmsBundle\Entity\Director:
             length: 65535
             options:
                 fixed: false
+    oneToMany:
+        Directorpelicula:
+            targetEntity: Directorpelicula
+            mappedBy: idDirector
+            cascade: ["persist"]
     lifecycleCallbacks: {  }

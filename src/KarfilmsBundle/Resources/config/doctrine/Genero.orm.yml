@@ -17,4 +17,9 @@ KarfilmsBundle\Entity\Genero:
             length: 65535
             options:
                 fixed: false
+    oneToMany:
+        Generopelicula:
+            targetEntity: Generopelicula
+            mappedBy: idGenero
+            cascade: ["persist"]
     lifecycleCallbacks: {  }

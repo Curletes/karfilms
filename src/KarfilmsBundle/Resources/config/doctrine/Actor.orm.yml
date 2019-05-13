@@ -17,4 +17,9 @@ KarfilmsBundle\Entity\Actor:
             length: 65535
             options:
                 fixed: false
+    oneToMany:
+        Actorpelicula:
+            targetEntity: Actorpelicula
+            mappedBy: idActor
+            cascade: ["persist"]
     lifecycleCallbacks: {  }

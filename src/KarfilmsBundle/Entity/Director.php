@@ -27,6 +27,9 @@ class Director
      * @ORM\Column(name="nombre", type="text", length=65535, nullable=false)
      */
     private $nombre;
+    
+    protected $Directorpelicula;
+    
     function getId() {
         return $this->id;
     }
@@ -42,8 +45,9 @@ class Director
     function setNombre($nombre) {
         $this->nombre = $nombre;
     }
-
-
-
+    
+    public function getDirectorpelicula() {
+        return $this->Directorpelicula;
+    }
 }
 

@@ -27,6 +27,8 @@ class Actor
      * @ORM\Column(name="nombre", type="text", length=65535, nullable=false)
      */
     private $nombre;
+    
+    protected $Actorpelicula;
 
     function getId() {
         return $this->id;
@@ -43,7 +45,9 @@ class Actor
     function setNombre($nombre) {
         $this->nombre = $nombre;
     }
-
-
+    
+    public function getActorpelicula() {
+        return $this->Actorpelicula;
+    }
 }
 

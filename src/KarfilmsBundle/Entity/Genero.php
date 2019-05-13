@@ -3,6 +3,7 @@
 namespace KarfilmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Genero
@@ -27,7 +28,13 @@ class Genero
      * @ORM\Column(name="nombre", type="text", length=65535, nullable=false)
      */
     private $nombre;
-
+    
+    protected $Generopelicula;
+    
+    public function __construct() {
+        $this->Generopelicula = new ArrayCollection();
+    }
+    
     function getId() {
         return $this->id;
     }
@@ -42,6 +49,10 @@ class Genero
 
     function setNombre($nombre) {
         $this->nombre = $nombre;
+    }
+    
+    public function getGeneropelicula() {
+        return $this->Generopelicula;
     }
 }
 
