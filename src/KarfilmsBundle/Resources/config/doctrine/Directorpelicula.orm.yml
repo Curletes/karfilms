@@ -23,7 +23,7 @@ KarfilmsBundle\Entity\Directorpelicula:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: null
+            inversedBy: Directorpelicula
             joinColumns:
                 id_pelicula:
                     referencedColumnName: id

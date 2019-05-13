@@ -3,6 +3,7 @@
 namespace KarfilmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Pelicula
@@ -65,6 +66,16 @@ class Pelicula
      * })
      */
     private $idEdad;
+    
+    protected $Generopelicula;
+    
+    protected $Actorpelicula;
+    
+    protected $Directorpelicula;
+    
+    public function __construct() {
+        $this->Generopelicula = new ArrayCollection();
+    }
 
     function getId() {
         return $this->id;
@@ -122,6 +133,34 @@ class Pelicula
         $this->idEdad = $idEdad;
     }
 
-
+    public function addGeneropelicula(\KarfilmsBundle\Entity\Genero $genero) {
+        $this->Generopelicula[] = $genero;
+        
+        return $this;
+    }
+    
+    public function getGeneropelicula() {
+        return $this->Generopelicula;
+    }
+    
+    public function addActorpelicula(\KarfilmsBundle\Entity\Actor $actor) {
+        $this->Actorpelicula[] = $actor;
+        
+        return $this;
+    }
+    
+    public function getActorpelicula() {
+        return $this->Actorpelicula;
+    }
+    
+    public function addDirectorpelicula(\KarfilmsBundle\Entity\Director $director) {
+        $this->Directorpelicula[] = $director;
+        
+        return $this;
+    }
+    
+    public function getDirectorpelicula() {
+        return $this->Directorpelicula;
+    }
 }
 

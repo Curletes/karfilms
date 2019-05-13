@@ -24,26 +24,24 @@ class Genero
     /**
      * @var string
      *
-     * @ORM\Column(name="genero", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="nombre", type="text", length=65535, nullable=false)
      */
-    private $genero;
+    private $nombre;
 
     function getId() {
         return $this->id;
     }
 
-    function getGenero() {
-        return $this->genero;
+    function getNombre() {
+        return $this->nombre;
     }
 
     function setId($id) {
         $this->id = $id;
     }
 
-    function setGenero($genero) {
-        $this->genero = $genero;
+    function setNombre($nombre) {
+        $this->nombre = $nombre;
     }
-
-
 }
 

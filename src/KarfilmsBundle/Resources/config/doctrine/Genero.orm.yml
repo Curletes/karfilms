@@ -11,7 +11,7 @@ KarfilmsBundle\Entity\Genero:
             generator:
                 strategy: IDENTITY
     fields:
-        genero:
+        nombre:
             type: text
             nullable: false
             length: 65535

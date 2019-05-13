@@ -55,4 +55,17 @@ KarfilmsBundle\Entity\Pelicula:
                 id_edad:
                     referencedColumnName: id
             orphanRemoval: false
+    oneToMany:
+        Generopelicula:
+            targetEntity: Generopelicula
+            mappedBy: idPelicula
+            cascade: ["persist"]
+        Actorpelicula:
+            targetEntity: Actorpelicula
+            mappedBy: idPelicula
+            cascade: ["persist"]
+        Directorpelicula:
+            targetEntity: Directorpelicula
+            mappedBy: idPelicula
+            cascade: ["persist"]
     lifecycleCallbacks: {  }
