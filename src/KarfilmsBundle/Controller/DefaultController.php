@@ -97,7 +97,7 @@ class DefaultController extends Controller
             echo "<br><hr>";
         }*/
         
-        $em = $this->getDoctrine()->getEntityManager();
+        /*$em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $peliculas = $pelicula_repo->findAll();
         
@@ -107,12 +107,11 @@ class DefaultController extends Controller
             $sesiones = $pelicula->getSesiones();
             
             foreach ($sesiones as $sesion) {
-                echo $sesion->getFecha()->format("Y-m-d")." - ";
-                echo $sesion->getHora()->format("H:i:s")."<br>";
+                echo $sesion->getHorarios()->format("Y-m-d")." - ";
                 echo $sesion->getIdSala()->getNombre()."<br>";
             }
             echo "<br><hr>";
-        }
+        }*/
         
         /*$em = $this->getDoctrine()->getEntityManager();
         $sala_repo = $em->getRepository("KarfilmsBundle:Sala");

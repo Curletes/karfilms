@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Sesion
  *
- * @ORM\Table(name="sesiones", indexes={@ORM\Index(name="fk_id_sala_idx", columns={"id_sala"}), @ORM\Index(name="fk_id_pelicula_idx", columns={"id_pelicula"})})
+ * @ORM\Table(name="sesiones", uniqueConstraints={@ORM\UniqueConstraint(name="fk_horarios", columns={"id_sala", "horarios"})}, indexes={@ORM\Index(name="fk_id_sala_idx", columns={"id_sala"}), @ORM\Index(name="fk_id_pelicula_idx", columns={"id_pelicula"})})
  * @ORM\Entity
  */
 class Sesion
@@ -24,16 +24,9 @@ class Sesion
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha", type="date", nullable=false)
+     * @ORM\Column(name="horarios", type="datetime", nullable=false)
      */
-    private $fecha;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="hora", type="time", nullable=false)
-     */
-    private $hora;
+    private $horarios = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \KarfilmsBundle\Entity\Pelicula
@@ -54,17 +47,12 @@ class Sesion
      * })
      */
     private $idSala;
-
     function getId() {
         return $this->id;
     }
 
-    function getFecha(): \DateTime {
-        return $this->fecha;
-    }
-
-    function getHora(): \DateTime {
-        return $this->hora;
+    function getHorarios(): \DateTime {
+        return $this->horarios;
     }
 
     function getIdPelicula(): \KarfilmsBundle\Entity\Pelicula {
@@ -79,12 +67,8 @@ class Sesion
         $this->id = $id;
     }
 
-    function setFecha(\DateTime $fecha) {
-        $this->fecha = $fecha;
-    }
-
-    function setHora(\DateTime $hora) {
-        $this->hora = $hora;
+    function setHorarios(\DateTime $horarios) {
+        $this->horarios = $horarios;
     }
 
     function setIdPelicula(\KarfilmsBundle\Entity\Pelicula $idPelicula) {
@@ -94,5 +78,8 @@ class Sesion
     function setIdSala(\KarfilmsBundle\Entity\Sala $idSala) {
         $this->idSala = $idSala;
     }
+
+
+
 }
 

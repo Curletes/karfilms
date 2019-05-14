@@ -8,6 +8,11 @@ KarfilmsBundle\Entity\Sesion:
         fk_id_pelicula_idx:
             columns:
                 - id_pelicula
+    uniqueConstraints:
+        fk_horarios:
+            columns:
+                - id_sala
+                - horarios
     id:
         id:
             type: integer
@@ -18,19 +23,18 @@ KarfilmsBundle\Entity\Sesion:
             generator:
                 strategy: IDENTITY
     fields:
-        fecha:
-            type: date
+        horarios:
+            type: datetime
             nullable: false
-        hora:
-            type: time
-            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
     manyToOne:
         idPelicula:
             targetEntity: Pelicula
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: sesion
+            inversedBy: null
             joinColumns:
                 id_pelicula:
                     referencedColumnName: id
