@@ -77,6 +77,8 @@ class Pelicula
     
     public function __construct() {
         $this->Generopelicula = new ArrayCollection();
+        $this->Actorpelicula = new ArrayCollection();
+        $this->Directorpelicula = new ArrayCollection();
         $this->sesion = new ArrayCollection();
     }
 

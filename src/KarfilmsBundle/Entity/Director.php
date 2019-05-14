@@ -3,6 +3,7 @@
 namespace KarfilmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Director
@@ -29,6 +30,10 @@ class Director
     private $nombre;
     
     protected $Directorpelicula;
+    
+    public function __construct() {
+        $this->Directorpelicula = new ArrayCollection();
+    }
     
     function getId() {
         return $this->id;

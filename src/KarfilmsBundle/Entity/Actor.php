@@ -29,6 +29,10 @@ class Actor
     private $nombre;
     
     protected $Actorpelicula;
+    
+    public function __construct() {
+        $this->Actorpelicula = new ArrayCollection();
+    }
 
     function getId() {
         return $this->id;

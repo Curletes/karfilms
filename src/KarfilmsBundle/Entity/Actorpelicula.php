@@ -64,7 +64,5 @@ class Actorpelicula
     function setIdActor(\KarfilmsBundle\Entity\Actor $idActor) {
         $this->idActor = $idActor;
     }
-
-
 }
 

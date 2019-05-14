@@ -76,7 +76,5 @@ class Asiento
     function setIdSala(\KarfilmsBundle\Entity\Sala $idSala) {
         $this->idSala = $idSala;
     }
-
-
 }
 
