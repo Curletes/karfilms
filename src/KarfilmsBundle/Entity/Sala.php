@@ -3,6 +3,7 @@
 namespace KarfilmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Sala
@@ -27,6 +28,12 @@ class Sala
      * @ORM\Column(name="nombre", type="string", length=1, nullable=false)
      */
     private $nombre;
+    
+    protected $asiento;
+    
+    public function __construct() {
+        $this->asiento = new ArrayCollection();
+    }
 
     function getId() {
         return $this->id;
@@ -44,6 +51,8 @@ class Sala
         $this->nombre = $nombre;
     }
 
-
+    public function getAsientos() {
+        return $this->asiento;
+    }
 }
 

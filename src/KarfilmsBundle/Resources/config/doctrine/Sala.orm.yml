@@ -21,4 +21,9 @@ KarfilmsBundle\Entity\Sala:
             length: 1
             options:
                 fixed: false
+    oneToMany:
+        asiento:
+            targetEntity: Asiento
+            mappedBy: idSala
+            cascade: ["persist"]
     lifecycleCallbacks: {  }

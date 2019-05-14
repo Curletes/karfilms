@@ -97,7 +97,7 @@ class DefaultController extends Controller
             echo "<br><hr>";
         }*/
         
-        /*$em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $peliculas = $pelicula_repo->findAll();
         
@@ -110,6 +110,22 @@ class DefaultController extends Controller
                 echo $sesion->getFecha()->format("Y-m-d")." - ";
                 echo $sesion->getHora()->format("H:i:s")."<br>";
                 echo $sesion->getIdSala()->getNombre()."<br>";
+            }
+            echo "<br><hr>";
+        }
+        
+        /*$em = $this->getDoctrine()->getEntityManager();
+        $sala_repo = $em->getRepository("KarfilmsBundle:Sala");
+        $salas = $sala_repo->findAll();
+        
+        foreach ($salas as $sala) {
+            echo $sala->getNombre()."<br>";
+            
+            $asientos = $sala->getAsientos();
+            
+            foreach ($asientos as $asiento) {
+                echo $asiento->getFila()." - ";
+                echo $asiento->getButaca()."<br>";
             }
             echo "<br><hr>";
         }*/

@@ -31,7 +31,7 @@ KarfilmsBundle\Entity\Asiento:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: null
+            inversedBy: asiento
             joinColumns:
                 id_sala:
                     referencedColumnName: id
