@@ -3,6 +3,7 @@
 namespace KarfilmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Usuario
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="usuarios", uniqueConstraints={@ORM\UniqueConstraint(name="nombre_UNIQUE", columns={"nombre"}), @ORM\UniqueConstraint(name="email_UNIQUE", columns={"email"})})
  * @ORM\Entity
  */
-class Usuario
+class Usuario implements UserInterface
 {
     /**
      * @var integer
@@ -62,6 +63,27 @@ class Usuario
      * @ORM\Column(name="icono", type="string", length=45, nullable=false)
      */
     private $icono;
+    
+    // AUTH
+    
+    public function getUsername() {
+        return $this->nombre;
+    }
+    
+    public function getSalt() {
+        return null;
+    }
+    
+    public function getRoles() {
+        return array($this->getRol());
+    }
+    
+    public function eraseCredentials() {
+        
+    }
+    
+    // END AUTH
+    
     function getId() {
         return $this->id;
     }

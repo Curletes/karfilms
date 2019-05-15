@@ -1,3 +1,13 @@
-karfilms_homepage:
+iniciar_sesion:
+    path: /iniciar-sesion
+    defaults: { _controller: KarfilmsBundle:Usuario:iniciarSesion }
+    
+login_check:
+    path: /login_check
+    
+logout:
+    path: /iniciar-sesion
+        
+inicio:
     path:     /
     defaults: { _controller: KarfilmsBundle:Default:index }

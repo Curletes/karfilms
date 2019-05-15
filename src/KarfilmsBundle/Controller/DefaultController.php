@@ -3,10 +3,11 @@
 namespace KarfilmsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+    public function pruebaAction()
     {
         /*$em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
@@ -97,7 +98,7 @@ class DefaultController extends Controller
             echo "<br><hr>";
         }*/
         
-        $em = $this->getDoctrine()->getEntityManager();
+        /*$em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $peliculas = $pelicula_repo->findAll();
         
@@ -111,7 +112,7 @@ class DefaultController extends Controller
                 echo $sesion->getIdSala()->getNombre()."<br>";
             }
             echo "<br><hr>";
-        }
+        }*/
         
         /*$em = $this->getDoctrine()->getEntityManager();
         $sala_repo = $em->getRepository("KarfilmsBundle:Sala");
@@ -127,9 +128,13 @@ class DefaultController extends Controller
                 echo $asiento->getButaca()."<br>";
             }
             echo "<br><hr>";
-        }*/
+        }
         
-        die();
-        //return $this->render('Default/index.html.twig');
+        return $this->render('Default/index.html.twig');*/
+    }
+    
+    public function indexAction() 
+    {
+        return $this->render('@Karfilms/default/index.html.twig');
     }
 }
