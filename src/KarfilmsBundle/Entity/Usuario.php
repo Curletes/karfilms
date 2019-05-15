@@ -48,21 +48,21 @@ class Usuario implements UserInterface
      *
      * @ORM\Column(name="estado", type="string", length=45, nullable=false)
      */
-    private $estado;
+    private $estado = "Conectado";
 
     /**
      * @var string
      *
      * @ORM\Column(name="rol", type="string", length=45, nullable=false)
      */
-    private $rol;
+    private $rol = "ROLE_USER";
 
     /**
      * @var string
      *
      * @ORM\Column(name="icono", type="string", length=45, nullable=false)
      */
-    private $icono;
+    private $icono = "anonimo.png";
     
     // AUTH
     

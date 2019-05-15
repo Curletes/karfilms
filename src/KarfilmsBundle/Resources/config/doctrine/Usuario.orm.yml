@@ -42,16 +42,19 @@ KarfilmsBundle\Entity\Usuario:
             length: 45
             options:
                 fixed: false
+                default: 'Conectado'
         rol:
             type: string
             nullable: false
             length: 45
             options:
                 fixed: false
+                default: 'ROLE_USER'
         icono:
             type: string
             nullable: false
             length: 45
             options:
                 fixed: false
+                default: 'anonimo.png'
     lifecycleCallbacks: {  }

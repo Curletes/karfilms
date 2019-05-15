@@ -4,11 +4,19 @@ namespace KarfilmsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use KarfilmsBundle\Entity\Usuario;
 use KarfilmsBundle\Form\UsuarioType;
 
 class UsuarioController extends Controller
 {
+    private $session;
+    
+    public function __construct()
+    {
+        $this->session = new Session();
+    }
+    
     public function iniciarSesionAction(Request $request) 
     {
         $authenticationUtils = $this->get("security.authentication_utils");
@@ -52,7 +60,6 @@ class UsuarioController extends Controller
                     $password = $encoder->encodePassword($form->get("password")->getData(), $usuario->getSalt());
 
                     $usuario->setPassword($password);
-                    $usuario->setRol("ROLE_USER");
 
                     $em = $this->getDoctrine()->getEntityManager();
                     $em->persist($usuario);
@@ -85,11 +92,11 @@ class UsuarioController extends Controller
             
             if($status != "Registrado correctamente.")
             {
-                return $this->redirectToRoute("registro");
+                return $this->redirectToRoute("registrarse");
             }
             else
             {
-                return $this->redirectToRoute("iniciosesion");
+                return $this->redirectToRoute("iniciar_sesion");
             }
         }
 
