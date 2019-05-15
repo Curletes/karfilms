@@ -22,11 +22,11 @@ security:
             anonymous: ~
             provider: our_db_provider
             form_login:
-                login_path: /iniciar_sesion
-                check_path: /login_check
+                login_path: /iniciar-sesion
+                check_path: /iniciar-sesion_check
             logout:
                 path: /logout
-                target: /iniciar_sesion
+                target: /iniciar-sesion
             # activate different ways to authenticate
 
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate

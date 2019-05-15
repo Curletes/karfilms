@@ -1,13 +1,17 @@
+registrarse:
+    path: /registrarse
+    defaults: { _controller: KarfilmsBundle:Usuario:registrarse }
+
 iniciar_sesion:
     path: /iniciar-sesion
     defaults: { _controller: KarfilmsBundle:Usuario:iniciarSesion }
     
-login_check:
-    path: /login_check
+iniciar_sesion_check:
+    path: /iniciar-sesion_check
     
 logout:
-    path: /iniciar-sesion
+    path: /logout
         
 inicio:
-    path:     /
+    path: /inicio
     defaults: { _controller: KarfilmsBundle:Default:index }

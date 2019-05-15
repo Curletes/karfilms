@@ -15,7 +15,7 @@
             {% endfor %}
         <h2>Identifícate</h2>
         <hr>
-        <form action="{{ path("login_check") }}" method="post">
+        <form action="{{ path("iniciar_sesion_check") }}" method="post">
             <label>Nombre de usuario:</label>
             <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control"/>
             <br>
@@ -28,5 +28,5 @@
     </div>
     <div class="clearfix">
     </div>
-    <p>¿No tienes una cuenta? <a href="{# path("registro") #}">Regístrate</a>.</p>
+    <p>¿No tienes una cuenta? <a href="{{ path("registrarse") }}">Regístrate</a>.</p>
 {% endblock %}
