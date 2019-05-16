@@ -23,8 +23,9 @@ class UsuarioController extends Controller
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
         
-        return $this->render('@Karfilms/default/iniciosesion.html.twig', [
-            'error' => $error, 'last_username' => $lastUsername
+        return $this->render('@Karfilms/usuario/iniciosesion.html.twig', [
+            'error' => $error, 
+            'last_username' => $lastUsername
         ]);
     }
     
@@ -100,7 +101,7 @@ class UsuarioController extends Controller
             }
         }
 
-        return $this->render('@Karfilms/default/registrarse.html.twig', [
+        return $this->render('@Karfilms/usuario/registrarse.html.twig', [
             'error' => $error,
             'last_username' => $lastUsername,
             'form' => $form->createView()

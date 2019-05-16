@@ -15,3 +15,11 @@ logout:
 inicio:
     path: /inicio
     defaults: { _controller: KarfilmsBundle:Default:index }
+    
+indice_genero:
+    path: /admin/generos
+    defaults: { _controller: KarfilmsBundle:Genero:indiceGenero }
+    
+add_genero:
+    path: /admin/generos/nuevo-genero
+    defaults: { _controller: KarfilmsBundle:Genero:addGenero }

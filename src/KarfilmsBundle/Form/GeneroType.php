@@ -7,10 +7,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
-class UsuarioType extends AbstractType
+class GeneroType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -18,8 +16,6 @@ class UsuarioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nombre', TextType::class, array("label" => "Nombre de usuario:", "required"=>"required"))
-                ->add('email', EmailType::class, array("label" => "Email:", "required"=>"required"))
-                ->add('password', PasswordType::class, array("label" => "Contraseña:", "required"=>"required"))
                 ->add('Enviar', SubmitType::class);
     }/**
      * {@inheritdoc}
@@ -27,7 +23,7 @@ class UsuarioType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'KarfilmsBundle\Entity\Usuario'
+            'data_class' => 'KarfilmsBundle\Entity\Genero'
         ));
     }
 
@@ -36,7 +32,7 @@ class UsuarioType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'karfilmsbundle_usuario';
+        return 'karfilmsbundle_genero';
     }
 
 

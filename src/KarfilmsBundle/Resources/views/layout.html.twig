@@ -26,13 +26,24 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav ml-auto mr-5">
-                    {% if app.user != null %}
+                    {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <img src="{{ asset('imagenes/iconos/tuerca.ico') }}">
+                                </button>
+                                <div class="dropdown-menu">
+                                    <span><strong>Administración</strong></span>
+                                    <a class="dropdown-item" href="{{ path("indice_genero") }}">Géneros</a>
+                                </div>
+                            </div>
+                        {% endif %}
                         <div class="dropdown">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                 {{ app.user.nombre }}
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="">Mis publicaciones</a>
+                                <a class="dropdown-item" href="">Mi perfil</a>
                                 <a class="dropdown-item" href="{{ path("logout") }}">Cerrar sesión</a>
                             </div>
                         </div>

@@ -25,7 +25,7 @@ class Genero
     /**
      * @var string
      *
-     * @ORM\Column(name="nombre", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="nombre", type="string", length=50, nullable=false)
      */
     private $nombre;
     
