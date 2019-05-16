@@ -68,4 +68,61 @@ class GeneroController extends Controller
             "form" => $form->createView()
         ]);
     }
+    
+    public function eliminarGeneroAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $genero_repo = $em->getRepository("KarfilmsBundle:Genero");
+        $genero = $genero_repo->find($id);
+        
+        if(count($genero->getGeneropelicula()) == 0) 
+        {
+            $em->remove($genero);
+            $em->flush();
+        }
+        
+        return $this->redirectToRoute("indice_genero");
+    }
+    
+    public function editarGeneroAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $genero_repo = $em->getRepository("KarfilmsBundle:Genero");
+        $genero = $genero_repo->find($id);
+        
+        $form = $this->createForm(GeneroType::class, $genero);
+        
+        $form->handleRequest($request);
+        
+        if($form->isSubmitted())
+        {
+            if($form->isValid())
+            {
+                $genero->setNombre($form->get("nombre")->getData());
+                
+                $em->persist($genero);
+                $flush = $em->flush();
+                
+                if($flush == null)
+                {
+                    $status = "Género editado correctamente.";
+                }
+                else
+                {
+                    $status = "Error al editar el género.";
+                }
+            }
+            else
+            {
+                $status = "El género no se ha editado porque el formulario no es válido.";
+            }
+            
+            $this->session->getFlashBag()->add("status", $status);
+            return $this->redirectToRoute("indice_genero");
+        }
+        
+        return $this->render('@Karfilms/genero/editargenero.html.twig', [
+            "form" => $form->createView()
+        ]);
+    }
 }

@@ -1,13 +1,11 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
-{% block estadoadmin %} active {% endblock %}
-
 {% block body %}
     <div class="col-lg-6">
         <h2>Géneros</h2>
         <hr>
         {% for message in app.session.flashbag().get('status') %}
-            {% if message == "Género añadido correctamente." %}
+            {% if message == "Género añadido correctamente." or message == "Género editado correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>
             {% else %}
                 <div class="alert alert-danger">{{ message }}</div>
@@ -21,6 +19,14 @@
             {% for genero in generos %}
                 <tr>
                     <td>{{ genero.nombre }}</td>
+                    <td>
+                        <a href="{{ path("editar_genero", {"id":genero.id}) }}" class="btn btn-warning">Editar</a>
+                        {% if genero.Generopelicula|length == 0 %}
+                            <a href="{{ path("eliminar_genero", {"id":genero.id}) }}" class="btn btn-danger">Eliminar</a>
+                        {% else %}
+                            <a href="#" class="btn btn-danger disabled">Eliminar</a>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
         </table>

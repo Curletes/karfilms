@@ -23,3 +23,11 @@ indice_genero:
 add_genero:
     path: /admin/generos/nuevo-genero
     defaults: { _controller: KarfilmsBundle:Genero:addGenero }
+    
+eliminar_genero:
+    path: /admin/generos/eliminar-genero/{id}
+    defaults: { _controller: KarfilmsBundle:Genero:eliminarGenero }
+
+editar_genero:
+    path: /admin/generos/editar-genero/{id}
+    defaults: { _controller: KarfilmsBundle:Genero:editarGenero }
