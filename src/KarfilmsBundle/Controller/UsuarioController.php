@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use KarfilmsBundle\Entity\Usuario;
 use KarfilmsBundle\Form\UsuarioType;
+use KarfilmsBundle\Form\EditarUsuarioType;
 
 class UsuarioController extends Controller {
 
@@ -118,7 +119,7 @@ class UsuarioController extends Controller {
         $rol = $usuario->getRol();
         $icono = $usuario->getIcono();
 
-        $form = $this->createForm(UsuarioType::class, $usuario);
+        $form = $this->createForm(EditarUsuarioType::class, $usuario);
 
         $form->handleRequest($request);
 
