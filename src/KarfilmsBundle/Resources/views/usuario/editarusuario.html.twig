@@ -1,0 +1,20 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block body %}
+    <div class="col-lg-6">
+        <h2>Editar usuario</h2>
+        <hr>
+        <img height="50" width="50" src="{{ asset('imagenes/perfiles/' ~ icono) }}">
+        {{ form_start(form, {'action':'', 'method':'POST'}) }}
+        {% if app.user.rol == "ROLE_ADMIN" or app.user.rol == "ROLE_SUPERADMIN" %}
+            {% if rol == "ROLE_ADMIN" or rol == "ROLE_SUPERADMIN" %}
+                <input type="checkbox" class="form-check-input" checked="checked" name="admin">
+            {% else %}
+                <input type="checkbox" class="form-check-input" name="admin">
+            {% endif %}
+            <label for="administrador">Administrador</label>
+        {% endif %}
+        {{ form_end(form) }}
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

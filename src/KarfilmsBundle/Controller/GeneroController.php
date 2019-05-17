@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use KarfilmsBundle\Entity\Genero;
 use KarfilmsBundle\Form\GeneroType;
 
-class GeneroController extends Controller 
+class GeneroController extends Controller
 {
     private $session;
     

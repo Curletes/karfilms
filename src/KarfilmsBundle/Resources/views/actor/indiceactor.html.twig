@@ -1,0 +1,36 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block body %}
+    <div class="col-lg-6">
+        <h2>Actores</h2>
+        <hr>
+        {% for message in app.session.flashbag().get('status') %}
+            {% if message == "Actor añadido correctamente." or message == "Actor editado correctamente." %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% else %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+        <table class="table table-bordered">
+            <tr>
+                <th>Nombre</th>
+                <th>Acción</th>
+            </tr>
+            {% for actor in actores %}
+                <tr>
+                    <td>{{ actor.nombre }}</td>
+                    <td>
+                        <a href="{{ path("editar_actor", {"id":actor.id}) }}" class="btn btn-warning">Editar</a>
+                        {% if actor.Actorpelicula|length == 0 %}
+                            <a href="{{ path("eliminar_actor", {"id":actor.id}) }}" class="btn btn-danger">Eliminar</a>
+                        {% else %}
+                            <a href="#" class="btn btn-danger disabled">Eliminar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="{{ path("add_actor") }}" class="btn btn-primary">Añadir actor</a>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

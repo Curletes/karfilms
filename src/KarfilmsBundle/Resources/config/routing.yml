@@ -16,6 +16,18 @@ inicio:
     path: /inicio
     defaults: { _controller: KarfilmsBundle:Default:index }
     
+indice_usuario:
+    path: /admin/usuarios
+    defaults: { _controller: KarfilmsBundle:Usuario:indiceUsuario }
+    
+editar_usuario:
+    path: /admin/usuarios/editar-usuario/{id}
+    defaults: { _controller: KarfilmsBundle:Usuario:editarUsuario }
+    
+eliminar_usuario:
+    path: /admin/usuarios/eliminar-usuario/{id}
+    defaults: { _controller: KarfilmsBundle:Usuario:eliminarUsuario }
+    
 indice_genero:
     path: /admin/generos
     defaults: { _controller: KarfilmsBundle:Genero:indiceGenero }
@@ -31,3 +43,35 @@ eliminar_genero:
 editar_genero:
     path: /admin/generos/editar-genero/{id}
     defaults: { _controller: KarfilmsBundle:Genero:editarGenero }
+
+indice_actor:
+    path: /admin/actores
+    defaults: { _controller: KarfilmsBundle:Actor:indiceActor }
+    
+add_actor:
+    path: /admin/actores/nuevo-actor
+    defaults: { _controller: KarfilmsBundle:Actor:addActor }
+
+eliminar_actor:
+    path: /admin/actores/eliminar-actor/{id}
+    defaults: { _controller: KarfilmsBundle:Actor:eliminarActor }
+    
+editar_actor:
+    path: /admin/actores/editar-actor/{id}
+    defaults: { _controller: KarfilmsBundle:Actor:editarActor }
+    
+indice_director:
+    path: /admin/directores
+    defaults: { _controller: KarfilmsBundle:Director:indiceDirector }
+    
+add_director:
+    path: /admin/directores/nuevo-director
+    defaults: { _controller: KarfilmsBundle:Director:addDirector }
+
+eliminar_director:
+    path: /admin/directores/eliminar-director/{id}
+    defaults: { _controller: KarfilmsBundle:Director:eliminarDirector }
+    
+editar_director:
+    path: /admin/directores/editar-director/{id}
+    defaults: { _controller: KarfilmsBundle:Director:editarDirector }

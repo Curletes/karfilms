@@ -1,0 +1,31 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block body %}
+    <div class="col-lg-6">
+        <h2>Usuarios</h2>
+        <hr>
+        {% for message in app.session.flashbag().get('status') %}
+            {% if message == "Usuario editado correctamente." %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% else %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+        <table class="table table-bordered">
+            <tr>
+                <th>Nombre de usuario</th>
+                <th>Acción</th>
+            </tr>
+            {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.nombre }}</td>
+                    <td>
+                        <a href="{{ path("editar_usuario", {"id":usuario.id}) }}" class="btn btn-warning">Editar</a>
+                        <a href="{{ path("eliminar_usuario", {"id":usuario.id}) }}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

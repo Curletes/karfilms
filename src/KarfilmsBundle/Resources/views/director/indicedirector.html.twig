@@ -1,0 +1,36 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block body %}
+    <div class="col-lg-6">
+        <h2>Directores</h2>
+        <hr>
+        {% for message in app.session.flashbag().get('status') %}
+            {% if message == "Director añadido correctamente." or message == "Director editado correctamente." %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% else %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+        <table class="table table-bordered">
+            <tr>
+                <th>Nombre</th>
+                <th>Acción</th>
+            </tr>
+            {% for director in directores %}
+                <tr>
+                    <td>{{ director.nombre }}</td>
+                    <td>
+                        <a href="{{ path("editar_director", {"id":director.id}) }}" class="btn btn-warning">Editar</a>
+                        {% if director.Directorpelicula|length == 0 %}
+                            <a href="{{ path("eliminar_director", {"id":director.id}) }}" class="btn btn-danger">Eliminar</a>
+                        {% else %}
+                            <a href="#" class="btn btn-danger disabled">Eliminar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="{{ path("add_director") }}" class="btn btn-primary">Añadir director</a>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

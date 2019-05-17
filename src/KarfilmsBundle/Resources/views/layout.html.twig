@@ -34,7 +34,10 @@
                                 </button>
                                 <div class="dropdown-menu">
                                     <span><strong>Administración</strong></span>
+                                    <a class="dropdown-item" href="{{ path("indice_usuario") }}">Usuarios</a>
                                     <a class="dropdown-item" href="{{ path("indice_genero") }}">Géneros</a>
+                                    <a class="dropdown-item" href="{{ path("indice_actor") }}">Actores</a>
+                                    <a class="dropdown-item" href="{{ path("indice_director") }}">Directores</a>
                                 </div>
                             </div>
                         {% endif %}
@@ -43,7 +46,7 @@
                                 {{ app.user.nombre }}
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="">Mi perfil</a>
+                                <a class="dropdown-item" href="{{ path("editar_usuario", {"id":app.user.id}) }}">Mi perfil</a>
                                 <a class="dropdown-item" href="{{ path("logout") }}">Cerrar sesión</a>
                             </div>
                         </div>
