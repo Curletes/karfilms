@@ -25,7 +25,7 @@ class SesionController extends Controller
         
         $reserva_repo = $em->getRepository("KarfilmsBundle:Reserva");
         $reservas = $reserva_repo->findAll();
-        
+                
         return $this->render('@Karfilms/sesion/indicesesion.html.twig', [
             "sesiones" => $sesiones,
             "reservas" => $reservas
@@ -46,6 +46,8 @@ class SesionController extends Controller
                 $em = $this->getDoctrine()->getEntityManager();
                 $sesion = new Sesion();
                 $sesion->setHorarios($form->get("horarios")->getData());
+                $sesion->setIdPelicula($form->get("idPelicula")->getData());
+                $sesion->setIdSala($form->get("idSala")->getData());
                 
                 $em->persist($sesion);
                 $flush = $em->flush();

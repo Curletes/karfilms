@@ -13,25 +13,35 @@
         {% endfor %}
         <table class="table table-bordered">
             <tr>
-                <th>Nombre</th>
+                <th>Fecha y hora</th>
+                <th>Película</th>
+                <th>Sala</th>
                 <th>Acción</th>
             </tr>
+            
             {% for sesion in sesiones %}
+                {% set reservado = false %}
                 <tr>
                     <td>Día {{ sesion.horarios|date("d/m") }} a las {{ sesion.horarios|date("H:i") }}</td>
+                    <td>{{ sesion.idPelicula.titulo }}</td>
+                    <td>{{ sesion.idSala.nombre }}</td>
                     <td>
+                        <a href="{{ path("editar_sesion", {"id":sesion.id}) }}" class="btn btn-warning">Editar</a>
                         {% for reserva in reservas %}
                             {% if sesion.id == reserva.idSesion.id %}
-                                <a href="#" class="btn btn-danger disabled">Eliminar</a>
-                            {% else %}
-                                <a href="{{ path("eliminar_sesion", {"id":sesion.id}) }}" class="btn btn-danger">Eliminar</a>
+                                {% set reservado = true %}
                             {% endif %}
                         {% endfor %}
+                        {% if reservado == true %}
+                            <a href="#" class="btn btn-danger disabled">Eliminar</a>
+                        {% else %}
+                            <a href="{{ path("eliminar_sesion", {"id":sesion.id}) }}" class="btn btn-danger">Eliminar</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
         </table>
-        <a href="{{ path("add_sesion") }}" class="btn btn-primary">Añadir película</a>
+        <a href="{{ path("add_sesion") }}" class="btn btn-primary">Añadir sesión</a>
     </div>
     <div class="clearfix"></div>
 {% endblock %}

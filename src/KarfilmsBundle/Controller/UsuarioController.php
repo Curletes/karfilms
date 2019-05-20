@@ -126,12 +126,20 @@ class UsuarioController extends Controller {
                 $usuario->setEmail($form->get("email")->getData());
 
                 $fichero = $form["icono"]->getData();
+                
                 if ($fichero != null) {
                     $ext = $fichero->guessExtension();
-                    $nombre_fichero = time() . "." . $ext;
-                    $fichero->move("imagenes/perfiles", $nombre_fichero);
 
-                    $usuario->setIcono($nombre_fichero);
+                    if ($ext == "jpg" || $ext == "png" || $ext == "jpeg" || $ext == "bmp") {
+                        $nombre_fichero = time() . "." . $ext;
+                        $fichero->move("imagenes/perfiles", $nombre_fichero);
+
+                        $usuario->setIcono($nombre_fichero);
+                    }
+                    else {
+                        $usuario->setIcono($icono);
+                        $status2 = "Sólo se permiten las extensiones jpg, jpeg, png y bmp.";
+                    }
                 } else {
                     $usuario->setIcono($icono);
                 }
@@ -152,7 +160,12 @@ class UsuarioController extends Controller {
                 $flush = $em->flush();
 
                 if ($flush == null) {
-                    $status = "Perfil editado correctamente.";
+                    if(isset($status2)) {
+                        $status = $status2;
+                    }
+                    else {
+                        $status = "Perfil editado correctamente.";
+                    }     
                 } else {
                     $status = "Error al editar el perfil.";
                 }
@@ -186,7 +199,7 @@ class UsuarioController extends Controller {
 
         return $this->redirectToRoute("indice_usuario");
     }
-    
+
     public function perfilUsuarioAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
         $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");

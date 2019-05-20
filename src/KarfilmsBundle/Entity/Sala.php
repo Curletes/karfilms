@@ -11,8 +11,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table(name="salas", uniqueConstraints={@ORM\UniqueConstraint(name="nombre_UNIQUE", columns={"nombre"})})
  * @ORM\Entity
  */
-class Sala
-{
+class Sala {
+
     /**
      * @var integer
      *
@@ -28,11 +28,14 @@ class Sala
      * @ORM\Column(name="nombre", type="string", length=1, nullable=false)
      */
     private $nombre;
-    
     protected $asiento;
-    
+
     public function __construct() {
         $this->asiento = new ArrayCollection();
+    }
+
+    public function __toString() {
+        return $this->getNombre();
     }
 
     function getId() {
@@ -54,5 +57,5 @@ class Sala
     public function getAsientos() {
         return $this->asiento;
     }
-}
 
+}

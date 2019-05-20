@@ -11,8 +11,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table(name="peliculas", indexes={@ORM\Index(name="fk_edad_idx", columns={"id_edad"})})
  * @ORM\Entity
  */
-class Pelicula
-{
+class Pelicula {
+
     /**
      * @var integer
      *
@@ -66,20 +66,20 @@ class Pelicula
      * })
      */
     private $idEdad;
-    
     protected $Generopelicula;
-    
     protected $Actorpelicula;
-    
     protected $Directorpelicula;
-    
     protected $sesion;
-    
+
     public function __construct() {
         $this->Generopelicula = new ArrayCollection();
         $this->Actorpelicula = new ArrayCollection();
         $this->Directorpelicula = new ArrayCollection();
         $this->sesion = new ArrayCollection();
+    }
+
+    public function __toString() {
+        return $this->getTitulo();
     }
 
     function getId() {
@@ -140,36 +140,36 @@ class Pelicula
 
     public function addGeneropelicula(\KarfilmsBundle\Entity\Genero $genero) {
         $this->Generopelicula[] = $genero;
-        
+
         return $this;
     }
-    
+
     public function getGeneropelicula() {
         return $this->Generopelicula;
     }
-    
+
     public function addActorpelicula(\KarfilmsBundle\Entity\Actor $actor) {
         $this->Actorpelicula[] = $actor;
-        
+
         return $this;
     }
-    
+
     public function getActorpelicula() {
         return $this->Actorpelicula;
     }
-    
+
     public function addDirectorpelicula(\KarfilmsBundle\Entity\Director $director) {
         $this->Directorpelicula[] = $director;
-        
+
         return $this;
     }
-    
+
     public function getDirectorpelicula() {
         return $this->Directorpelicula;
     }
-    
+
     public function getSesiones() {
         return $this->sesion;
     }
-}
 
+}

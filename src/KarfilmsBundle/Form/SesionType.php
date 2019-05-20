@@ -5,6 +5,9 @@ namespace KarfilmsBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SesionType extends AbstractType
 {
@@ -13,9 +16,10 @@ class SesionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('horarios')
-                ->add('idPelicula')
-                ->add('idSala');
+        $builder->add('horarios', DateTimeType::class, array("label" => "Fecha y hora:", "required"=>"required"))
+                ->add('idPelicula', EntityType::class, array("label" => "Película:", "required"=>"required", "mapped" => false, "class" => "KarfilmsBundle:Pelicula"))
+                ->add('idSala', EntityType::class, array("label" => "Sala:", "required"=>"required", "mapped" => false, "class" => "KarfilmsBundle:Sala"))
+                ->add('Enviar', SubmitType::class);
     }/**
      * {@inheritdoc}
      */

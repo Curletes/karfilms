@@ -3,6 +3,7 @@
 namespace KarfilmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Sesion
@@ -47,6 +48,11 @@ class Sesion
      * })
      */
     private $idSala;
+    
+    public function __construct() {
+        $this->horarios = new \DateTime();
+    }
+    
     function getId() {
         return $this->id;
     }
