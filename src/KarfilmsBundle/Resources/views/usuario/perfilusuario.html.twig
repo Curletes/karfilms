@@ -1,0 +1,30 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block body %}
+    <div class="col-lg-6">
+        <h2>Mi perfil</h2>
+        <hr>
+        {% for message in app.session.flashbag().get('status') %}
+            {% if message == "Perfil editado correctamente." %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% else %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+        <table class="table table-bordered">
+            <tr>
+                <th>Nombre de usuario</th>
+                <th>Imagen de perfil</th>
+                <th>Acción</th>
+            </tr>
+                <tr>
+                    <td>{{ usuario.nombre }}</td>
+                    <td>
+                       <img height="200" width="200" src="{{ asset('imagenes/perfiles/' ~ usuario.icono) }}">
+                    </td>
+                    <td><a href="{{ path("editar_usuario", {"id":usuario.id}) }}" class="btn btn-warning">Editar</a></td>
+                </tr>
+        </table>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

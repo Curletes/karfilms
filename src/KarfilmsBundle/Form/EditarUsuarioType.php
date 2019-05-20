@@ -25,8 +25,8 @@ class EditarUsuarioType extends AbstractType
                     'invalid_message' => 'Las contraseñas no coinciden.',
                     'options' => ['attr' => ['class' => 'password-field']],
                                 'required' => false,
-                                'first_options'  => ['label' => 'Contraseña:'],
-                                'second_options' => ['label' => 'Repite la contraseña:']))
+                                'first_options'  => ['label' => 'Cambiar contraseña:'],
+                                'second_options' => ['label' => 'Repite la nueva contraseña:']))
                 ->add('icono', FileType::class, array("label" => "Imagen de perfil:", "data_class" => null, "required" => false))
                 ->add('Enviar', SubmitType::class);
     }/**

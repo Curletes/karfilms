@@ -21,7 +21,7 @@ class UsuarioController extends Controller {
         $authenticationUtils = $this->get("security.authentication_utils");
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-        
+
         return $this->render('@Karfilms/usuario/iniciosesion.html.twig', [
                     'error' => $error,
                     'last_username' => $lastUsername
@@ -152,16 +152,16 @@ class UsuarioController extends Controller {
                 $flush = $em->flush();
 
                 if ($flush == null) {
-                    $status = "Usuario editado correctamente.";
+                    $status = "Perfil editado correctamente.";
                 } else {
-                    $status = "Error al editar el usuario.";
+                    $status = "Error al editar el perfil.";
                 }
             } else {
-                $status = "El usuario no se ha editado porque el formulario no es válido.";
+                $status = "El perfil no se ha editado porque el formulario no es válido.";
             }
 
             $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("indice_usuario");
+            return $this->redirectToRoute("perfil_usuario", ["id" => $id]);
         }
 
         return $this->render('@Karfilms/usuario/editarusuario.html.twig', [
@@ -170,24 +170,30 @@ class UsuarioController extends Controller {
         ]);
     }
 
-    public function administradorAction($id)
-    {
+    public function administradorAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
         $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
         $usuario = $usuario_repo->find($id);
 
-        if($usuario->getRol() == "ROLE_USER" )
-        {
+        if ($usuario->getRol() == "ROLE_USER") {
             $usuario->setRol("ROLE_ADMIN");
-        }
-        else
-        {
+        } else {
             $usuario->setRol("ROLE_USER");
         }
-        
+
         $em->persist($usuario);
         $em->flush();
-        
+
         return $this->redirectToRoute("indice_usuario");
-}
+    }
+    
+    public function perfilUsuarioAction($id) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
+        $usuario = $usuario_repo->find($id);
+
+        return $this->render('@Karfilms/usuario/perfilusuario.html.twig', [
+                    "usuario" => $usuario
+        ]);
+    }
 }

@@ -16,12 +16,16 @@ inicio:
     path: /inicio
     defaults: { _controller: KarfilmsBundle:Default:index }
     
+perfil_usuario:
+    path: /mi-perfil/{id}
+    defaults: { _controller: KarfilmsBundle:Usuario:perfilUsuario }
+    
 indice_usuario:
     path: /admin/usuarios
     defaults: { _controller: KarfilmsBundle:Usuario:indiceUsuario }
     
 editar_usuario:
-    path: /admin/usuarios/editar-usuario/{id}
+    path: /mi-perfil/editar/{id}
     defaults: { _controller: KarfilmsBundle:Usuario:editarUsuario }
     
 eliminar_usuario:
@@ -79,3 +83,35 @@ eliminar_director:
 editar_director:
     path: /admin/directores/editar-director/{id}
     defaults: { _controller: KarfilmsBundle:Director:editarDirector }
+ 
+indice_sesion:
+    path: /admin/sesiones
+    defaults: { _controller: KarfilmsBundle:Sesion:indiceSesion }
+    
+add_sesion:
+    path: /admin/sesiones/nueva-sesion
+    defaults: { _controller: KarfilmsBundle:Sesion:addSesion }
+
+eliminar_sesion:
+    path: /admin/sesiones/eliminar-sesion/{id}
+    defaults: { _controller: KarfilmsBundle:Sesion:eliminarSesion }
+    
+editar_sesion:
+    path: /admin/sesiones/editar-sesion/{id}
+    defaults: { _controller: KarfilmsBundle:Sesion:editarSesion }
+    
+indice_pelicula:
+    path: /admin/peliculas
+    defaults: { _controller: KarfilmsBundle:Pelicula:indicePelicula }
+    
+add_pelicula:
+    path: /admin/peliculas/nueva-pelicula
+    defaults: { _controller: KarfilmsBundle:Pelicula:addPelicula }
+
+eliminar_pelicula:
+    path: /admin/peliculas/eliminar-pelicula/{id}
+    defaults: { _controller: KarfilmsBundle:Pelicula:eliminarPelicula }
+    
+editar_pelicula:
+    path: /admin/peliculas/editar-pelicula/{id}
+    defaults: { _controller: KarfilmsBundle:Pelicula:editarPelicula }

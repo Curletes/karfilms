@@ -1,0 +1,31 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block body %}
+    <div class="col-lg-6">
+        <h2>Sesiones</h2>
+        <hr>
+        {% for message in app.session.flashbag().get('status') %}
+            {% if message == "Sesión añadida correctamente." or message == "Sesión editada correctamente." %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% else %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+        <table class="table table-bordered">
+            <tr>
+                <th>Nombre</th>
+                <th>Acción</th>
+            </tr>
+            {% for sesion in sesiones %}
+                <tr>
+                    <td>Día {{ sesion.horarios|date("d/m") }} a las {{ sesion.horarios|date("H:i") }}</td>
+                    <td>
+                       <a href="{{ path("eliminar_sesion", {"id":sesion.id}) }}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="{{ path("add_sesion") }}" class="btn btn-primary">Añadir película</a>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}
