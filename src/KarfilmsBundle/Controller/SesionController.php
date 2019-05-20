@@ -23,8 +23,12 @@ class SesionController extends Controller
         $sesion_repo = $em->getRepository("KarfilmsBundle:Sesion");
         $sesiones = $sesion_repo->findAll();
         
+        $reserva_repo = $em->getRepository("KarfilmsBundle:Reserva");
+        $reservas = $reserva_repo->findAll();
+        
         return $this->render('@Karfilms/sesion/indicesesion.html.twig', [
-            "sesiones" => $sesiones
+            "sesiones" => $sesiones,
+            "reservas" => $reservas
         ]);
     }
     

@@ -20,7 +20,13 @@
                 <tr>
                     <td>Día {{ sesion.horarios|date("d/m") }} a las {{ sesion.horarios|date("H:i") }}</td>
                     <td>
-                       <a href="{{ path("eliminar_sesion", {"id":sesion.id}) }}" class="btn btn-danger">Eliminar</a>
+                        {% for reserva in reservas %}
+                            {% if sesion.id == reserva.idSesion.id %}
+                                <a href="#" class="btn btn-danger disabled">Eliminar</a>
+                            {% else %}
+                                <a href="{{ path("eliminar_sesion", {"id":sesion.id}) }}" class="btn btn-danger">Eliminar</a>
+                            {% endif %}
+                        {% endfor %}
                     </td>
                 </tr>
             {% endfor %}
