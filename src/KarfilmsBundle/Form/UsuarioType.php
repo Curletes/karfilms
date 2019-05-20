@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class UsuarioType extends AbstractType
@@ -19,7 +20,12 @@ class UsuarioType extends AbstractType
     {
         $builder->add('nombre', TextType::class, array("label" => "Nombre de usuario:", "required"=>"required"))
                 ->add('email', EmailType::class, array("label" => "Email:", "required"=>"required"))
-                ->add('password', PasswordType::class, array("label" => "Contraseña:", "required"=>"required"))
+                ->add('password', RepeatedType::class, array('type' => PasswordType::class,
+                    'invalid_message' => 'Las contraseñas no coinciden.',
+                    'options' => ['attr' => ['class' => 'password-field']],
+                                'required' => 'required',
+                                'first_options'  => ['label' => 'Contraseña:'],
+                                'second_options' => ['label' => 'Repite la contraseña:']))
                 ->add('Enviar', SubmitType::class);
     }/**
      * {@inheritdoc}

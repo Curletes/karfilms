@@ -6,13 +6,6 @@
 
 {% block body %}
     <div class="col-lg-6">
-        {% for message in app.session.flashbag().get('status') %}
-                {% if message == "Registrado correctamente." %}
-                    <div class="alert alert-success">{{ message }}</div>
-                {% else %}
-                    <div class="alert alert-danger">{{ message }}</div>
-                {% endif %}
-            {% endfor %}
         <h2>Identifícate</h2>
         <hr>
         <form action="{{ path("iniciar_sesion_check") }}" method="post">

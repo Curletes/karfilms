@@ -20,7 +20,11 @@
                 <tr>
                     <td>{{ usuario.nombre }}</td>
                     <td>
-                        <a href="{{ path("editar_usuario", {"id":usuario.id}) }}" class="btn btn-warning">Editar</a>
+                        {% if usuario.rol == "ROLE_USER" %}
+                         <a href="{{ path("hacer_administrador", {"id":usuario.id}) }}" class="btn btn-warning">Hacer administrador</a>
+                        {% else %}
+                            <a href="{{ path("hacer_administrador", {"id":usuario.id}) }}" class="btn btn-danger">Quitar administrador</a>
+                        {% endif %}
                         <a href="{{ path("eliminar_usuario", {"id":usuario.id}) }}" class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>

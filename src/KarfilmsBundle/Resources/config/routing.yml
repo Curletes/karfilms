@@ -28,6 +28,10 @@ eliminar_usuario:
     path: /admin/usuarios/eliminar-usuario/{id}
     defaults: { _controller: KarfilmsBundle:Usuario:eliminarUsuario }
     
+hacer_administrador:
+    path: /admin/administrador/{id}
+    defaults: {_controller: KarfilmsBundle:Usuario:administrador}
+    
 indice_genero:
     path: /admin/generos
     defaults: { _controller: KarfilmsBundle:Genero:indiceGenero }

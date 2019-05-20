@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class EditarUsuarioType extends AbstractType
 {
@@ -21,9 +21,13 @@ class EditarUsuarioType extends AbstractType
     {
         $builder->add('nombre', TextType::class, array("label" => "Nombre de usuario:", "required"=>"required"))
                 ->add('email', EmailType::class, array("label" => "Email:", "required"=>"required"))
-                ->add('password', PasswordType::class, array("label" => "Contraseña:", "required"=>"required"))
-                ->add('icono', FileType::class, array("label" => "Imagen de perfil:", "data_class" => null))
-                ->add('rol', CheckboxType::class, array("label" => "Administrador"))
+                ->add('password', RepeatedType::class, array('type' => PasswordType::class,
+                    'invalid_message' => 'Las contraseñas no coinciden.',
+                    'options' => ['attr' => ['class' => 'password-field']],
+                                'required' => false,
+                                'first_options'  => ['label' => 'Contraseña:'],
+                                'second_options' => ['label' => 'Repite la contraseña:']))
+                ->add('icono', FileType::class, array("label" => "Imagen de perfil:", "data_class" => null, "required" => false))
                 ->add('Enviar', SubmitType::class);
     }/**
      * {@inheritdoc}

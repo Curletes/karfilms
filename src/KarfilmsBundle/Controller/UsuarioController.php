@@ -21,7 +21,7 @@ class UsuarioController extends Controller {
         $authenticationUtils = $this->get("security.authentication_utils");
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-
+        
         return $this->render('@Karfilms/usuario/iniciosesion.html.twig', [
                     'error' => $error,
                     'last_username' => $lastUsername
@@ -77,9 +77,7 @@ class UsuarioController extends Controller {
 
             $this->session->getFlashBag()->add("status", $status);
 
-            if ($status != "Registrado correctamente.") {
-                return $this->redirectToRoute("registrarse");
-            } else {
+            if ($status == "Registrado correctamente.") {
                 return $this->redirectToRoute("iniciar_sesion");
             }
         }
@@ -116,9 +114,8 @@ class UsuarioController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
         $usuario = $usuario_repo->find($id);
-        $rol = $usuario->getRol();
         $icono = $usuario->getIcono();
-
+        $password = $usuario->getPassword();
         $form = $this->createForm(EditarUsuarioType::class, $usuario);
 
         $form->handleRequest($request);
@@ -127,21 +124,29 @@ class UsuarioController extends Controller {
             if ($form->isValid()) {
                 $usuario->setNombre($form->get("nombre")->getData());
                 $usuario->setEmail($form->get("email")->getData());
-                
-                if(isset($_POST['admin']))
-                {
-                    $usuario->setRol("ROLE_ADMIN");
-                }
-                else
-                {
-                    $usuario->setRol("ROLE_USER");
-                }
-                
-                $factory = $this->get("security.encoder_factory");
-                $encoder = $factory->getEncoder($usuario);
-                $password = $encoder->encodePassword($form->get("password")->getData(), $usuario->getSalt());
 
-                $usuario->setPassword($password);
+                $fichero = $form["icono"]->getData();
+                if ($fichero != null) {
+                    $ext = $fichero->guessExtension();
+                    $nombre_fichero = time() . "." . $ext;
+                    $fichero->move("imagenes/perfiles", $nombre_fichero);
+
+                    $usuario->setIcono($nombre_fichero);
+                } else {
+                    $usuario->setIcono($icono);
+                }
+
+                $password2 = $form["password"]->getData();
+
+                if ($password2 != null) {
+                    $factory = $this->get("security.encoder_factory");
+                    $encoder = $factory->getEncoder($usuario);
+                    $password2 = $encoder->encodePassword($form->get("password")->getData(), $usuario->getSalt());
+
+                    $usuario->setPassword($password2);
+                } else {
+                    $usuario->setPassword($password);
+                }
 
                 $em->persist($usuario);
                 $flush = $em->flush();
@@ -161,8 +166,28 @@ class UsuarioController extends Controller {
 
         return $this->render('@Karfilms/usuario/editarusuario.html.twig', [
                     "form" => $form->createView(),
-                    "rol" => $rol,
                     "icono" => $icono
         ]);
     }
+
+    public function administradorAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
+        $usuario = $usuario_repo->find($id);
+
+        if($usuario->getRol() == "ROLE_USER" )
+        {
+            $usuario->setRol("ROLE_ADMIN");
+        }
+        else
+        {
+            $usuario->setRol("ROLE_USER");
+        }
+        
+        $em->persist($usuario);
+        $em->flush();
+        
+        return $this->redirectToRoute("indice_usuario");
+}
 }
