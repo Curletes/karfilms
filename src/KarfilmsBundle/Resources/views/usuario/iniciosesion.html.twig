@@ -8,7 +8,7 @@
     <div class="col-lg-6">
         {% for message in app.session.flashbag().get('status') %}
             {% if message == "Registrado correctamente." %}
-                <div class="alert alert-success">{{ error }}</div>
+                <div class="alert alert-success">{{ message }}</div>
             {% else %}
                 <div class="alert alert-danger">{{ message }}</div>
             {% endif %}
