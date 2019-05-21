@@ -34,6 +34,10 @@ class Edad
     public function __construct() {
         $this->pelicula = new ArrayCollection();
     }
+    
+    public function __toString() {
+        return $this->getClasificacion();
+    }
 
     function getId() {
         return $this->id;

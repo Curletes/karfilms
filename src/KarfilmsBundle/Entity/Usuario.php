@@ -139,8 +139,5 @@ class Usuario implements UserInterface
     function setIcono($icono) {
         $this->icono = $icono;
     }
-
-
-
 }
 

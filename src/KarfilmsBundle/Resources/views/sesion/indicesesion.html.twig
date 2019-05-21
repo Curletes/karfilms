@@ -1,7 +1,7 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
-    <div class="col-lg-6">
+    <div class="col-lg-7">
         <h2>Sesiones</h2>
         <hr>
         {% for message in app.session.flashbag().get('status') %}
@@ -26,15 +26,16 @@
                     <td>{{ sesion.idPelicula.titulo }}</td>
                     <td>{{ sesion.idSala.nombre }}</td>
                     <td>
-                        <a href="{{ path("editar_sesion", {"id":sesion.id}) }}" class="btn btn-warning">Editar</a>
                         {% for reserva in reservas %}
                             {% if sesion.id == reserva.idSesion.id %}
                                 {% set reservado = true %}
                             {% endif %}
                         {% endfor %}
                         {% if reservado == true %}
+                            <a href="#" class="btn btn-warning disabled">Editar</a>
                             <a href="#" class="btn btn-danger disabled">Eliminar</a>
                         {% else %}
+                            <a href="{{ path("editar_sesion", {"id":sesion.id}) }}" class="btn btn-warning">Editar</a>
                             <a href="{{ path("eliminar_sesion", {"id":sesion.id}) }}" class="btn btn-danger">Eliminar</a>
                         {% endif %}
                     </td>
