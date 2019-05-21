@@ -30,6 +30,7 @@ class PeliculaController extends Controller {
     public function detallesPeliculaAction($id) {
         $directores = [];
         $actores = [];
+        $generos = [];
         
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
@@ -46,11 +47,18 @@ class PeliculaController extends Controller {
         foreach ($Actorpelicula as $actor) {
             $actores[] = $actor->getIdActor()->getNombre();
         }
+        
+        $Generopelicula = $pelicula->getGeneropelicula();
+        
+        foreach ($Generopelicula as $genero) {
+            $generos[] = $genero->getIdGenero()->getNombre();
+        }
 
         return $this->render('@Karfilms/pelicula/detallespelicula.html.twig', [
                     "pelicula" => $pelicula,
                     "directores" => $directores,
-                    "actores" => $actores
+                    "actores" => $actores,
+                    "generos" => $generos
         ]);
     }
 

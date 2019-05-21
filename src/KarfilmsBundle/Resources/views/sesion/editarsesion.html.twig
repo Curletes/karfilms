@@ -2,10 +2,11 @@
 
 {% block body %}
     <div class="col-lg-6">
-        <h2>Editar género</h2>
+        <h2>Editar sesión</h2>
         <hr>
         {{ form_start(form, {'action':'', 'method':'POST'}) }}
         {{ form_end(form) }}
     </div>
     <div class="clearfix"></div>
+    <a href="{{ path("indice_sesion") }}" class="btn btn-secondary">Cancelar</a>
 {% endblock %}
