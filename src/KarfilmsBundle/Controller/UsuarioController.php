@@ -130,7 +130,7 @@ class UsuarioController extends Controller {
                 if ($fichero != null) {
                     $ext = $fichero->guessExtension();
 
-                    if ($ext == "jpg" || $ext == "png" || $ext == "jpeg" || $ext == "bmp") {
+                    if ($ext == "jpg" || $ext == "png" || $ext == "jpeg") {
                         $nombre_fichero = time() . "." . $ext;
                         $fichero->move("imagenes/perfiles", $nombre_fichero);
 
@@ -138,7 +138,7 @@ class UsuarioController extends Controller {
                     }
                     else {
                         $usuario->setIcono($icono);
-                        $status2 = "Sólo se permiten las extensiones jpg, jpeg, png y bmp.";
+                        $status2 = "Sólo se permiten las extensiones .jpg, .jpeg y .png.";
                     }
                 } else {
                     $usuario->setIcono($icono);

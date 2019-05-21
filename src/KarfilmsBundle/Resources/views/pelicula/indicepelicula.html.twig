@@ -20,6 +20,7 @@
                 <tr>
                     <td>{{ pelicula.titulo }}</td>
                     <td>
+                        <a href="{{ path("detalles_pelicula", {"id":pelicula.id}) }}" class="btn btn-secondary">Ver detalles</a>
                         <a href="{{ path("editar_pelicula", {"id":pelicula.id}) }}" class="btn btn-warning">Editar</a>
                         {% if pelicula.Sesiones|length == 0 %}
                             <a href="{{ path("eliminar_pelicula", {"id":pelicula.id}) }}" class="btn btn-danger">Eliminar</a>

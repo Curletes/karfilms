@@ -108,6 +108,10 @@ add_pelicula:
     path: /admin/peliculas/nueva-pelicula
     defaults: { _controller: KarfilmsBundle:Pelicula:addPelicula }
 
+detalles_pelicula:
+    path: /admin/peliculas/detalles-pelicula/{id}
+    defaults: { _controller: KarfilmsBundle:Pelicula:detallesPelicula }
+
 eliminar_pelicula:
     path: /admin/peliculas/eliminar-pelicula/{id}
     defaults: { _controller: KarfilmsBundle:Pelicula:eliminarPelicula }

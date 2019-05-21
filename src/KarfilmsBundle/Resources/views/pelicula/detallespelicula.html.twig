@@ -1,0 +1,48 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block body %}
+    <div class="col-lg-12">
+        <h2>{{ pelicula.titulo }}</h2>
+        <hr>
+        <table class="table">
+            <tr>
+                <th>Cartel</th>
+                <th>Trailer</th>
+            </tr>
+            <tr>
+                <td>
+                    <img src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}">
+                </td>
+                <td>
+                    <video width="700" height="590" controls>
+                        <source src="{{ asset("imagenes/trailers/" ~ pelicula.trailer) }}">
+                    </video>
+                </td>
+            </tr>
+            <tr>
+                <th>Directores</th>
+                <th>Actores principales</th>
+            </tr>
+            <tr>
+                <td>
+                    {% for director in directores %}
+                        <span>{{ director }}</span><br>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for actor in actores %}
+                        <span>{{ actor }}</span><br>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>Sinopsis</th>
+            </tr>
+            <tr>
+                <td colspan="2">{{ pelicula.sinopsis }}</td>
+            </tr>
+        </table>
+        <a href="{{ path("indice_pelicula") }}" class="btn btn-primary">Atrás</a>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

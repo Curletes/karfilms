@@ -26,6 +26,33 @@ class PeliculaController extends Controller {
                     "peliculas" => $peliculas
         ]);
     }
+    
+    public function detallesPeliculaAction($id) {
+        $directores = [];
+        $actores = [];
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
+        $pelicula = $pelicula_repo->find($id);
+
+        $Directorpelicula = $pelicula->getDirectorpelicula();
+
+        foreach ($Directorpelicula as $director) {
+            $directores[] = $director->getIdDirector()->getNombre();
+        }
+        
+        $Actorpelicula = $pelicula->getActorpelicula();
+        
+        foreach ($Actorpelicula as $actor) {
+            $actores[] = $actor->getIdActor()->getNombre();
+        }
+
+        return $this->render('@Karfilms/pelicula/detallespelicula.html.twig', [
+                    "pelicula" => $pelicula,
+                    "directores" => $directores,
+                    "actores" => $actores
+        ]);
+    }
 
     public function addPeliculaAction(Request $request) {
         $pelicula = new Pelicula();
@@ -105,7 +132,7 @@ class PeliculaController extends Controller {
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $pelicula = $pelicula_repo->find($id);
 
-        if (count($pelicula->getSesion()) == 0) {
+        if (count($pelicula->getSesiones()) == 0) {
             $em->remove($pelicula);
             $em->flush();
         }
@@ -135,14 +162,14 @@ class PeliculaController extends Controller {
                 if ($ficheroCartel != null) {
                     $ext = $ficheroCartel->guessExtension();
 
-                    if ($ext == "jpg" || $ext == "png" || $ext == "jpeg" || $ext == "pdf") {
+                    if ($ext == "jpg" || $ext == "png" || $ext == "jpeg") {
                         $nombre_fichero = time() . "." . $ext;
                         $ficheroCartel->move("imagenes/carteles", $nombre_fichero);
 
                         $pelicula->setCartel($nombre_fichero);
                     } else {
                         $pelicula->setCartel($cartel);
-                        $status2 = "Sólo se permiten las extensiones .jpg, .jpeg, .png y .bmp.";
+                        $status2 = "Sólo se permiten las extensiones .jpg, .jpeg y .png";
                     }
                 } else {
                     $pelicula->setCartel($cartel);
