@@ -1,0 +1,42 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block body %}
+    <div class="col-lg-6">
+        <h2>Edades</h2>
+        <hr>
+        {% for message in app.session.flashbag().get('status') %}
+            {% if message == "Edad añadida correctamente." or message == "Edad editada correctamente." %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% else %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+        <table class="table table-bordered">
+            <tr>
+                <th>Clasificación</th>
+                <th>Acción</th>
+            </tr>
+            {% for edad in edades %}
+                {% set enuso = false %}
+                <tr>
+                    <td>{{ edad.clasificacion }}</td>
+                    <td>
+                        <a href="{{ path("editar_edad", {"id":edad.id}) }}" class="btn btn-warning">Editar</a>
+                        {% for pelicula in peliculas %}
+                            {% if edad.id == pelicula.idEdad.id %}
+                                {% set enuso = true %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if enuso == true %}
+                            <a href="#" class="btn btn-danger disabled">Eliminar</a>
+                        {% else %}
+                            <a href="{{ path("eliminar_edad", {"id":edad.id}) }}" class="btn btn-danger">Eliminar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="{{ path("add_edad") }}" class="btn btn-primary">Añadir edad</a>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

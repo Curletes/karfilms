@@ -179,7 +179,8 @@ class UsuarioController extends Controller {
 
         return $this->render('@Karfilms/usuario/editarusuario.html.twig', [
                     "form" => $form->createView(),
-                    "icono" => $icono
+                    "icono" => $icono,
+                    "id" => $id
         ]);
     }
 
@@ -206,7 +207,8 @@ class UsuarioController extends Controller {
         $usuario = $usuario_repo->find($id);
 
         return $this->render('@Karfilms/usuario/perfilusuario.html.twig', [
-                    "usuario" => $usuario
+                    "usuario" => $usuario,
+                    "id" => $id
         ]);
     }
 }

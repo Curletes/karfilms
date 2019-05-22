@@ -68,6 +68,22 @@ editar_actor:
     path: /admin/actores/editar-actor/{id}
     defaults: { _controller: KarfilmsBundle:Actor:editarActor }
     
+indice_edad:
+    path: /admin/edades
+    defaults: { _controller: KarfilmsBundle:Edad:indiceEdad }
+    
+add_edad:
+    path: /admin/edades/nueva-edad
+    defaults: { _controller: KarfilmsBundle:Edad:addEdad }
+
+eliminar_edad:
+    path: /admin/edades/eliminar-edad/{id}
+    defaults: { _controller: KarfilmsBundle:Edad:eliminarEdad }
+    
+editar_edad:
+    path: /admin/edades/editar-edad/{id}
+    defaults: { _controller: KarfilmsBundle:Edad:editarEdad }
+    
 indice_director:
     path: /admin/directores
     defaults: { _controller: KarfilmsBundle:Director:indiceDirector }

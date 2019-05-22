@@ -1,6 +1,9 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    {% if app.user.id is not defined or app.user.id != id %}
+        <div class="alert alert-danger">No tienes permiso para acceder a esta página</div>
+    {% else %}
     <div class="col-lg-6">
         <h2>Mi perfil</h2>
         <hr>
@@ -26,5 +29,6 @@
                 </tr>
         </table>
     </div>
+    {% endif %}
     <div class="clearfix"></div>
 {% endblock %}
