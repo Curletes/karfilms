@@ -91,7 +91,6 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
                 $em->persist($Directorpelicula);
             }
         }
-            
         
         $flush = $em->flush();
         
