@@ -1,6 +1,7 @@
 KarfilmsBundle\Entity\Pelicula:
     type: entity
     table: peliculas
+    repositoryClass: KarfilmsBundle\Repository\PeliculaRepository
     indexes:
         fk_edad_idx:
             columns:

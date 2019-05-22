@@ -15,7 +15,7 @@ class GeneroType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nombre', TextType::class, array("label" => "Nombre de usuario:", "required"=>"required"))
+        $builder->add('nombre', TextType::class, array("label" => "Género:", "required"=>"required"))
                 ->add('Enviar', SubmitType::class);
     }/**
      * {@inheritdoc}

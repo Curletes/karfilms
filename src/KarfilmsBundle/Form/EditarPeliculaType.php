@@ -25,6 +25,9 @@ class EditarPeliculaType extends AbstractType
                 ->add('trailer', FileType::class, array("label" => "Trailer:", "data_class" => null, "required"=>false))
                 ->add('duracion', NumberType::class, array("label" => "Duración:", "required"=>"required"))
                 ->add('idEdad', EntityType::class, array("label" => "Clasificación por edades:", "required"=>"required", "mapped" => false, "class" => "KarfilmsBundle:Edad"))
+                ->add('actores', TextType::class, array("label" => "Actores principales:", "required"=>false, "mapped" => false))
+                ->add('directores', TextType::class, array("label" => "Directores:", "required"=>false, "mapped" => false))
+                ->add('generos', TextType::class, array("label" => "Géneros:", "required"=>false, "mapped" => false))
                 ->add('Enviar', SubmitType::class);;
     }/**
      * {@inheritdoc}

@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Pelicula
  *
  * @ORM\Table(name="peliculas", indexes={@ORM\Index(name="fk_edad_idx", columns={"id_edad"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="KarfilmsBundle\Repository\ProductRepository")
  */
 class Pelicula {
 

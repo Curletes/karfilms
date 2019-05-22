@@ -71,7 +71,8 @@ class PeliculaController extends Controller {
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
-                $pelicula = new Pelicula();
+                $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
+                
                 $pelicula->setTitulo($form->get("titulo")->getData());
                 $pelicula->setSinopsis($form->get("sinopsis")->getData());
 
@@ -117,6 +118,21 @@ class PeliculaController extends Controller {
                 $em->persist($pelicula);
                 $flush = $em->flush();
 
+                $pelicula_repo->guardarActoresPelicula(
+                            $form->get("actores")->getData(),
+                            $form->get("titulo")->getData()
+                        );
+                
+                $pelicula_repo->guardarDirectoresPelicula(
+                            $form->get("directores")->getData(),
+                            $form->get("titulo")->getData()
+                        );
+                
+                $pelicula_repo->guardarGenerosPelicula(
+                            $form->get("generos")->getData(),
+                            $form->get("titulo")->getData()
+                        );
+                
                 if ($flush == null) {
                     $status = "Película añadida correctamente.";
                 } else {
@@ -206,6 +222,21 @@ class PeliculaController extends Controller {
 
                 $em->persist($pelicula);
                 $flush = $em->flush();
+                
+                $pelicula_repo->guardarActoresPelicula(
+                            $form->get("actores")->getData(),
+                            $form->get("titulo")->getData()
+                        );
+                
+                $pelicula_repo->guardarDirectoresPelicula(
+                            $form->get("directores")->getData(),
+                            $form->get("titulo")->getData()
+                        );
+                
+                $pelicula_repo->guardarGenerosPelicula(
+                            $form->get("generos")->getData(),
+                            $form->get("titulo")->getData()
+                        );
 
                 if ($flush == null) {
                     $status = "Película editada correctamente.";
