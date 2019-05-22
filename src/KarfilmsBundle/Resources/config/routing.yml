@@ -84,6 +84,22 @@ editar_edad:
     path: /admin/edades/editar-edad/{id}
     defaults: { _controller: KarfilmsBundle:Edad:editarEdad }
     
+indice_sala:
+    path: /admin/salas
+    defaults: { _controller: KarfilmsBundle:Sala:indiceSala }
+    
+add_sala:
+    path: /admin/salas/nueva-sala
+    defaults: { _controller: KarfilmsBundle:Sala:addSala }
+
+eliminar_sala:
+    path: /admin/salas/eliminar-sala/{id}
+    defaults: { _controller: KarfilmsBundle:Sala:eliminarSala}
+    
+editar_sala:
+    path: /admin/salas/editar-sala/{id}
+    defaults: { _controller: KarfilmsBundle:Sala:editarSala }
+    
 indice_director:
     path: /admin/directores
     defaults: { _controller: KarfilmsBundle:Director:indiceDirector }

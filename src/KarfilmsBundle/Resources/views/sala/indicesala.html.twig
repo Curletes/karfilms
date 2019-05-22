@@ -1,0 +1,42 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block body %}
+    <div class="col-lg-6">
+        <h2>Salas</h2>
+        <hr>
+        {% for message in app.session.flashbag().get('status') %}
+            {% if message == "Sala añadida correctamente." or message == "Sala editada correctamente." %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% else %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+        <table class="table table-bordered">
+            <tr>
+                <th>Clasificación</th>
+                <th>Acción</th>
+            </tr>
+            {% for sala in salas %}
+                {% set enuso = false %}
+                <tr>
+                    <td>{{ sala.nombre }}</td>
+                    <td>
+                        <a href="{{ path("editar_sala", {"id":sala.id}) }}" class="btn btn-warning">Editar</a>
+                        {% for sesion in sesiones %}
+                            {% if sala.id == sesion.idSala.id %}
+                                {% set enuso = true %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if enuso == true %}
+                            <a href="#" class="btn btn-danger disabled">Eliminar</a>
+                        {% else %}
+                            <a href="{{ path("eliminar_sala", {"id":sala.id}) }}" class="btn btn-danger">Eliminar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="{{ path("add_sala") }}" class="btn btn-primary">Añadir sala</a>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

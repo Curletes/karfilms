@@ -155,7 +155,34 @@ class PeliculaController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $pelicula = $pelicula_repo->find($id);
-
+        $actorpelicula_repo = $em->getRepository("KarfilmsBundle:Actorpelicula");
+        $directorpelicula_repo = $em->getRepository("KarfilmsBundle:Directorpelicula");
+        $generopelicula_repo = $em->getRepository("KarfilmsBundle:Generopelicula");
+        
+        $actorespelicula = $actorpelicula_repo->findBy(["idPelicula" => $pelicula]);
+        
+        foreach($actorespelicula as $ap)
+        {
+            $em->remove($ap);
+            $em->flush();
+        }
+        
+        $directorespelicula = $directorpelicula_repo->findBy(["idPelicula" => $pelicula]);
+        
+        foreach($directorespelicula as $dp)
+        {
+            $em->remove($dp);
+            $em->flush();
+        }
+        
+        $generospelicula = $generopelicula_repo->findBy(["idPelicula" => $pelicula]);
+        
+        foreach($generospelicula as $gp)
+        {
+            $em->remove($gp);
+            $em->flush();
+        }
+        
         if (count($pelicula->getSesiones()) == 0) {
             $em->remove($pelicula);
             $em->flush();

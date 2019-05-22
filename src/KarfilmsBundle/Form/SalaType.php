@@ -8,14 +8,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class EdadType extends AbstractType
+class SalaType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('clasificacion', TextType::class, array("label" => "Clasificación por edad:", "required"=>"required"))
+        $builder->add('nombre', TextType::class, array("label" => "Sala:", "required"=>"required"))
                 ->add('Enviar', SubmitType::class);
     }/**
      * {@inheritdoc}
@@ -23,7 +23,7 @@ class EdadType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'KarfilmsBundle\Entity\Edad'
+            'data_class' => 'KarfilmsBundle\Entity\Sala'
         ));
     }
 
@@ -32,7 +32,7 @@ class EdadType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'karfilmsbundle_edad';
+        return 'karfilmsbundle_sala';
     }
 
 
