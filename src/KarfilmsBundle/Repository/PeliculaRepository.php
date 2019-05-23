@@ -17,6 +17,13 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
         
         $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
         $actorpelicula_repo = $em->getRepository("KarfilmsBundle:Actorpelicula");
+        $aapp = $actorpelicula_repo->findAll();
+        $b = [];
+        
+        foreach($aapp as $ap)
+        {
+            $b[] = $ap->getIdActor()->getNombre();
+        }
         
         if($pelicula == null)
         {
@@ -25,12 +32,13 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
         
         $actores .= ",";
         $actores = explode(",", $actores);
-
+        $a = [];
         foreach($actores as $actor)
         {
             $actor = trim($actor);
             if(strlen($actor) > 0)
             {
+                $a[] = $actor;
                 $isset_actor = $actor_repo->findOneBy(["nombre" => $actor]);
 
                 if($isset_actor == null)
@@ -45,6 +53,7 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
                     }
                 }
                 $actor = $actor_repo->findOneBy(["nombre" => $actor]);
+
                 $id = $actor->getId();
                 $isset_actorpelicula = $actorpelicula_repo->findOneBy(["idActor" => $id]);
 
@@ -60,6 +69,23 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
                     $flush = $em->flush();
                 }
             }
+        }
+        
+        $borrarActores = array_diff($b,$a);
+        
+        foreach($borrarActores as $borrarActor)
+        {
+            foreach($aapp as $ap)
+            {
+                //QUIERO COGER EL ID DEL ACTOR QUE QUIERO BORRAR, NO EL NOMBRE
+                $idBorrar = $actorpelicula_repo->findOneBy(["nombre" => $borrarActor]);//MAL
+                die(var_dump($idBorrar));
+            }
+            
+            $actorBorrado = $actorpelicula_repo->findOneBy(["id" => $idBorrar]);
+
+            $em->remove($actorBorrado);
+            $em->flush();
         }
         
         if(isset($flush))
