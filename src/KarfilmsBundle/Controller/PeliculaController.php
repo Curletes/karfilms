@@ -200,10 +200,22 @@ class PeliculaController extends Controller {
         $trailer = $pelicula->getTrailer();
         
         $actores = "";
+        $directores = "";
+        $generos = "";
         
         foreach($pelicula->getActorpelicula() as $Actorpelicula)
         {
             $actores .= $Actorpelicula->getIdActor()->getNombre() . ", ";
+        }
+        
+        foreach($pelicula->getDirectorpelicula() as $Directorpelicula)
+        {
+            $directores .= $Directorpelicula->getIdDirector()->getNombre() . ", ";
+        }
+        
+        foreach($pelicula->getGeneropelicula() as $Generopelicula)
+        {
+            $generos .= $Generopelicula->getIdGenero()->getNombre() . ", ";
         }
 
         $form = $this->createForm(EditarPeliculaType::class, $pelicula);
@@ -289,7 +301,9 @@ class PeliculaController extends Controller {
                     "form" => $form->createView(),
                     "cartel" => $cartel,
                     "trailer" => $trailer,
-                    "actores" => $actores
+                    "actores" => $actores,
+                    "directores" => $directores,
+                    "generos" => $generos
         ]);
     }
 }

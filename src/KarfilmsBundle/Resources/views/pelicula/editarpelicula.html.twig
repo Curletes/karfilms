@@ -7,6 +7,8 @@
         <img height="50" width="50" src="{{ asset('imagenes/carteles/' ~ cartel) }}">
         {{ form_start(form, {'action':'', 'method':'POST'}) }}
             {{ form_row(form.actores, { 'value': actores|trim(",") }) }}
+            {{ form_row(form.directores, { 'value': directores|trim(",") }) }}
+            {{ form_row(form.generos, { 'value': generos|trim(",") }) }}
         {{ form_end(form) }}
     </div>
     <div class="clearfix"></div>

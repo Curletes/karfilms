@@ -28,9 +28,9 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
 
         foreach($actores as $actor)
         {
-            if($actor != "")
+            $actor = trim($actor);
+            if(strlen($actor) > 0)
             {
-                $actor = trim($actor);
                 $isset_actor = $actor_repo->findOneBy(["nombre" => $actor]);
 
                 if($isset_actor == null)
@@ -44,14 +44,12 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
                         $em->flush();
                     }
                 }
-
                 $actor = $actor_repo->findOneBy(["nombre" => $actor]);
                 $id = $actor->getId();
-                $isset_actorpelicula = $actorpelicula_repo->findOneBy(["id" => $id]);
-                die(var_dump($isset_actorpelicula->getIdActor()));
+                $isset_actorpelicula = $actorpelicula_repo->findOneBy(["idActor" => $id]);
+
                 if($isset_actorpelicula == null)
                 {
-                    die(var_dump($actor));
                     $Actorpelicula = new Actorpelicula();
                 
                     $Actorpelicula->setIdPelicula($pelicula);
@@ -64,7 +62,10 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
             }
         }
         
-        return $flush;
+        if(isset($flush))
+        {
+            return $flush;
+        }
     }
     
     public function guardarDirectoresPelicula($directores = null, $titulo = null, $pelicula = null)
@@ -72,42 +73,56 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         
         $director_repo = $em->getRepository("KarfilmsBundle:Director");
+        $directorpelicula_repo = $em->getRepository("KarfilmsBundle:Directorpelicula");
         
         if($pelicula == null)
         {
             $pelicula = $this->findOneBy(["titulo" => $titulo]);
         }
         
+        $directores .= ",";
         $directores = explode(",", $directores);
-        
+
         foreach($directores as $director)
         {
-            if($director != "")
+            $director = trim($director);
+            if(strlen($director) > 0)
             {
-                $director = trim($director);
                 $isset_director = $director_repo->findOneBy(["nombre" => $director]);
 
                 if($isset_director == null)
                 {
                     $director_obj = new Director();
                     $director_obj->setNombre($director);
-                    $em->persist($director_obj);
-                    $em->flush();
+                    
+                    if(!empty($director))
+                    {
+                        $em->persist($director_obj);
+                        $em->flush();
+                    }
                 }
-
                 $director = $director_repo->findOneBy(["nombre" => $director]);
+                $id = $director->getId();
+                $isset_directorpelicula = $directorpelicula_repo->findOneBy(["idDirector" => $id]);
 
-                $Directorpelicula = new Directorpelicula();
-                $Directorpelicula->setIdPelicula($pelicula);
-                $Directorpelicula->setIdDirector($director);
+                if($isset_directorpelicula == null)
+                {
+                    $Directorpelicula = new Directorpelicula();
+                
+                    $Directorpelicula->setIdPelicula($pelicula);
+                    $Directorpelicula->setIdDirector($director);
 
-                $em->persist($Directorpelicula);
+                    $em->persist($Directorpelicula);
+                    
+                    $flush = $em->flush();
+                }
             }
         }
         
-        $flush = $em->flush();
-        
-        return $flush;
+        if(isset($flush))
+        {
+            return $flush;
+        }
     }
     
     public function guardarGenerosPelicula($generos = null, $titulo = null, $pelicula = null)
@@ -115,41 +130,55 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         
         $genero_repo = $em->getRepository("KarfilmsBundle:Genero");
+        $generopelicula_repo = $em->getRepository("KarfilmsBundle:Generopelicula");
         
         if($pelicula == null)
         {
             $pelicula = $this->findOneBy(["titulo" => $titulo]);
         }
         
+        $generos .= ",";
         $generos = explode(",", $generos);
-        
+
         foreach($generos as $genero)
         {
-            if($genero != "")
+            $genero = trim($genero);
+            if(strlen($genero) > 0)
             {
-                $genero = trim($genero);
                 $isset_genero = $genero_repo->findOneBy(["nombre" => $genero]);
 
                 if($isset_genero == null)
                 {
                     $genero_obj = new Genero();
                     $genero_obj->setNombre($genero);
-                    $em->persist($genero_obj);
-                    $em->flush();
+                    
+                    if(!empty($genero))
+                    {
+                        $em->persist($genero_obj);
+                        $em->flush();
+                    }
                 }
-
                 $genero = $genero_repo->findOneBy(["nombre" => $genero]);
+                $id = $genero->getId();
+                $isset_generopelicula = $generopelicula_repo->findOneBy(["idGenero" => $id]);
 
-                $Generopelicula = new Generopelicula();
-                $Generopelicula->setIdPelicula($pelicula);
-                $Generopelicula->setIdGenero($genero);
+                if($isset_generopelicula == null)
+                {
+                    $Generopelicula = new Generopelicula();
+                
+                    $Generopelicula->setIdPelicula($pelicula);
+                    $Generopelicula->setIdGenero($genero);
 
-                $em->persist($Generopelicula);
+                    $em->persist($Generopelicula);
+                    
+                    $flush = $em->flush();
+                }
             }
         }
         
-        $flush = $em->flush();
-        
-        return $flush;
+        if(isset($flush))
+        {
+            return $flush;
+        }
     }
 }
