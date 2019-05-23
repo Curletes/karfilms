@@ -198,6 +198,13 @@ class PeliculaController extends Controller {
         
         $cartel = $pelicula->getCartel();
         $trailer = $pelicula->getTrailer();
+        
+        $actores = "";
+        
+        foreach($pelicula->getActorpelicula() as $Actorpelicula)
+        {
+            $actores .= $Actorpelicula->getIdActor()->getNombre() . ", ";
+        }
 
         $form = $this->createForm(EditarPeliculaType::class, $pelicula);
 
@@ -281,7 +288,8 @@ class PeliculaController extends Controller {
         return $this->render('@Karfilms/pelicula/editarpelicula.html.twig', [
                     "form" => $form->createView(),
                     "cartel" => $cartel,
-                    "trailer" => $trailer
+                    "trailer" => $trailer,
+                    "actores" => $actores
         ]);
     }
 }

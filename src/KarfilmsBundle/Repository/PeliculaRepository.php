@@ -16,14 +16,16 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         
         $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
+        $actorpelicula_repo = $em->getRepository("KarfilmsBundle:Actorpelicula");
         
         if($pelicula == null)
         {
             $pelicula = $this->findOneBy(["titulo" => $titulo]);
         }
         
+        $actores .= ",";
         $actores = explode(",", $actores);
-        
+
         foreach($actores as $actor)
         {
             if($actor != "")
@@ -35,21 +37,32 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
                 {
                     $actor_obj = new Actor();
                     $actor_obj->setNombre($actor);
-                    $em->persist($actor_obj);
-                    $em->flush();
+                    
+                    if(!empty($actor))
+                    {
+                        $em->persist($actor_obj);
+                        $em->flush();
+                    }
                 }
 
                 $actor = $actor_repo->findOneBy(["nombre" => $actor]);
+                $id = $actor->getId();
+                $isset_actorpelicula = $actorpelicula_repo->findOneBy(["id" => $id]);
+                die(var_dump($isset_actorpelicula->getIdActor()));
+                if($isset_actorpelicula == null)
+                {
+                    die(var_dump($actor));
+                    $Actorpelicula = new Actorpelicula();
+                
+                    $Actorpelicula->setIdPelicula($pelicula);
+                    $Actorpelicula->setIdActor($actor);
 
-                $Actorpelicula = new Actorpelicula();
-                $Actorpelicula->setIdPelicula($pelicula);
-                $Actorpelicula->setIdActor($actor);
-
-                $em->persist($Actorpelicula);
+                    $em->persist($Actorpelicula);
+                    
+                    $flush = $em->flush();
+                }
             }
         }
-        
-        $flush = $em->flush();
         
         return $flush;
     }
