@@ -7,7 +7,12 @@ KarfilmsBundle\Entity\Actorpelicula:
                 - id_actor
         fk_id_pelicula_idx:
             columns:
-                - id_pelicula
+                - id_pelicula               
+    uniqueConstraints:
+        fk_actorpeli_idx:
+          columns:
+              - id_actor
+              - id_pelicula
     id:
         id:
             type: integer

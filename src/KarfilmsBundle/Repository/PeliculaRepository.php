@@ -17,7 +17,14 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
         
         $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
         $actorpelicula_repo = $em->getRepository("KarfilmsBundle:Actorpelicula");
-
+        $aapp = $actorpelicula_repo->findAll();
+        $b = [];
+        
+        foreach($aapp as $ap)
+        {
+            $b[] = $ap->getIdActor()->getNombre();
+        }
+        
         if($pelicula == null)
         {
             $pelicula = $this->findOneBy(["titulo" => $titulo]);
@@ -25,12 +32,13 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
         
         $actores .= ",";
         $actores = explode(",", $actores);
-
+        $a = [];
         foreach($actores as $actor)
         {
             $actor = trim($actor);
             if(strlen($actor) > 0)
             {
+                $a[] = $actor;
                 $isset_actor = $actor_repo->findOneBy(["nombre" => $actor]);
 
                 if($isset_actor == null)
@@ -46,15 +54,38 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
                 }
                 $actor = $actor_repo->findOneBy(["nombre" => $actor]);
 
-                $Actorpelicula = new Actorpelicula();
+                $id = $actor->getId();
+                $isset_actorpelicula = $actorpelicula_repo->findOneBy(["idActor" => $id]);
 
-                $Actorpelicula->setIdPelicula($pelicula);
-                $Actorpelicula->setIdActor($actor);
+                if($isset_actorpelicula == null)
+                {
+                    $Actorpelicula = new Actorpelicula();
+                
+                    $Actorpelicula->setIdPelicula($pelicula);
+                    $Actorpelicula->setIdActor($actor);
 
-                $em->persist($Actorpelicula);
+                    $em->persist($Actorpelicula);
+                    
+                    $flush = $em->flush();
+                }
+            }
+        }
+        
+        $borrarActores = array_diff($b,$a);
+        
+        foreach($borrarActores as $borrarActor)
+        {
+            foreach($aapp as $ap)
+            {
+                //QUIERO COGER EL ID DEL ACTOR QUE QUIERO BORRAR, NO EL NOMBRE
+                $idBorrar = $actorpelicula_repo->findOneBy(["nombre" => $borrarActor]);//MAL
+                die(var_dump($idBorrar));
             }
             
-            $flush = $em->flush();
+            $actorBorrado = $actorpelicula_repo->findOneBy(["id" => $idBorrar]);
+
+            $em->remove($actorBorrado);
+            $em->flush();
         }
         
         if(isset($flush))
@@ -69,7 +100,7 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
         
         $director_repo = $em->getRepository("KarfilmsBundle:Director");
         $directorpelicula_repo = $em->getRepository("KarfilmsBundle:Directorpelicula");
-
+        
         if($pelicula == null)
         {
             $pelicula = $this->findOneBy(["titulo" => $titulo]);
@@ -97,16 +128,21 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
                     }
                 }
                 $director = $director_repo->findOneBy(["nombre" => $director]);
+                $id = $director->getId();
+                $isset_directorpelicula = $directorpelicula_repo->findOneBy(["idDirector" => $id]);
 
-                $Directorpelicula = new Directorpelicula();
+                if($isset_directorpelicula == null)
+                {
+                    $Directorpelicula = new Directorpelicula();
+                
+                    $Directorpelicula->setIdPelicula($pelicula);
+                    $Directorpelicula->setIdDirector($director);
 
-                $Directorpelicula->setIdPelicula($pelicula);
-                $Directorpelicula->setIdDirector($director);
-
-                $em->persist($Directorpelicula);
+                    $em->persist($Directorpelicula);
+                    
+                    $flush = $em->flush();
+                }
             }
-            
-            $flush = $em->flush();
         }
         
         if(isset($flush))
@@ -121,7 +157,7 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
         
         $genero_repo = $em->getRepository("KarfilmsBundle:Genero");
         $generopelicula_repo = $em->getRepository("KarfilmsBundle:Generopelicula");
-
+        
         if($pelicula == null)
         {
             $pelicula = $this->findOneBy(["titulo" => $titulo]);
@@ -149,16 +185,21 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository
                     }
                 }
                 $genero = $genero_repo->findOneBy(["nombre" => $genero]);
+                $id = $genero->getId();
+                $isset_generopelicula = $generopelicula_repo->findOneBy(["idGenero" => $id]);
 
-                $Generopelicula = new Generopelicula();
+                if($isset_generopelicula == null)
+                {
+                    $Generopelicula = new Generopelicula();
+                
+                    $Generopelicula->setIdPelicula($pelicula);
+                    $Generopelicula->setIdGenero($genero);
 
-                $Generopelicula->setIdPelicula($pelicula);
-                $Generopelicula->setIdGenero($genero);
-
-                $em->persist($Generopelicula);
+                    $em->persist($Generopelicula);
+                    
+                    $flush = $em->flush();
+                }
             }
-            
-            $flush = $em->flush();
         }
         
         if(isset($flush))
