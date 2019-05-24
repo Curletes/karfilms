@@ -1,0 +1,39 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{%block estadocatalogo %} active {% endblock %}
+
+{% block body %}
+    <h1>Catálogo</h1>
+    <hr>
+    <table class="table table-bordered">
+            {% for pelicula in peliculas %}
+                <tr>
+                    <td height="200" width="150"><img height="200" width="150" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}"</td>
+                    <td>
+                        <h3>{{ pelicula.titulo }}</h3>
+                        <p><strong>Duración: </strong>{{ pelicula.duracion }} minutos</p>
+                        <p><strong>Clasificación por edades: </strong>{{ pelicula.idEdad.clasificacion }}</p>
+                        <p>
+                            <strong>Reparto: </strong>
+                            {% for peli in pelicula.Actorpelicula %}
+                                {{ peli.idActor.nombre }}
+                            {% endfor %}
+                        </p>
+                        <p>
+                            <strong>Dirección: </strong>
+                            {% for peli in pelicula.Directorpelicula %}
+                                {{ peli.idDirector.nombre }}
+                            {% endfor %}
+                        </p>
+                        <p>
+                            <strong>Géneros: </strong>
+                            {% for peli in pelicula.Generopelicula %}
+                                {{ peli.idGenero.nombre }}
+                            {% endfor %}
+                        </p>
+                        <p><strong>Sinopsis: </strong>{{ pelicula.sinopsis }}</p>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+{% endblock %}

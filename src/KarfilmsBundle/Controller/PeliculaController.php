@@ -16,14 +16,24 @@ class PeliculaController extends Controller {
     public function __construct() {
         $this->session = new Session();
     }
-
+    
+    public function mostrarCatalogoAction() {
+        $em = $this->getDoctrine()->getEntityManager();
+        $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
+        $peliculas = $pelicula_repo->findAll();
+        
+        return $this->render('@Karfilms/pelicula/catalogo.html.twig', [
+            "peliculas" => $peliculas
+        ]);
+    }
+    
     public function indicePeliculaAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $peliculas = $pelicula_repo->findAll();
 
         return $this->render('@Karfilms/pelicula/indicepelicula.html.twig', [
-                    "peliculas" => $peliculas
+            "peliculas" => $peliculas
         ]);
     }
     

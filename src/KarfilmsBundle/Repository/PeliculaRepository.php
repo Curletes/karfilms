@@ -9,202 +9,135 @@ use KarfilmsBundle\Entity\Directorpelicula;
 use KarfilmsBundle\Entity\Genero;
 use KarfilmsBundle\Entity\Generopelicula;
 
-class PeliculaRepository extends \Doctrine\ORM\EntityRepository 
-{
-    public function guardarActoresPelicula($actores = null, $titulo = null, $pelicula = null)
-    {
+class PeliculaRepository extends \Doctrine\ORM\EntityRepository {
+
+    public function guardarActoresPelicula($actores = null, $titulo = null, $pelicula = null) {
         $em = $this->getEntityManager();
-        
+
         $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
-        $actorpelicula_repo = $em->getRepository("KarfilmsBundle:Actorpelicula");
-        $aapp = $actorpelicula_repo->findAll();
-        $b = [];
-        
-        foreach($aapp as $ap)
-        {
-            $b[] = $ap->getIdActor()->getNombre();
+
+        if ($pelicula == null) {
+            $pelicula = $this->findOneBy([
+                "titulo" => $titulo,
+            ]);
         }
-        
-        if($pelicula == null)
-        {
-            $pelicula = $this->findOneBy(["titulo" => $titulo]);
-        }
-        
+
         $actores .= ",";
         $actores = explode(",", $actores);
-        $a = [];
-        foreach($actores as $actor)
-        {
-            $actor = trim($actor);
-            if(strlen($actor) > 0)
-            {
-                $a[] = $actor;
+
+        foreach ($actores as $actor) {
+            if (strlen($actor) > 0) {
+                $actor = trim($actor);
                 $isset_actor = $actor_repo->findOneBy(["nombre" => $actor]);
 
-                if($isset_actor == null)
-                {
+                if ($isset_actor == null) {
                     $actor_obj = new Actor();
                     $actor_obj->setNombre($actor);
-                    
-                    if(!empty($actor))
-                    {
+
+                    if (!empty(trim($actor))) {
                         $em->persist($actor_obj);
                         $em->flush();
                     }
                 }
+
                 $actor = $actor_repo->findOneBy(["nombre" => $actor]);
 
-                $id = $actor->getId();
-                $isset_actorpelicula = $actorpelicula_repo->findOneBy(["idActor" => $id]);
-
-                if($isset_actorpelicula == null)
-                {
-                    $Actorpelicula = new Actorpelicula();
-                
-                    $Actorpelicula->setIdPelicula($pelicula);
-                    $Actorpelicula->setIdActor($actor);
-
-                    $em->persist($Actorpelicula);
-                    
-                    $flush = $em->flush();
-                }
+                $Actorpelicula = new Actorpelicula();
+                $Actorpelicula->setIdPelicula($pelicula);
+                $Actorpelicula->setIdActor($actor);
+                $em->persist($Actorpelicula);
             }
         }
-        
-        $borrarActores = array_diff($b,$a);
-        
-        foreach($borrarActores as $borrarActor)
-        {
-            foreach($aapp as $ap)
-            {
-                //QUIERO COGER EL ID DEL ACTOR QUE QUIERO BORRAR, NO EL NOMBRE
-                $idBorrar = $actorpelicula_repo->findOneBy(["nombre" => $borrarActor]);//MAL
-                die(var_dump($idBorrar));
-            }
-            
-            $actorBorrado = $actorpelicula_repo->findOneBy(["id" => $idBorrar]);
 
-            $em->remove($actorBorrado);
-            $em->flush();
-        }
-        
-        if(isset($flush))
-        {
-            return $flush;
-        }
+        $flush = $em->flush();
+
+        return $flush;
     }
-    
-    public function guardarDirectoresPelicula($directores = null, $titulo = null, $pelicula = null)
-    {
+
+    public function guardarDirectoresPelicula($directores = null, $titulo = null, $pelicula = null) {
         $em = $this->getEntityManager();
-        
+
         $director_repo = $em->getRepository("KarfilmsBundle:Director");
-        $directorpelicula_repo = $em->getRepository("KarfilmsBundle:Directorpelicula");
-        
-        if($pelicula == null)
-        {
-            $pelicula = $this->findOneBy(["titulo" => $titulo]);
+
+        if ($pelicula == null) {
+            $pelicula = $this->findOneBy([
+                "titulo" => $titulo,
+            ]);
         }
-        
+
         $directores .= ",";
         $directores = explode(",", $directores);
 
-        foreach($directores as $director)
-        {
-            $director = trim($director);
-            if(strlen($director) > 0)
-            {
+        foreach ($directores as $director) {
+            if (strlen($director) > 0) {
+                $director = trim($director);
                 $isset_director = $director_repo->findOneBy(["nombre" => $director]);
 
-                if($isset_director == null)
-                {
+                if ($isset_director == null) {
                     $director_obj = new Director();
                     $director_obj->setNombre($director);
-                    
-                    if(!empty($director))
-                    {
+
+                    if (!empty(trim($director))) {
                         $em->persist($director_obj);
                         $em->flush();
                     }
                 }
+
                 $director = $director_repo->findOneBy(["nombre" => $director]);
-                $id = $director->getId();
-                $isset_directorpelicula = $directorpelicula_repo->findOneBy(["idDirector" => $id]);
 
-                if($isset_directorpelicula == null)
-                {
-                    $Directorpelicula = new Directorpelicula();
-                
-                    $Directorpelicula->setIdPelicula($pelicula);
-                    $Directorpelicula->setIdDirector($director);
-
-                    $em->persist($Directorpelicula);
-                    
-                    $flush = $em->flush();
-                }
+                $Directorpelicula = new Directorpelicula();
+                $Directorpelicula->setIdPelicula($pelicula);
+                $Directorpelicula->setIdDirector($director);
+                $em->persist($Directorpelicula);
             }
         }
-        
-        if(isset($flush))
-        {
-            return $flush;
-        }
+
+        $flush = $em->flush();
+
+        return $flush;
     }
-    
-    public function guardarGenerosPelicula($generos = null, $titulo = null, $pelicula = null)
-    {
+
+    public function guardarGenerosPelicula($generos = null, $titulo = null, $pelicula = null) {
         $em = $this->getEntityManager();
-        
+
         $genero_repo = $em->getRepository("KarfilmsBundle:Genero");
-        $generopelicula_repo = $em->getRepository("KarfilmsBundle:Generopelicula");
-        
-        if($pelicula == null)
-        {
-            $pelicula = $this->findOneBy(["titulo" => $titulo]);
+
+        if ($pelicula == null) {
+            $pelicula = $this->findOneBy([
+                "titulo" => $titulo,
+            ]);
         }
-        
+
         $generos .= ",";
         $generos = explode(",", $generos);
 
-        foreach($generos as $genero)
-        {
-            $genero = trim($genero);
-            if(strlen($genero) > 0)
-            {
+        foreach ($generos as $genero) {
+            if (strlen($genero) > 0) {
+                $genero = trim($genero);
                 $isset_genero = $genero_repo->findOneBy(["nombre" => $genero]);
 
-                if($isset_genero == null)
-                {
+                if ($isset_genero == null) {
                     $genero_obj = new Genero();
                     $genero_obj->setNombre($genero);
-                    
-                    if(!empty($genero))
-                    {
+
+                    if (!empty(trim($genero))) {
                         $em->persist($genero_obj);
                         $em->flush();
                     }
                 }
+
                 $genero = $genero_repo->findOneBy(["nombre" => $genero]);
-                $id = $genero->getId();
-                $isset_generopelicula = $generopelicula_repo->findOneBy(["idGenero" => $id]);
 
-                if($isset_generopelicula == null)
-                {
-                    $Generopelicula = new Generopelicula();
-                
-                    $Generopelicula->setIdPelicula($pelicula);
-                    $Generopelicula->setIdGenero($genero);
-
-                    $em->persist($Generopelicula);
-                    
-                    $flush = $em->flush();
-                }
+                $Generopelicula = new Generopelicula();
+                $Generopelicula->setIdPelicula($pelicula);
+                $Generopelicula->setIdGenero($genero);
+                $em->persist($Generopelicula);
             }
         }
-        
-        if(isset($flush))
-        {
-            return $flush;
-        }
+
+        $flush = $em->flush();
+
+        return $flush;
     }
+
 }

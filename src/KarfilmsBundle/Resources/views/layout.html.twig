@@ -19,10 +19,10 @@
                         <a class="nav-link {% block estadoindex %}{% endblock %}" href="{{ path("inicio") }}">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Catálogo</a>
+                        <a class="nav-link {% block estadocatalogo %}{% endblock %}" href="{{ path("mostrar_catalogo") }}">Catálogo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Sugerencias</a>
+                        <a class="nav-link {% block estadosugerencias %}{% endblock %}" href="">Sugerencias</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav ml-auto mr-5">

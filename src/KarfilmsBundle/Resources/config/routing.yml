@@ -151,3 +151,7 @@ eliminar_pelicula:
 editar_pelicula:
     path: /admin/peliculas/editar-pelicula/{id}
     defaults: { _controller: KarfilmsBundle:Pelicula:editarPelicula }
+    
+mostrar_catalogo:
+    path: /catalogo
+    defaults: { _controller: KarfilmsBundle:Pelicula:mostrarCatalogo }
