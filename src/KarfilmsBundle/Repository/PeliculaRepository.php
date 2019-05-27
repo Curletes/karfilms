@@ -8,6 +8,7 @@ use KarfilmsBundle\Entity\Director;
 use KarfilmsBundle\Entity\Directorpelicula;
 use KarfilmsBundle\Entity\Genero;
 use KarfilmsBundle\Entity\Generopelicula;
+use KarfilmsBundle\Entity\Sesion;
 
 class PeliculaRepository extends \Doctrine\ORM\EntityRepository {
 
@@ -139,5 +140,4 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository {
 
         return $flush;
     }
-
 }

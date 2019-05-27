@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use KarfilmsBundle\Entity\Pelicula;
 use KarfilmsBundle\Form\PeliculaType;
 use KarfilmsBundle\Form\EditarPeliculaType;
+use KarfilmsBundle\Form\CatalogoType;
 
 class PeliculaController extends Controller {
 
@@ -17,17 +18,21 @@ class PeliculaController extends Controller {
         $this->session = new Session();
     }
     
-    public function mostrarCatalogoAction() {
+    public function mostrarCatalogoAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $peliculas = $pelicula_repo->findAll();
         
-        $sesion_repo = $em->getRepository("KarfilmsBundle:Sesion");
-        $sesiones = $sesion_repo->findAll();
+        $diasesion_repo = $em->getRepository("KarfilmsBundle:Sesion");
+        $dias = $diasesion_repo->findAll();
+        
+        $form = $this->createForm(CatalogoType::class, $dias);
+
+        $form->handleRequest($request);
         
         return $this->render('@Karfilms/pelicula/catalogo.html.twig', [
             "peliculas" => $peliculas,
-            "sesiones" => $sesiones
+            "form" => $form->createView()
         ]);
     }
     

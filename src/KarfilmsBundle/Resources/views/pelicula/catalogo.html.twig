@@ -34,11 +34,12 @@
                     <p><strong>Sinopsis: </strong>{{ pelicula.sinopsis }}</p>
                     <p>
                         <strong>Sesiones: </strong>
-                        {% for sesion in pelicula.Sesiones %}
-                            <span>{{ sesion.horarios|date("H:i") }}</span>
-                        {% endfor %}
-                        {% if pelicula.Sesiones is not defined %}
-                            {{ dump(pelicula.titulo) }}
+                        {{ form_start(form, {'action':'', 'method':'POST'}) }}
+                        {{ form_end(form) }}
+                        {% if pelicula.Sesiones is empty %}
+                            No hay sesiones disponibles.
+                        {% else %}
+                            
                         {% endif %}
                     </p>
                 </td>
