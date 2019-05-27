@@ -1,0 +1,46 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block body %}
+    <div class="col-lg-6">
+        <h2>Asientos</h2>
+        <hr>
+        {% for message in app.session.flashbag().get('status') %}
+            {% if message == "Asiento añadido correctamente." or message == "Asiento editado correctamente." %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% else %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+        <table class="table table-bordered">
+            <tr>
+                <th>Sala</th>
+                <th>Fila</th>
+                <th>Butaca</th>
+                <th>Acción</th>
+            </tr>
+            {% for asiento in asientos %}
+                {% set enuso = false %}
+                <tr>
+                    <td>{{ asiento.idSala.nombre }}</td>
+                    <td>{{ asiento.fila }}</td>
+                    <td>{{ asiento.butaca }}</td>
+                    <td>
+                        <a href="{{ path("editar_asiento", {"id":asiento.id}) }}" class="btn btn-warning">Editar</a>
+                        {% for asientoreservado in asientosreservados %}
+                            {% if asiento.id == asientoreservado.idAsiento.id %}
+                                {% set enuso = true %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if enuso == true %}
+                            <a href="#" class="btn btn-danger disabled">Eliminar</a>
+                        {% else %}
+                            <a href="{{ path("eliminar_asiento", {"id":asiento.id}) }}" class="btn btn-danger">Eliminar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="{{ path("add_asiento") }}" class="btn btn-primary">Añadir asiento</a>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

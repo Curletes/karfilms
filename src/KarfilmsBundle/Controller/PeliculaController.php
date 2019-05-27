@@ -22,8 +22,12 @@ class PeliculaController extends Controller {
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $peliculas = $pelicula_repo->findAll();
         
+        $sesion_repo = $em->getRepository("KarfilmsBundle:Sesion");
+        $sesiones = $sesion_repo->findAll();
+        
         return $this->render('@Karfilms/pelicula/catalogo.html.twig', [
-            "peliculas" => $peliculas
+            "peliculas" => $peliculas,
+            "sesiones" => $sesiones
         ]);
     }
     
@@ -278,6 +282,34 @@ class PeliculaController extends Controller {
 
                 $em->persist($pelicula);
                 $flush = $em->flush();
+                
+                $actorpelicula_repo = $em->getRepository("KarfilmsBundle:Actorpelicula");
+                $directorpelicula_repo = $em->getRepository("KarfilmsBundle:Directorpelicula");
+                $generopelicula_repo = $em->getRepository("KarfilmsBundle:Generopelicula");
+
+                $actorespelicula = $actorpelicula_repo->findBy(["idPelicula" => $pelicula]);
+
+                foreach($actorespelicula as $ap)
+                {
+                    $em->remove($ap);
+                    $em->flush();
+                }
+
+                $directorespelicula = $directorpelicula_repo->findBy(["idPelicula" => $pelicula]);
+
+                foreach($directorespelicula as $dp)
+                {
+                    $em->remove($dp);
+                    $em->flush();
+                }
+
+                $generospelicula = $generopelicula_repo->findBy(["idPelicula" => $pelicula]);
+
+                foreach($generospelicula as $gp)
+                {
+                    $em->remove($gp);
+                    $em->flush();
+                }
                 
                 $pelicula_repo->guardarActoresPelicula(
                             $form->get("actores")->getData(),

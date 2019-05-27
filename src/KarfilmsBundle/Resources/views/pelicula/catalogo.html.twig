@@ -6,34 +6,43 @@
     <h1>Catálogo</h1>
     <hr>
     <table class="table table-bordered">
-            {% for pelicula in peliculas %}
-                <tr>
-                    <td height="200" width="150"><img height="200" width="150" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}"</td>
-                    <td>
-                        <h3>{{ pelicula.titulo }}</h3>
-                        <p><strong>Duración: </strong>{{ pelicula.duracion }} minutos</p>
-                        <p><strong>Clasificación por edades: </strong>{{ pelicula.idEdad.clasificacion }}</p>
-                        <p>
-                            <strong>Reparto: </strong>
-                            {% for peli in pelicula.Actorpelicula %}
-                                {{ peli.idActor.nombre }}
-                            {% endfor %}
-                        </p>
-                        <p>
-                            <strong>Dirección: </strong>
-                            {% for peli in pelicula.Directorpelicula %}
-                                {{ peli.idDirector.nombre }}
-                            {% endfor %}
-                        </p>
-                        <p>
-                            <strong>Géneros: </strong>
-                            {% for peli in pelicula.Generopelicula %}
-                                {{ peli.idGenero.nombre }}
-                            {% endfor %}
-                        </p>
-                        <p><strong>Sinopsis: </strong>{{ pelicula.sinopsis }}</p>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
+        {% for pelicula in peliculas %}
+            <tr>
+                <td height="200" width="150"><img height="200" width="150" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}"</td>
+                <td>
+                    <h3>{{ pelicula.titulo }}</h3>
+                    <p><strong>Duración: </strong>{{ pelicula.duracion }} minutos</p>
+                    <p><strong>Clasificación por edades: </strong>{{ pelicula.idEdad.clasificacion }}</p>
+                    <p>
+                        <strong>Reparto: </strong>
+                        {% for peli in pelicula.Actorpelicula %}
+                            {{ peli.idActor.nombre }}
+                        {% endfor %}
+                    </p>
+                    <p>
+                        <strong>Dirección: </strong>
+                        {% for peli in pelicula.Directorpelicula %}
+                            {{ peli.idDirector.nombre }}
+                        {% endfor %}
+                    </p>
+                    <p>
+                        <strong>Géneros: </strong>
+                        {% for peli in pelicula.Generopelicula %}
+                            {{ peli.idGenero.nombre }}
+                        {% endfor %}
+                    </p>
+                    <p><strong>Sinopsis: </strong>{{ pelicula.sinopsis }}</p>
+                    <p>
+                        <strong>Sesiones: </strong>
+                        {% for sesion in pelicula.Sesiones %}
+                            <span>{{ sesion.horarios|date("H:i") }}</span>
+                        {% endfor %}
+                        {% if pelicula.Sesiones is not defined %}
+                            {{ dump(pelicula.titulo) }}
+                        {% endif %}
+                    </p>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

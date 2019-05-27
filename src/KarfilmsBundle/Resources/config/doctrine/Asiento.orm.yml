@@ -5,6 +5,9 @@ KarfilmsBundle\Entity\Asiento:
         fk_sala_idx:
             columns:
                 - id_sala
+    uniqueConstraints:
+        fk_asientosala_idx:
+          columns: [ fila, butaca, id_sala ]
     id:
         id:
             type: integer

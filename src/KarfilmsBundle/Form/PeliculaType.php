@@ -46,6 +46,4 @@ class PeliculaType extends AbstractType
     {
         return 'karfilmsbundle_pelicula';
     }
-
-
 }

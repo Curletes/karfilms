@@ -155,3 +155,19 @@ editar_pelicula:
 mostrar_catalogo:
     path: /catalogo
     defaults: { _controller: KarfilmsBundle:Pelicula:mostrarCatalogo }
+ 
+indice_asiento:
+    path: /admin/asientos
+    defaults: { _controller: KarfilmsBundle:Asiento:indiceAsiento }
+
+add_asiento:
+    path: /admin/asientos/nuevo-asiento
+    defaults: { _controller: KarfilmsBundle:Asiento:addAsiento }
+
+eliminar_asiento:
+    path: /admin/asientos/eliminar-asiento/{id}
+    defaults: { _controller: KarfilmsBundle:Asiento:eliminarAsiento }
+    
+editar_asiento:
+    path: /admin/asientos/editar-asiento/{id}
+    defaults: { _controller: KarfilmsBundle:Asiento:editarAsiento }
