@@ -18,21 +18,18 @@ class PeliculaController extends Controller {
         $this->session = new Session();
     }
     
-    public function mostrarCatalogoAction(Request $request) {
+    public function mostrarCatalogoAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $peliculas = $pelicula_repo->findAll();
         
         $diasesion_repo = $em->getRepository("KarfilmsBundle:Sesion");
-        $dias = $diasesion_repo->findAll();
-        
-        $form = $this->createForm(CatalogoType::class, $dias);
+        $dias = $diasesion_repo->findBy([], ['horarios' => 'ASC']);
 
-        $form->handleRequest($request);
         
         return $this->render('@Karfilms/pelicula/catalogo.html.twig', [
             "peliculas" => $peliculas,
-            "form" => $form->createView()
+            "dias" => $dias
         ]);
     }
     

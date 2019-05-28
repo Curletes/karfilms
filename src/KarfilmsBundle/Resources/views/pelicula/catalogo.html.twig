@@ -33,13 +33,26 @@
                     </p>
                     <p><strong>Sinopsis: </strong>{{ pelicula.sinopsis }}</p>
                     <p>
-                        <strong>Sesiones: </strong>
-                        {{ form_start(form, {'action':'', 'method':'POST'}) }}
-                        {{ form_end(form) }}
+                        <strong>Sesiones: </strong><br>
                         {% if pelicula.Sesiones is empty %}
                             No hay sesiones disponibles.
                         {% else %}
-                            
+                            <select class="form-control col-lg-2 float-left">
+                            {% for dia in dias %}
+                                {% if usado is defined and usado != dia.horarios|date("d-m") %}
+                                    <option>{{ dia.horarios|date("d-m") }}</option>
+                                {% elseif usado is defined and usado == dia.horarios|date("d-m") %}
+                                    {% set usado = dia.horarios|date("d-m") %}
+                                {% else %}
+                                    <option>{{ dia.horarios|date("d-m") }}</option>
+                                    {% set usado = dia.horarios|date("d-m") %}
+                                {% endif %}
+                            {% endfor %}
+                            </select>
+                            Horarios: 
+                            {% for sesion in pelicula.Sesiones %}
+                                {{ sesion.horarios|date("h:i") }}
+                            {% endfor %}
                         {% endif %}
                     </p>
                 </td>
