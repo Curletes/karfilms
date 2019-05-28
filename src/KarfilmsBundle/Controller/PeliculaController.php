@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use KarfilmsBundle\Entity\Pelicula;
 use KarfilmsBundle\Form\PeliculaType;
 use KarfilmsBundle\Form\EditarPeliculaType;
-use KarfilmsBundle\Form\CatalogoType;
 
 class PeliculaController extends Controller {
 
@@ -23,13 +22,8 @@ class PeliculaController extends Controller {
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $peliculas = $pelicula_repo->findAll();
         
-        $diasesion_repo = $em->getRepository("KarfilmsBundle:Sesion");
-        $dias = $diasesion_repo->findBy([], ['horarios' => 'ASC']);
-
-        
         return $this->render('@Karfilms/pelicula/catalogo.html.twig', [
             "peliculas" => $peliculas,
-            "dias" => $dias
         ]);
     }
     
