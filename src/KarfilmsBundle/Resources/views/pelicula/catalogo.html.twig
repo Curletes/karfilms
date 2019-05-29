@@ -81,7 +81,14 @@
                     },
                     success: function (data)
                     {
-                        console.log(data);
+                        for(var i in data.sesiones)
+                        {
+                            for(var horarios in data.sesiones[i])
+                            {
+                                $("#horarios").html(data.sesiones[i].horarios.date);
+                            }
+                        }
+                        
                     },
                     error: function (data, xhr, status)
                     {

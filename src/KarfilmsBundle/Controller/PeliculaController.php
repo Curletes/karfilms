@@ -44,14 +44,6 @@ class PeliculaController extends Controller {
         $id = $request->request->get('id');
         $sesiones = $this->sesionesPeliculaCatalogo($diames, $id);
         
-        foreach($sesiones as $sesion)
-        {
-            foreach($sesion as $s)
-            {
-                $sesiones[] = $s->format("H:m");
-            }
-        }
-        die(var_dump($sesiones));
         $response = new JsonResponse(['sesiones' => $sesiones]);
         
         return $response;
