@@ -1,19 +1,19 @@
 'use strict'
 
-$(document).ready(function()
+$(document).ready(function ()
 {
-    $("select").change(function()
+    $("select").click(function ()
     {
-        $.ajax(
-        {
-            data: {
-                parametros: $(this).children("option:selected").val()
-            },
-            url: "{{ (path('mostrar_catalogo') }}",
+        $.ajax({
             type: "POST",
-            success: function (data)
+            url: "{{ path('mostrar_sesiones_ajax') }}",
+            data: {
+                diames: $(this).children("option:selected").val(),
+                id: $(this).attr('id')
+            },
+            success: function(data)
             {
-                console.log(data)
+                $("#horarios").html(data);
             },
             error: function (data, xhr, status) 
             {

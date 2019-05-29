@@ -171,3 +171,7 @@ eliminar_asiento:
 editar_asiento:
     path: /admin/asientos/editar-asiento/{id}
     defaults: { _controller: KarfilmsBundle:Asiento:editarAsiento }
+    
+mostrar_sesiones_ajax:
+    path: /mostrar_sesiones_ajax
+    defaults: { _controller: KarfilmsBundle:Pelicula:sesionesPeliculaCatalogoAjax }

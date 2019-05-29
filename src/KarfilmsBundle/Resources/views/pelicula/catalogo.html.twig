@@ -3,7 +3,6 @@
 {%block estadocatalogo %} active {% endblock %}
 
 {% block body %}
-    {% set id = 1 %}
     <h1>Catálogo</h1>
     <hr>
     <table class="table table-bordered">
@@ -42,7 +41,7 @@
                             {% for sesiones in pelicula.Sesiones %}
                                 {% set array_sesiones = array_sesiones|merge([sesiones.horarios]) %}
                             {% endfor %}
-                            <select id="dia{{ id }}" class="form-control col-lg-2 float-left">
+                            <select id="{{ pelicula.id }}" class="form-control col-lg-2 float-left">
                                 {% for sesion in array_sesiones|sort %}
                                     {% if usado is defined and usado != sesion|date("d-m") %}
                                         <option>{{ sesion|date("d-m") }}</option>
@@ -55,11 +54,8 @@
                                     {% endif %}
                                 {% endfor %}
                             </select>
-                            {% set id = id + 1 %}
-                            Horarios: 
-                            {% for sesion in pelicula.Sesiones %}
-                                {{ sesion.horarios|date("H:i") }}
-                            {% endfor %}
+                            Horarios:
+                            <span id="horarios"></span>
                         {% endif %}
                     </p>
                 </td>

@@ -17,7 +17,7 @@ class PeliculaController extends Controller {
         $this->session = new Session();
     }
     
-    public function mostrarCatalogoAction() {
+    public function mostrarCatalogoAction() {      
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $peliculas = $pelicula_repo->findAll();
@@ -25,6 +25,29 @@ class PeliculaController extends Controller {
         return $this->render('@Karfilms/pelicula/catalogo.html.twig', [
             "peliculas" => $peliculas,
         ]);
+    }
+    
+    public function sesionesPeliculaCatalogoAction($diames, $id)
+    {
+        $dias = explode("-", $diames);
+        $dia = $dias[1]."-".$dias[0];
+
+        return $this->getEntityManager()
+                ->createQuery("SELECT s.horarios FROM KarfilmsBundle:Sesion s WHERE s.idPelicula LIKE :id AND s.horarios LIKE :dia")
+                ->setParameter("id", $id)->setParameter("dia", "%".$dia."%")
+                ->getResult();
+    }
+    
+    public function sesionesPeliculaCatalogoAjax(Request $request)
+    {
+        if($request->isXmlHttpRequest())
+        {
+            $diames = $request->request->get('diames');
+            $id = $request->request->get('id');
+            $sesiones = $this->sesionesPeliculaCatalogo($diames, $id);
+            
+            return $this->render('@Karfilms/pelicula/catalogo.html.twig', ["sesiones" => $sesiones]);
+        }
     }
     
     public function indicePeliculaAction() {
