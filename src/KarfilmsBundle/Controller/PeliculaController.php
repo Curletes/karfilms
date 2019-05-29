@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use KarfilmsBundle\Entity\Pelicula;
 use KarfilmsBundle\Form\PeliculaType;
 use KarfilmsBundle\Form\EditarPeliculaType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class PeliculaController extends Controller {
 
@@ -16,55 +17,61 @@ class PeliculaController extends Controller {
     public function __construct() {
         $this->session = new Session();
     }
-    
-    public function mostrarCatalogoAction() {      
+
+    public function mostrarCatalogoAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $peliculas = $pelicula_repo->findAll();
-        
+
         return $this->render('@Karfilms/pelicula/catalogo.html.twig', [
-            "peliculas" => $peliculas,
+                    "peliculas" => $peliculas,
         ]);
     }
-    
-    public function sesionesPeliculaCatalogoAction($diames, $id)
-    {
-        $dias = explode("-", $diames);
-        $dia = $dias[1]."-".$dias[0];
 
-        return $this->getEntityManager()
-                ->createQuery("SELECT s.horarios FROM KarfilmsBundle:Sesion s WHERE s.idPelicula LIKE :id AND s.horarios LIKE :dia")
-                ->setParameter("id", $id)->setParameter("dia", "%".$dia."%")
-                ->getResult();
+    public function sesionesPeliculaCatalogo($diames, $id) {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $dias = explode("-", $diames);
+        $dia = $dias[1] . "-" . $dias[0];
+
+        return $em->createQuery("SELECT s.horarios FROM KarfilmsBundle:Sesion s WHERE s.idPelicula = :id AND s.horarios LIKE :dia")
+                        ->setParameter("id", $id)->setParameter("dia", "%" . $dia . "%")
+                        ->getResult();
     }
-    
-    public function sesionesPeliculaCatalogoAjax(Request $request)
-    {
-        if($request->isXmlHttpRequest())
+
+    public function sesionesPeliculaCatalogoAjaxAction(Request $request) {
+        $diames = $request->request->get('diames');
+        $id = $request->request->get('id');
+        $sesiones = $this->sesionesPeliculaCatalogo($diames, $id);
+        
+        foreach($sesiones as $sesion)
         {
-            $diames = $request->request->get('diames');
-            $id = $request->request->get('id');
-            $sesiones = $this->sesionesPeliculaCatalogo($diames, $id);
-            
-            return $this->render('@Karfilms/pelicula/catalogo.html.twig', ["sesiones" => $sesiones]);
+            foreach($sesion as $s)
+            {
+                $sesiones[] = $s->format("H:m");
+            }
         }
+        die(var_dump($sesiones));
+        $response = new JsonResponse(['sesiones' => $sesiones]);
+        
+        return $response;
     }
-    
+
     public function indicePeliculaAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $peliculas = $pelicula_repo->findAll();
 
         return $this->render('@Karfilms/pelicula/indicepelicula.html.twig', [
-            "peliculas" => $peliculas
+                    "peliculas" => $peliculas
         ]);
     }
-    
+
     public function detallesPeliculaAction($id) {
         $directores = [];
         $actores = [];
         $generos = [];
-        
+
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $pelicula = $pelicula_repo->find($id);
@@ -74,15 +81,15 @@ class PeliculaController extends Controller {
         foreach ($Directorpelicula as $director) {
             $directores[] = $director->getIdDirector()->getNombre();
         }
-        
+
         $Actorpelicula = $pelicula->getActorpelicula();
-        
+
         foreach ($Actorpelicula as $actor) {
             $actores[] = $actor->getIdActor()->getNombre();
         }
-        
+
         $Generopelicula = $pelicula->getGeneropelicula();
-        
+
         foreach ($Generopelicula as $genero) {
             $generos[] = $genero->getIdGenero()->getNombre();
         }
@@ -105,7 +112,7 @@ class PeliculaController extends Controller {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
                 $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
-                
+
                 $pelicula->setTitulo($form->get("titulo")->getData());
                 $pelicula->setSinopsis($form->get("sinopsis")->getData());
 
@@ -152,20 +159,17 @@ class PeliculaController extends Controller {
                 $flush = $em->flush();
 
                 $pelicula_repo->guardarActoresPelicula(
-                            $form->get("actores")->getData(),
-                            $form->get("titulo")->getData()
-                        );
-                
+                        $form->get("actores")->getData(), $form->get("titulo")->getData()
+                );
+
                 $pelicula_repo->guardarDirectoresPelicula(
-                            $form->get("directores")->getData(),
-                            $form->get("titulo")->getData()
-                        );
-                
+                        $form->get("directores")->getData(), $form->get("titulo")->getData()
+                );
+
                 $pelicula_repo->guardarGenerosPelicula(
-                            $form->get("generos")->getData(),
-                            $form->get("titulo")->getData()
-                        );
-                
+                        $form->get("generos")->getData(), $form->get("titulo")->getData()
+                );
+
                 if ($flush == null) {
                     $status = "Película añadida correctamente.";
                 } else {
@@ -191,31 +195,28 @@ class PeliculaController extends Controller {
         $actorpelicula_repo = $em->getRepository("KarfilmsBundle:Actorpelicula");
         $directorpelicula_repo = $em->getRepository("KarfilmsBundle:Directorpelicula");
         $generopelicula_repo = $em->getRepository("KarfilmsBundle:Generopelicula");
-        
+
         $actorespelicula = $actorpelicula_repo->findBy(["idPelicula" => $pelicula]);
-        
-        foreach($actorespelicula as $ap)
-        {
+
+        foreach ($actorespelicula as $ap) {
             $em->remove($ap);
             $em->flush();
         }
-        
+
         $directorespelicula = $directorpelicula_repo->findBy(["idPelicula" => $pelicula]);
-        
-        foreach($directorespelicula as $dp)
-        {
+
+        foreach ($directorespelicula as $dp) {
             $em->remove($dp);
             $em->flush();
         }
-        
+
         $generospelicula = $generopelicula_repo->findBy(["idPelicula" => $pelicula]);
-        
-        foreach($generospelicula as $gp)
-        {
+
+        foreach ($generospelicula as $gp) {
             $em->remove($gp);
             $em->flush();
         }
-        
+
         if (count($pelicula->getSesiones()) == 0) {
             $em->remove($pelicula);
             $em->flush();
@@ -228,26 +229,23 @@ class PeliculaController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $pelicula = $pelicula_repo->find($id);
-        
+
         $cartel = $pelicula->getCartel();
         $trailer = $pelicula->getTrailer();
-        
+
         $actores = "";
         $directores = "";
         $generos = "";
-        
-        foreach($pelicula->getActorpelicula() as $Actorpelicula)
-        {
+
+        foreach ($pelicula->getActorpelicula() as $Actorpelicula) {
             $actores .= $Actorpelicula->getIdActor()->getNombre() . ", ";
         }
-        
-        foreach($pelicula->getDirectorpelicula() as $Directorpelicula)
-        {
+
+        foreach ($pelicula->getDirectorpelicula() as $Directorpelicula) {
             $directores .= $Directorpelicula->getIdDirector()->getNombre() . ", ";
         }
-        
-        foreach($pelicula->getGeneropelicula() as $Generopelicula)
-        {
+
+        foreach ($pelicula->getGeneropelicula() as $Generopelicula) {
             $generos .= $Generopelicula->getIdGenero()->getNombre() . ", ";
         }
 
@@ -301,49 +299,43 @@ class PeliculaController extends Controller {
 
                 $em->persist($pelicula);
                 $flush = $em->flush();
-                
+
                 $actorpelicula_repo = $em->getRepository("KarfilmsBundle:Actorpelicula");
                 $directorpelicula_repo = $em->getRepository("KarfilmsBundle:Directorpelicula");
                 $generopelicula_repo = $em->getRepository("KarfilmsBundle:Generopelicula");
 
                 $actorespelicula = $actorpelicula_repo->findBy(["idPelicula" => $pelicula]);
 
-                foreach($actorespelicula as $ap)
-                {
+                foreach ($actorespelicula as $ap) {
                     $em->remove($ap);
                     $em->flush();
                 }
 
                 $directorespelicula = $directorpelicula_repo->findBy(["idPelicula" => $pelicula]);
 
-                foreach($directorespelicula as $dp)
-                {
+                foreach ($directorespelicula as $dp) {
                     $em->remove($dp);
                     $em->flush();
                 }
 
                 $generospelicula = $generopelicula_repo->findBy(["idPelicula" => $pelicula]);
 
-                foreach($generospelicula as $gp)
-                {
+                foreach ($generospelicula as $gp) {
                     $em->remove($gp);
                     $em->flush();
                 }
-                
+
                 $pelicula_repo->guardarActoresPelicula(
-                            $form->get("actores")->getData(),
-                            $form->get("titulo")->getData()
-                        );
-                
+                        $form->get("actores")->getData(), $form->get("titulo")->getData()
+                );
+
                 $pelicula_repo->guardarDirectoresPelicula(
-                            $form->get("directores")->getData(),
-                            $form->get("titulo")->getData()
-                        );
-                
+                        $form->get("directores")->getData(), $form->get("titulo")->getData()
+                );
+
                 $pelicula_repo->guardarGenerosPelicula(
-                            $form->get("generos")->getData(),
-                            $form->get("titulo")->getData()
-                        );
+                        $form->get("generos")->getData(), $form->get("titulo")->getData()
+                );
 
                 if ($flush == null) {
                     $status = "Película editada correctamente.";
@@ -367,4 +359,5 @@ class PeliculaController extends Controller {
                     "generos" => $generos
         ]);
     }
+
 }
