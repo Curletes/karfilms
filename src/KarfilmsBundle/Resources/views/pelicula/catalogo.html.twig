@@ -81,14 +81,17 @@
                     },
                     success: function (data)
                     {
-                        for(var i in data.sesiones)
+                        for (var i in data.sesiones)
                         {
-                            for(var horarios in data.sesiones[i])
+                            for (var horarios in data.sesiones[i])
                             {
-                                $("#horarios").html(data.sesiones[i].horarios.date);
+                                var fecha = data.sesiones[i].horarios.date;
+                                var hora = fecha.substring(11, 16);
+
+                                $("#horarios").html("<a id='" + i + "' href='#'>" + hora + "</a>");
                             }
                         }
-                        
+
                     },
                     error: function (data, xhr, status)
                     {
