@@ -72,6 +72,7 @@
         {
             $("select").click(function ()
             {
+                var texto = "";
                 $.ajax({
                     type: "POST",
                     url: "{{ path('mostrar_sesiones_ajax') }}",
@@ -88,10 +89,10 @@
                                 var fecha = data.sesiones[i].horarios.date;
                                 var hora = fecha.substring(11, 16);
 
-                                $("#horarios").html("<a id='" + i + "' href='#'>" + hora + "</a>");
+                                texto += "<a id='" + i + "' href='#'>" + hora + "</a>";
                             }
                         }
-
+                        $("#horarios").html(texto);
                     },
                     error: function (data, xhr, status)
                     {
