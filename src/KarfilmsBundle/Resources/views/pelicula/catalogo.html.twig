@@ -38,17 +38,22 @@
                         {% if pelicula.Sesiones is empty %}
                             No hay sesiones disponibles.
                         {% else %}
-                            <select id="dia{{ id }}" class="form-control col-lg-2 float-left">
-                            {% for sesion in pelicula.Sesiones %}
-                                {% if usado is defined and usado != sesion.horarios|date("d-m") %}
-                                    <option>{{ sesion.horarios|date("d-m") }}</option>
-                                {% elseif usado is defined and usado == sesion.horarios|date("d-m") %}
-                                    {% set usado = sesion.horarios|date("d-m") %}
-                                {% else %}
-                                    <option>{{ sesion.horarios|date("d-m") }}</option>
-                                    {% set usado = sesion.horarios|date("d-m") %}
-                                {% endif %}
+                            {% set array_sesiones = [] %}
+                            {% for sesiones in pelicula.Sesiones %}
+                                {% set array_sesiones = array_sesiones|merge([sesiones.horarios]) %}
                             {% endfor %}
+                            <select id="dia{{ id }}" class="form-control col-lg-2 float-left">
+                                {% for sesion in array_sesiones|sort %}
+                                    {% if usado is defined and usado != sesion|date("d-m") %}
+                                        <option>{{ sesion|date("d-m") }}</option>
+                                        {% set usado = sesion|date("d-m") %}
+                                    {% elseif usado is defined and usado == sesion|date("d-m") %}
+                                        {% set usado = sesion|date("d-m") %}
+                                    {% else %}
+                                        <option>{{ sesion|date("d-m") }}</option>
+                                        {% set usado = sesion|date("d-m") %}
+                                    {% endif %}
+                                {% endfor %}
                             </select>
                             {% set id = id + 1 %}
                             Horarios: 
