@@ -193,3 +193,4 @@ mostrar_sesiones_ajax:
 mostrar_sugerencia:
     path: /sugerencias
     defaults: { _controller: KarfilmsBundle:Sugerencia:mostrarSugerencia }
+    methods: POST

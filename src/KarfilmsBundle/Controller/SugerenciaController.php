@@ -64,7 +64,6 @@ class SugerenciaController extends Controller
             }
             
             $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("mostrar_sugerencia");
         }
         
         return  $form;

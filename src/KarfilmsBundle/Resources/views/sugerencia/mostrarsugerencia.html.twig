@@ -14,7 +14,7 @@
             {% endif %}
         {% endfor %}
         <div class="col-lg-6">
-            {{ form_start(form, {'action':'', 'method':'POST'}) }}
+            {{ form_start(form, {'action': path('mostrar_sugerencia'), 'method':'POST'}) }}
             {{ form_end(form) }}
         </div>
         <table class="table table-bordered">
