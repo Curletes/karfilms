@@ -23,7 +23,7 @@ class PeliculaController extends Controller {
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $peliculas = $pelicula_repo->findAll();
 
-        return $this->render('@Karfilms/pelicula/catalogo.html.twig', [
+        return $this->render('@Karfilms/pelicula/mostrarcatalogo.html.twig', [
                     "peliculas" => $peliculas,
         ]);
     }

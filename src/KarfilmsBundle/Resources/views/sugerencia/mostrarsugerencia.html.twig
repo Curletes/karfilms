@@ -1,0 +1,29 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{%block estadosugerencia %} active {% endblock %}
+
+{% block body %}
+    <div class="col-lg-6">
+        <h2>Sugerencias</h2>
+        <hr>
+        {% for message in app.session.flashbag().get('status') %}
+            {% if message == "Sugerencia añadida correctamente." or message == "Sugerencia editada correctamente." %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% else %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+        <div class="col-lg-6">
+            {{ form_start(form, {'action':'', 'method':'POST'}) }}
+            {{ form_end(form) }}
+        </div>
+        <table class="table table-bordered">
+            {% for sugerencia in sugerencias %}
+                <tr>
+                    <td>{{ sugerencia.texto }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

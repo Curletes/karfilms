@@ -55,14 +55,13 @@
                                 {% endfor %}
                             </select>
                             Horarios:
-                            <span id="horarios"></span>
+                            <span id="horarios{{ pelicula.id }}"></span>
                         {% endif %}
                     </p>
                 </td>
             </tr>
         {% endfor %}
     </table>
-
 {% endblock %}
 {% block javascripts %}
     <script>
@@ -73,6 +72,8 @@
             $("select").click(function ()
             {
                 var texto = "";
+                var idspan = $(this).closest("p").children("span").attr('id');
+
                 $.ajax({
                     type: "POST",
                     url: "{{ path('mostrar_sesiones_ajax') }}",
@@ -92,7 +93,7 @@
                                 texto += "<a id='" + i + "' href='#'>" + hora + "</a>";
                             }
                         }
-                        $("#horarios").html(texto);
+                        $('#'+idspan).html(texto);
                     },
                     error: function (data, xhr, status)
                     {

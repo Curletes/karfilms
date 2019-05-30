@@ -1,3 +1,4 @@
+###################REGISTRO DE USUARIOS E INICIO DE SESIÓN###################
 registrarse:
     path: /registrarse
     defaults: { _controller: KarfilmsBundle:Usuario:registrarse }
@@ -11,11 +12,8 @@ iniciar_sesion_check:
     
 logout:
     path: /logout
-        
-inicio:
-    path: /inicio
-    defaults: { _controller: KarfilmsBundle:Default:index }
-    
+
+###################ACCIONES SOBRE LOS USUARIOS###################
 perfil_usuario:
     path: /mi-perfil/{id}
     defaults: { _controller: KarfilmsBundle:Usuario:perfilUsuario }
@@ -35,7 +33,8 @@ eliminar_usuario:
 hacer_administrador:
     path: /admin/administrador/{id}
     defaults: {_controller: KarfilmsBundle:Usuario:administrador}
-    
+
+###################ACCIONES SOBRE LOS GÉNEROS###################
 indice_genero:
     path: /admin/generos
     defaults: { _controller: KarfilmsBundle:Genero:indiceGenero }
@@ -52,6 +51,7 @@ editar_genero:
     path: /admin/generos/editar-genero/{id}
     defaults: { _controller: KarfilmsBundle:Genero:editarGenero }
 
+###################ACCIONES SOBRE LOS ACTORES###################
 indice_actor:
     path: /admin/actores
     defaults: { _controller: KarfilmsBundle:Actor:indiceActor }
@@ -67,7 +67,8 @@ eliminar_actor:
 editar_actor:
     path: /admin/actores/editar-actor/{id}
     defaults: { _controller: KarfilmsBundle:Actor:editarActor }
-    
+
+###################ACCIONES SOBRE LAS CLASIFICACIONES POR EDADES###################
 indice_edad:
     path: /admin/edades
     defaults: { _controller: KarfilmsBundle:Edad:indiceEdad }
@@ -83,7 +84,8 @@ eliminar_edad:
 editar_edad:
     path: /admin/edades/editar-edad/{id}
     defaults: { _controller: KarfilmsBundle:Edad:editarEdad }
-    
+
+###################ACCIONES SOBRE LAS SALAS###################
 indice_sala:
     path: /admin/salas
     defaults: { _controller: KarfilmsBundle:Sala:indiceSala }
@@ -99,7 +101,8 @@ eliminar_sala:
 editar_sala:
     path: /admin/salas/editar-sala/{id}
     defaults: { _controller: KarfilmsBundle:Sala:editarSala }
-    
+
+###################ACCIONES SOBRE LOS DIRECTORES###################
 indice_director:
     path: /admin/directores
     defaults: { _controller: KarfilmsBundle:Director:indiceDirector }
@@ -115,7 +118,8 @@ eliminar_director:
 editar_director:
     path: /admin/directores/editar-director/{id}
     defaults: { _controller: KarfilmsBundle:Director:editarDirector }
- 
+
+###################ACCIONES SOBRE LAS SESIONES###################
 indice_sesion:
     path: /admin/sesiones
     defaults: { _controller: KarfilmsBundle:Sesion:indiceSesion }
@@ -131,7 +135,8 @@ eliminar_sesion:
 editar_sesion:
     path: /admin/sesiones/editar-sesion/{id}
     defaults: { _controller: KarfilmsBundle:Sesion:editarSesion }
-    
+
+###################ACCIONES SOBRE LAS PELÍCULAS###################
 indice_pelicula:
     path: /admin/peliculas
     defaults: { _controller: KarfilmsBundle:Pelicula:indicePelicula }
@@ -151,11 +156,8 @@ eliminar_pelicula:
 editar_pelicula:
     path: /admin/peliculas/editar-pelicula/{id}
     defaults: { _controller: KarfilmsBundle:Pelicula:editarPelicula }
-    
-mostrar_catalogo:
-    path: /catalogo
-    defaults: { _controller: KarfilmsBundle:Pelicula:mostrarCatalogo }
- 
+
+###################ACCIONES SOBRE LOS ASIENTOS###################
 indice_asiento:
     path: /admin/asientos
     defaults: { _controller: KarfilmsBundle:Asiento:indiceAsiento }
@@ -171,7 +173,23 @@ eliminar_asiento:
 editar_asiento:
     path: /admin/asientos/editar-asiento/{id}
     defaults: { _controller: KarfilmsBundle:Asiento:editarAsiento }
+
+###################ACCIONES SOBRE LA BARRA DE NAVEGACIÓN###################
+#INICIO
+inicio:
+    path: /inicio
+    defaults: { _controller: KarfilmsBundle:Default:index }
+    
+#CATÁLOGO
+mostrar_catalogo:
+    path: /catalogo
+    defaults: { _controller: KarfilmsBundle:Pelicula:mostrarCatalogo }
     
 mostrar_sesiones_ajax:
     path: /mostrar_sesiones_ajax
     defaults: { _controller: KarfilmsBundle:Pelicula:sesionesPeliculaCatalogoAjax }
+
+#SUGERENCIAS
+mostrar_sugerencia:
+    path: /sugerencias
+    defaults: { _controller: KarfilmsBundle:Sugerencia:mostrarSugerencia }
