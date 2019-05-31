@@ -102,6 +102,8 @@ class SesionController extends Controller
             if($form->isValid())
             {
                 $sesion->setHorarios($form->get("horarios")->getData());
+                $sesion->setIdSala($form->get("idSala")->getData());
+                $sesion->setIdPelicula($form->get("idPelicula")->getData());
                 
                 $em->persist($sesion);
                 $flush = $em->flush();

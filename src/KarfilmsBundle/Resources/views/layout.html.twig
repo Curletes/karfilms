@@ -34,15 +34,15 @@
                                 </button>
                                 <div class="dropdown-menu">
                                     <span><strong>Administración</strong></span>
-                                    <a class="dropdown-item" href="{{ path("indice_usuario") }}">Usuarios</a>
-                                    <a class="dropdown-item" href="{{ path("indice_genero") }}">Géneros</a>
+                                    <a class="dropdown-item" href="{{ path("indice_pelicula") }}">Películas</a>
+                                    <a class="dropdown-item" href="{{ path("indice_sesion") }}">Sesiones</a>
                                     <a class="dropdown-item" href="{{ path("indice_edad") }}">Clasificación por edades</a>
                                     <a class="dropdown-item" href="{{ path("indice_sala") }}">Salas</a>
                                     <a class="dropdown-item" href="{{ path("indice_asiento") }}">Asientos</a>
                                     <a class="dropdown-item" href="{{ path("indice_actor") }}">Actores</a>
                                     <a class="dropdown-item" href="{{ path("indice_director") }}">Directores</a>
-                                    <a class="dropdown-item" href="{{ path("indice_sesion") }}">Sesiones</a>
-                                    <a class="dropdown-item" href="{{ path("indice_pelicula") }}">Películas</a>
+                                    <a class="dropdown-item" href="{{ path("indice_genero") }}">Géneros</a>
+                                    <a class="dropdown-item" href="{{ path("indice_usuario") }}">Usuarios</a>
                                 </div>
                             </div>
                         {% endif %}
@@ -71,6 +71,8 @@
         </div>
         <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
         {% block javascripts %}{% endblock %}
+        <link rel="stylesheet" href="{{ asset("slider/ism/css/my-slider.css") }}"/>
+        <script src="{{ asset("slider/ism/js/ism-2.2.min.js") }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </body>

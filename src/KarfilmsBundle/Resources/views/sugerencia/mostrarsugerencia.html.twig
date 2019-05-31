@@ -4,23 +4,32 @@
 
 {% block body %}
     <div class="col-lg-6">
-        <h2>Sugerencias</h2>
+        <h1>Sugerencias</h1>
         <hr>
         {% for message in app.session.flashbag().get('status') %}
-            {% if message == "Sugerencia añadida correctamente." or message == "Sugerencia editada correctamente." %}
+            {% if message == "Sugerencia añadida correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>
             {% else %}
                 <div class="alert alert-danger">{{ message }}</div>
             {% endif %}
         {% endfor %}
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
         <div class="col-lg-6">
-            {{ form_start(form, {'action': path('mostrar_sugerencia'), 'method':'POST'}) }}
+            {{ form_start(form, {'action': '', 'method':'POST'}) }}
             {{ form_end(form) }}
         </div>
+        {% endif %}
         <table class="table table-bordered">
             {% for sugerencia in sugerencias %}
                 <tr>
-                    <td>{{ sugerencia.texto }}</td>
+                    <th height="100" width="100"><img height="100" width="100" src="{{ asset("imagenes/perfiles/") ~ sugerencia.idUsuario.icono }}"></th>
+                    <td>
+                        <strong><a href="#">{{ sugerencia.idUsuario.Nombre }}</a></strong>
+                        <p>{{ sugerencia.texto }}</p>
+                        {% if app.user.id is defined and app.user.id == sugerencia.idUsuario.id %}
+                            <a href="{{ path("eliminar_sugerencia", {"id":sugerencia.id}) }}" class="btn btn-danger">Eliminar</a>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
         </table>

@@ -3,5 +3,115 @@
 {%block estadoindex %} active {% endblock %}
 
 {% block body %}
-    <h1>Hello World!</h1>
+    <div class="col-lg-0">
+        <h1>Estrenos</h1>
+        <hr>
+        {% if peliculas is defined %}
+            <div class="ism-slider" id="my-slider">
+                <ol>
+                    {% for pelicula in peliculas %}
+                        <li>
+                            <img src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}">
+                            <div class="ism-caption ism-caption-0">{{ pelicula.titulo }}</div>
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+            <hr>
+            <table class="table table-bordered">
+                {% for pelicula in peliculas %}
+                    <tr>
+                        <td height="200" width="150"><img height="200" width="150" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}"</td>
+                        <td>
+                            <h3>{{ pelicula.titulo }}</h3>
+                            <p><strong>Duración: </strong>{{ pelicula.duracion }} minutos</p>
+                            <p><strong>Clasificación por edades: </strong>{{ pelicula.idEdad.clasificacion }}</p>
+                            <p>
+                                <strong>Reparto: </strong>
+                                {% for peli in pelicula.Actorpelicula %}
+                                    {{ peli.idActor.nombre }}
+                                {% endfor %}
+                            </p>
+                            <p>
+                                <strong>Dirección: </strong>
+                                {% for peli in pelicula.Directorpelicula %}
+                                    {{ peli.idDirector.nombre }}
+                                {% endfor %}
+                            </p>
+                            <p>
+                                <strong>Géneros: </strong>
+                                {% for peli in pelicula.Generopelicula %}
+                                    {{ peli.idGenero.nombre }}
+                                {% endfor %}
+                            </p>
+                            <p><strong>Sinopsis: </strong>{{ pelicula.sinopsis }}</p>
+                            <p>
+                                <strong>Sesiones: </strong><br>
+                                {% set array_sesiones = [] %}
+                                {% for sesiones in pelicula.Sesiones %}
+                                    {% set array_sesiones = array_sesiones|merge([sesiones.horarios]) %}
+                                {% endfor %}
+                                <select id="{{ pelicula.id }}" class="form-control col-lg-2 float-left">
+                                    {% for sesion in array_sesiones|sort %}
+                                        {% if usado is defined and usado != sesion|date("d-m") %}
+                                            <option>{{ sesion|date("d-m") }}</option>
+                                            {% set usado = sesion|date("d-m") %}
+                                        {% elseif usado is defined and usado == sesion|date("d-m") %}
+                                            {% set usado = sesion|date("d-m") %}
+                                        {% else %}
+                                            <option>{{ sesion|date("d-m") }}</option>
+                                            {% set usado = sesion|date("d-m") %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                Horarios:
+                                <span id="horarios{{ pelicula.id }}"></span>
+                            </p>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        'use strict'
+
+        $(document).ready(function ()
+        {
+            $("select").click(function ()
+            {
+                var texto = "";
+                var idspan = $(this).closest("p").children("span").attr('id');
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('mostrar_sesiones_ajax') }}",
+                    data: {
+                        diames: $(this).children("option:selected").val(),
+                        id: $(this).attr('id')
+                    },
+                    success: function (data)
+                    {
+                        for (var i in data.sesiones)
+                        {
+                            for (var horarios in data.sesiones[i])
+                            {
+                                var fecha = data.sesiones[i].horarios.date;
+                                var hora = fecha.substring(11, 16);
+
+                                texto += "<a id='" + i + "' href='#'>" + hora + "</a>";
+                            }
+                        }
+                        $('#' + idspan).html(texto);
+                    },
+                    error: function (data, xhr, status)
+                    {
+                        alert(status)
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

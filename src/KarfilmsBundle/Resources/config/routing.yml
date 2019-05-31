@@ -192,5 +192,8 @@ mostrar_sesiones_ajax:
 #SUGERENCIAS
 mostrar_sugerencia:
     path: /sugerencias
-    defaults: { _controller: KarfilmsBundle:Sugerencia:mostrarSugerencia }
-    methods: POST
+    defaults: { _controller: KarfilmsBundle:Sugerencia:mostrarYaddSugerencia }
+    
+eliminar_sugerencia:
+    path: /sugerencias/{id}
+    defaults: { _controller: KarfilmsBundle:Sugerencia:eliminarSugerencia }
