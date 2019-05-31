@@ -26,7 +26,7 @@
                     <td>
                         <strong><a href="#">{{ sugerencia.idUsuario.Nombre }}</a></strong>
                         <p>{{ sugerencia.texto }}</p>
-                        {% if app.user.id is defined and app.user.id == sugerencia.idUsuario.id %}
+                        {% if app.user.id is defined and app.user.id == sugerencia.idUsuario.id or is_granted("ROLE_ADMIN") %}
                             <a href="{{ path("eliminar_sugerencia", {"id":sugerencia.id}) }}" class="btn btn-danger">Eliminar</a>
                         {% endif %}
                     </td>
