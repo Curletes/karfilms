@@ -17,11 +17,6 @@
                 </ol>
             </div>
             <hr>
-            <form>
-                <div class="form-group col-lg-3">
-                    <input class="form-control" type="text" placeholder="Buscar">
-                </div>
-            </form>
             <table class="table table-bordered">
                 {% for pelicula in peliculas %}
                     <tr>
@@ -84,32 +79,6 @@
 
         $(document).ready(function ()
         {
-            $("input").keyup(function ()
-            {
-                var texto = "";
-                $.ajax({
-                    type: "POST",
-                    url: "{{ path('mostrar_peliculas_ajax') }}",
-                    data: {
-                        pelicula: $(this).val(),
-                    },
-                    success: function (data)
-                    {
-                        for (var i in data.peliculas)
-                        {
-                            var titulo = data.peliculas[i].titulo;
-
-                            texto += "<a id='pelicula" + i + "' href='#'>" + titulo + "</a><br>";
-                        }
-                        $('#resultados').html(texto);
-                    },
-                    error: function (data, xhr, status)
-                    {
-                        alert(status)
-                    }
-                });
-            });
-
             $("select").click(function ()
             {
                 var texto = "";

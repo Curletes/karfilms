@@ -1,0 +1,25 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block estadogenero %} active {% endblock%}
+
+{% block body %}
+    <div class="col-lg-6">
+        <h2>Géneros</h2>
+        <hr>
+        <table class="table table-bordered">
+            <tr>
+                <th>Nombre</th>
+                <th>Acción</th>
+            </tr>
+            {% for genero in generos %}
+                <tr>
+                    <td>{{ genero.nombre }}</td>
+                    <td>
+                        <a href="{{ path("categoria_genero", {"nombre":genero.nombre}) }}" class="btn btn-primary">Ver</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

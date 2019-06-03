@@ -192,7 +192,7 @@ inicio:
     path: /inicio
     defaults: { _controller: KarfilmsBundle:Default:index }
     
-#CATÁLOGO
+#CARTELERA
 mostrar_cartelera:
     path: /cartelera
     defaults: { _controller: KarfilmsBundle:Pelicula:mostrarCartelera }
@@ -213,3 +213,12 @@ mostrar_sugerencia:
 eliminar_sugerencia:
     path: /sugerencias/{id}
     defaults: { _controller: KarfilmsBundle:Sugerencia:eliminarSugerencia }
+
+#GÉNEROS
+mostrar_genero:
+    path: /generos
+    defaults: { _controller: KarfilmsBundle:Genero:mostrarGenero }
+    
+categoria_genero:
+    path: /generos/{nombre}
+    defaults: { _controller: KarfilmsBundle:Genero:categoriaGenero }
