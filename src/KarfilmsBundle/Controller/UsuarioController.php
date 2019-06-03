@@ -104,6 +104,18 @@ class UsuarioController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
         $usuario = $usuario_repo->find($id);
+        
+        $sugerencia_repo = $em->getRepository("KarfilmsBundle:Sugerencia");
+        $sugerencias = $sugerencia_repo->findAll();
+        
+        foreach($sugerencias as $sugerencia)
+        {
+            if($sugerencia->getIdUsuario()->getId() == $id)
+            {
+                $em->remove($sugerencia);
+                $em->flush();
+            }
+        }
 
         $em->remove($usuario);
         $em->flush();
