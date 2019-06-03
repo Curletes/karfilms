@@ -27,6 +27,22 @@ class PeliculaController extends Controller {
                     "peliculas" => $peliculas,
         ]);
     }
+    
+    public function pelicula($pelicula) {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        return $em->createQuery("SELECT p.id, p.titulo FROM KarfilmsBundle:Pelicula p WHERE p.titulo LIKE :pelicula")
+                        ->setParameter("pelicula", $pelicula . "%")
+                        ->getResult();
+    }
+    
+    public function peliculaAjaxAction(Request $request) {
+        $pelicula = $request->request->get('pelicula');
+        $peliculas = $this->pelicula($pelicula);
+        $response = new JsonResponse(['peliculas' => $peliculas]);
+
+        return $response;
+    }
 
     public function sesionesPeliculaCartelera($diames, $id) {
         $em = $this->getDoctrine()->getEntityManager();

@@ -200,6 +200,10 @@ mostrar_cartelera:
 mostrar_sesiones_ajax:
     path: /mostrar_sesiones_ajax
     defaults: { _controller: KarfilmsBundle:Pelicula:sesionesPeliculaCarteleraAjax }
+    
+mostrar_peliculas_ajax:
+    path: /mostrar_peliculas_ajax
+    defaults: { _controller: KarfilmsBundle:Pelicula:peliculaAjax }
 
 #SUGERENCIAS
 mostrar_sugerencia:
