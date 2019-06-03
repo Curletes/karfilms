@@ -18,17 +18,17 @@ class PeliculaController extends Controller {
         $this->session = new Session();
     }
 
-    public function mostrarCatalogoAction() {
+    public function mostrarCarteleraAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $peliculas = $pelicula_repo->findAll();
 
-        return $this->render('@Karfilms/pelicula/mostrarcatalogo.html.twig', [
+        return $this->render('@Karfilms/pelicula/mostrarcartelera.html.twig', [
                     "peliculas" => $peliculas,
         ]);
     }
 
-    public function sesionesPeliculaCatalogo($diames, $id) {
+    public function sesionesPeliculaCartelera($diames, $id) {
         $em = $this->getDoctrine()->getEntityManager();
 
         $dias = explode("-", $diames);
@@ -39,13 +39,13 @@ class PeliculaController extends Controller {
                         ->getResult();
     }
 
-    public function sesionesPeliculaCatalogoAjaxAction(Request $request) {
+    public function sesionesPeliculaCarteleraAjaxAction(Request $request) {
         $diames = $request->request->get('diames');
         $id = $request->request->get('id');
-        $sesiones = $this->sesionesPeliculaCatalogo($diames, $id);
-        
+        $sesiones = $this->sesionesPeliculaCartelera($diames, $id);
+
         $response = new JsonResponse(['sesiones' => $sesiones]);
-        
+
         return $response;
     }
 
@@ -91,6 +91,43 @@ class PeliculaController extends Controller {
                     "directores" => $directores,
                     "actores" => $actores,
                     "generos" => $generos
+        ]);
+    }
+
+    public function mostrarPeliculaAction($id) {
+        $directores = [];
+        $actores = [];
+        $generos = [];
+        $estadocartelera = "active";
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
+        $pelicula = $pelicula_repo->find($id);
+
+        $Directorpelicula = $pelicula->getDirectorpelicula();
+
+        foreach ($Directorpelicula as $director) {
+            $directores[] = $director->getIdDirector()->getNombre();
+        }
+
+        $Actorpelicula = $pelicula->getActorpelicula();
+
+        foreach ($Actorpelicula as $actor) {
+            $actores[] = $actor->getIdActor()->getNombre();
+        }
+
+        $Generopelicula = $pelicula->getGeneropelicula();
+
+        foreach ($Generopelicula as $genero) {
+            $generos[] = $genero->getIdGenero()->getNombre();
+        }
+
+        return $this->render('@Karfilms/pelicula/detallespelicula.html.twig', [
+                    "pelicula" => $pelicula,
+                    "directores" => $directores,
+                    "actores" => $actores,
+                    "generos" => $generos,
+                    "active" => $estadocartelera
         ]);
     }
 

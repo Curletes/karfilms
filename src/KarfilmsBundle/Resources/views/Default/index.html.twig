@@ -3,16 +3,15 @@
 {%block estadoindex %} active {% endblock %}
 
 {% block body %}
-    <div class="col-lg-0">
+    <div class="col-lg-12">
         <h1>Estrenos</h1>
         <hr>
         {% if peliculas is defined %}
-            <div class="ism-slider" id="my-slider">
+            <div class="ism-slider" data-transition_type="fade" data-play_type="loop" data-buttons="false" data-radios="false" id="my-slider">
                 <ol>
                     {% for pelicula in peliculas %}
                         <li>
-                            <img src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}">
-                            <div class="ism-caption ism-caption-0">{{ pelicula.titulo }}</div>
+                            <img width="550" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}">
                         </li>
                     {% endfor %}
                 </ol>
@@ -23,7 +22,7 @@
                     <tr>
                         <td height="200" width="150"><img height="200" width="150" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}"</td>
                         <td>
-                            <h3>{{ pelicula.titulo }}</h3>
+                            <h3><a href="{{ path("mostrar_pelicula", {"titulo":pelicula.titulo, "id":pelicula.id}) }}">{{ pelicula.titulo }}</a></h3>
                             <p><strong>Duración: </strong>{{ pelicula.duracion }} minutos</p>
                             <p><strong>Clasificación por edades: </strong>{{ pelicula.idEdad.clasificacion }}</p>
                             <p>

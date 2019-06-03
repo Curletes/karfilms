@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use KarfilmsBundle\Entity\Usuario;
 use KarfilmsBundle\Form\UsuarioType;
 use KarfilmsBundle\Form\EditarUsuarioType;
+use KarfilmsBundle\Form\CambiarIconoType;
 
 class UsuarioController extends Controller {
 
@@ -114,7 +115,6 @@ class UsuarioController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
         $usuario = $usuario_repo->find($id);
-        $icono = $usuario->getIcono();
         $password = $usuario->getPassword();
         $form = $this->createForm(EditarUsuarioType::class, $usuario);
 
@@ -124,25 +124,6 @@ class UsuarioController extends Controller {
             if ($form->isValid()) {
                 $usuario->setNombre($form->get("nombre")->getData());
                 $usuario->setEmail($form->get("email")->getData());
-
-                $fichero = $form["icono"]->getData();
-                
-                if ($fichero != null) {
-                    $ext = $fichero->guessExtension();
-
-                    if ($ext == "jpg" || $ext == "png" || $ext == "jpeg") {
-                        $nombre_fichero = time() . "." . $ext;
-                        $fichero->move("imagenes/perfiles", $nombre_fichero);
-
-                        $usuario->setIcono($nombre_fichero);
-                    }
-                    else {
-                        $usuario->setIcono($icono);
-                        $status2 = "Sólo se permiten las extensiones .jpg, .jpeg y .png.";
-                    }
-                } else {
-                    $usuario->setIcono($icono);
-                }
 
                 $password2 = $form["password"]->getData();
 
@@ -155,17 +136,12 @@ class UsuarioController extends Controller {
                 } else {
                     $usuario->setPassword($password);
                 }
-
+                
                 $em->persist($usuario);
                 $flush = $em->flush();
 
                 if ($flush == null) {
-                    if(isset($status2)) {
-                        $status = $status2;
-                    }
-                    else {
-                        $status = "Perfil editado correctamente.";
-                    }     
+                    $status = "Perfil editado correctamente.";
                 } else {
                     $status = "Error al editar el perfil.";
                 }
@@ -179,6 +155,61 @@ class UsuarioController extends Controller {
 
         return $this->render('@Karfilms/usuario/editarusuario.html.twig', [
                     "form" => $form->createView(),
+                    "id" => $id
+        ]);
+    }
+    
+    public function cambiarIconoAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
+        $usuario = $usuario_repo->find($id);
+        $icono = $usuario->getIcono();
+
+        $form = $this->createForm(CambiarIconoType::class, $usuario);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+
+                $fichero = $form["icono"]->getData();
+
+                if ($fichero != null) {
+                    $ext = $fichero->guessExtension();
+
+                    if ($ext == "jpg" || $ext == "png" || $ext == "jpeg") {
+                        $nombre_fichero = time() . "." . $ext;
+                        $fichero->move("imagenes/perfiles", $nombre_fichero);
+
+                        $usuario->setIcono($nombre_fichero);
+                    } else {
+                        $usuario->setIcono($icono);
+                        $status = "Sólo se permiten las extensiones .jpg, .jpeg y .png.";
+                    }
+                } else {
+                    $usuario->setIcono($icono);
+                }
+                
+                $em->persist($usuario);
+                $flush = $em->flush();
+
+                if ($flush == null) {
+                    $status = "Perfil editado correctamente.";
+                } else {
+                    $status = "Error al editar el perfil.";
+                }
+            } else {
+                $status = "El perfil no se ha editado porque el formulario no es válido.";
+            }
+
+            $this->session->getFlashBag()->add("status", $status);
+            return $this->redirectToRoute("perfil_usuario", ["id" => $id]);
+        }
+
+        return $this->render('@Karfilms/usuario/cambiaricono.html.twig', [
+                    "usuario" => $usuario,
+                    "cambiar_icono" => $form->createView(),
                     "icono" => $icono,
                     "id" => $id
         ]);
@@ -201,13 +232,32 @@ class UsuarioController extends Controller {
         return $this->redirectToRoute("indice_usuario");
     }
 
+    public function miPerfilAction($id) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
+        $usuario = $usuario_repo->find($id);
+        
+        $sugerencia_repo = $em->getRepository("KarfilmsBundle:Sugerencia");
+        $sugerencias = $sugerencia_repo->findBy(["idUsuario" => $id]);
+
+        return $this->render('@Karfilms/usuario/miperfil.html.twig', [
+                    "usuario" => $usuario,
+                    "sugerencias" => $sugerencias,
+                    "id" => $id
+        ]);
+    }
+    
     public function perfilUsuarioAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
         $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
         $usuario = $usuario_repo->find($id);
+        
+        $sugerencia_repo = $em->getRepository("KarfilmsBundle:Sugerencia");
+        $sugerencias = $sugerencia_repo->findBy(["idUsuario" => $id]);
 
         return $this->render('@Karfilms/usuario/perfilusuario.html.twig', [
                     "usuario" => $usuario,
+                    "sugerencias" => $sugerencias,
                     "id" => $id
         ]);
     }

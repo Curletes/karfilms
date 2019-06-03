@@ -14,8 +14,12 @@ logout:
     path: /logout
 
 ###################ACCIONES SOBRE LOS USUARIOS###################
-perfil_usuario:
+mi_perfil:
     path: /mi-perfil/{id}
+    defaults: { _controller: KarfilmsBundle:Usuario:miPerfil }
+    
+perfil_usuario:
+    path: /{nombre}-{id}
     defaults: { _controller: KarfilmsBundle:Usuario:perfilUsuario }
     
 indice_usuario:
@@ -25,6 +29,10 @@ indice_usuario:
 editar_usuario:
     path: /mi-perfil/editar/{id}
     defaults: { _controller: KarfilmsBundle:Usuario:editarUsuario }
+
+cambiar_icono:
+    path: /mi-perfil/cambiar-icono/{id}
+    defaults: { _controller: KarfilmsBundle:Usuario:cambiarIcono }
     
 eliminar_usuario:
     path: /admin/usuarios/eliminar-usuario/{id}
@@ -144,6 +152,10 @@ indice_pelicula:
 add_pelicula:
     path: /admin/peliculas/nueva-pelicula
     defaults: { _controller: KarfilmsBundle:Pelicula:addPelicula }
+    
+mostrar_pelicula:
+    path: /cartelera/{titulo}/{id}
+    defaults: { _controller: KarfilmsBundle:Pelicula:mostrarPelicula }
 
 detalles_pelicula:
     path: /admin/peliculas/detalles-pelicula/{id}
@@ -181,13 +193,13 @@ inicio:
     defaults: { _controller: KarfilmsBundle:Default:index }
     
 #CATÁLOGO
-mostrar_catalogo:
-    path: /catalogo
-    defaults: { _controller: KarfilmsBundle:Pelicula:mostrarCatalogo }
+mostrar_cartelera:
+    path: /cartelera
+    defaults: { _controller: KarfilmsBundle:Pelicula:mostrarCartelera }
     
 mostrar_sesiones_ajax:
     path: /mostrar_sesiones_ajax
-    defaults: { _controller: KarfilmsBundle:Pelicula:sesionesPeliculaCatalogoAjax }
+    defaults: { _controller: KarfilmsBundle:Pelicula:sesionesPeliculaCarteleraAjax }
 
 #SUGERENCIAS
 mostrar_sugerencia:

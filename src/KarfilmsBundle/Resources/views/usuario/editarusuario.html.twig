@@ -7,11 +7,10 @@
         <div class="col-lg-6">
             <h2>Editar perfil</h2>
             <hr>
-            <img height="50" width="50" src="{{ asset('imagenes/perfiles/' ~ icono) }}">
             {{ form_start(form, {'action':'', 'method':'POST'}) }}
             {{ form_end(form) }}
         </div>
         <div class="clearfix"></div>
-        <a href="{{ path("perfil_usuario", {"id":app.user.id}) }}" class="btn btn-secondary">Cancelar</a>
+        <a href="{{ path("mi_perfil", {"id":app.user.id}) }}" class="btn btn-secondary">Cancelar</a>
     {% endif %}
 {% endblock %}

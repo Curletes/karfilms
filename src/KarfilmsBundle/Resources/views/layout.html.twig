@@ -19,7 +19,7 @@
                         <a class="nav-link {% block estadoindex %}{% endblock %}" href="{{ path("inicio") }}">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% block estadocatalogo %}{% endblock %}" href="{{ path("mostrar_catalogo") }}">Catálogo</a>
+                        <a class="nav-link {% block estadocartelera %}{% endblock %}" href="{{ path("mostrar_cartelera") }}">Cartelera</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% block estadosugerencia %}{% endblock %}" href="{{ path("mostrar_sugerencia") }}">Sugerencias</a>
@@ -51,7 +51,7 @@
                                 {{ app.user.nombre }}
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ path("perfil_usuario", {"id":app.user.id}) }}">Mi perfil</a>
+                                <a class="dropdown-item" href="{{ path("mi_perfil", {"id":app.user.id}) }}">Mi perfil</a>
                                 <a class="dropdown-item" href="{{ path("logout") }}">Cerrar sesión</a>
                             </div>
                         </div>

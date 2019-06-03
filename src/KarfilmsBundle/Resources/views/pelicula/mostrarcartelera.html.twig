@@ -1,17 +1,17 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
-{%block estadocatalogo %} active {% endblock %}
+{%block estadocartelera %} active {% endblock %}
 
 {% block body %}
-    <div class="col-lg-9">
-        <h1>Catálogo</h1>
+    <div class="col-lg-12">
+        <h1>Cartelera</h1>
         <hr>
         <table class="table table-bordered">
             {% for pelicula in peliculas %}
                 <tr>
                     <td height="200" width="150"><img height="200" width="150" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}"</td>
                     <td>
-                        <h3>{{ pelicula.titulo }}</h3>
+                        <h3><a href="{{ path("mostrar_pelicula", {"titulo":pelicula.titulo, "id":pelicula.id}) }}">{{ pelicula.titulo }}</a></h3>
                         <p><strong>Duración: </strong>{{ pelicula.duracion }} minutos</p>
                         <p><strong>Clasificación por edades: </strong>{{ pelicula.idEdad.clasificacion }}</p>
                         <p>

@@ -1,5 +1,11 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
+{%block estadocartelera %}
+    {% if active is defined %}
+        active
+    {% endif %}
+{% endblock %}
+
 {% block body %}
     <div class="col-lg-12">
         <h2>{{ pelicula.titulo }}</h2>
@@ -48,8 +54,12 @@
                 <td colspan="3">{{ pelicula.sinopsis }}</td>
             </tr>
         </table>
-        <a href="{{ path("indice_pelicula") }}" class="btn btn-primary">Atrás</a>
-        <a href="{{ path("editar_pelicula", {"id":pelicula.id}) }}" class="btn btn-warning">Editar</a>
+        {% if is_granted("ROLE_ADMIN") %}
+            <a href="{{ path("indice_pelicula") }}" class="btn btn-primary">Atrás</a>
+            <a href="{{ path("editar_pelicula", {"id":pelicula.id}) }}" class="btn btn-warning">Editar</a>
+        {% else %}
+            <a href="{{ path("mostrar_cartelera") }}" class="btn btn-primary">Atrás</a>
+        {% endif %}
     </div>
     <div class="clearfix"></div>
 {% endblock %}

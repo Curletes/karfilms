@@ -24,9 +24,13 @@
                 <tr>
                     <th height="100" width="100"><img height="100" width="100" src="{{ asset("imagenes/perfiles/") ~ sugerencia.idUsuario.icono }}"></th>
                     <td>
-                        <strong><a href="#">{{ sugerencia.idUsuario.Nombre }}</a></strong>
+                        {% if app.user.id is defined and sugerencia.idUsuario.id == app.user.id %}
+                            <strong><a href="{{ path("mi_perfil", {"id":sugerencia.idUsuario.id}) }}">{{ sugerencia.idUsuario.Nombre }}</a></strong>
+                        {% else %}
+                            <strong><a href="{{ path("perfil_usuario", {"nombre":sugerencia.idUsuario.Nombre, "id":sugerencia.idUsuario.id}) }}">{{ sugerencia.idUsuario.Nombre }}</a></strong>
+                        {% endif %}
                         <p>{{ sugerencia.texto }}</p>
-                        {% if app.user.id is defined and app.user.id == sugerencia.idUsuario.id or is_granted("ROLE_ADMIN") %}
+                        {% if app.user.id is defined and app.user.id == sugerencia.idUsuario.id %}
                             <a href="{{ path("eliminar_sugerencia", {"id":sugerencia.id}) }}" class="btn btn-danger">Eliminar</a>
                         {% endif %}
                     </td>

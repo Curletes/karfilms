@@ -18,10 +18,16 @@
             </tr>
             {% for usuario in usuarios %}
                 <tr>
-                    <td>{{ usuario.nombre }}</td>
+                    <td>
+                        {% if usuario.id == app.user.id %}
+                            <strong><a href="{{ path("mi_perfil", {"id":usuario.id}) }}">{{ usuario.nombre }}</a></strong>
+                        {% else %}
+                            <strong><a href="{{ path("perfil_usuario", {"nombre":usuario.Nombre, "id":usuario.id}) }}">{{ usuario.nombre }}</a></strong>
+                        {% endif %}
+                    </td>
                     <td>
                         {% if usuario.rol == "ROLE_USER" %}
-                         <a href="{{ path("hacer_administrador", {"id":usuario.id}) }}" class="btn btn-warning">Hacer administrador</a>
+                            <a href="{{ path("hacer_administrador", {"id":usuario.id}) }}" class="btn btn-warning">Hacer administrador</a>
                         {% else %}
                             <a href="{{ path("hacer_administrador", {"id":usuario.id}) }}" class="btn btn-danger">Quitar administrador</a>
                         {% endif %}

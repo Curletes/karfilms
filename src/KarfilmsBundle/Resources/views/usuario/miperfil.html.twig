@@ -1,0 +1,55 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block body %}
+    {% if app.user.id is not defined or app.user.id != id %}
+        <div class="alert alert-danger">No tienes permiso para acceder a esta página</div>
+    {% else %}
+        <div class="col-lg-8">
+            <h1>Mi perfil</h1>
+            <hr>
+            {% for message in app.session.flashbag().get('status') %}
+                {% if message == "Perfil editado correctamente." %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% else %}
+                    <div class="alert alert-danger">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+            <table class="table table-bordered">
+                <tr>
+                    <th>Nombre de usuario</th>
+                    <th>Imagen de perfil</th>
+                    <th>Acción</th>
+                </tr>
+                <tr>
+                    <td>{{ usuario.nombre }}</td>
+                    <td>
+                        <img height="200" width="200" src="{{ asset('imagenes/perfiles/' ~ usuario.icono) }}">
+                    </td>
+                    <td>
+                        <a href="{{ path("cambiar_icono", {"id":usuario.id}) }}" class="btn btn-primary">Cambiar icono</a>
+                        <a href="{{ path("editar_usuario", {"id":usuario.id}) }}" class="btn btn-warning">Editar usuario</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-lg-8">
+            <h2>Tus sugerencias</h2>
+            <hr>
+            <table class="table table-bordered">
+                {% for sugerencia in sugerencias %}
+                    <tr>
+                        <th height="100" width="100"><img height="100" width="100" src="{{ asset("imagenes/perfiles/") ~ sugerencia.idUsuario.icono }}"></th>
+                        <td>
+                            <strong><a href="{{ path("mi_perfil", {"id":sugerencia.idUsuario.id}) }}">{{ sugerencia.idUsuario.Nombre }}</a></strong>
+                            <p>{{ sugerencia.texto }}</p>
+                            {% if app.user.id is defined and app.user.id == sugerencia.idUsuario.id %}
+                                <a href="{{ path("eliminar_sugerencia", {"id":sugerencia.id}) }}" class="btn btn-danger">Eliminar</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endif %}
+    <div class="clearfix"></div>
+{% endblock %}
