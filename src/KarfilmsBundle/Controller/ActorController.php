@@ -8,15 +8,14 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use KarfilmsBundle\Entity\Actor;
 use KarfilmsBundle\Form\ActorType;
 
-class ActorController extends Controller
-{
+class ActorController extends Controller {
+
     private $session;
-    
-    public function __construct()
-    {
+
+    public function __construct() {
         $this->session = new Session();
     }
-    
+
     public function mostrarActorAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
@@ -31,126 +30,113 @@ class ActorController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $actor_repo = $em->getRepository('KarfilmsBundle:Actor');
         $actor = $actor_repo->findOneBy(["nombre" => $nombre]);
-        
+
         $peliculas_obj = $actor->getActorpelicula();
-        
-        foreach($peliculas_obj as $pelicula)
-        {
+
+        foreach ($peliculas_obj as $pelicula) {
             $peliculas[] = $pelicula->getIdPelicula();
         }
 
-        return $this->render('@Karfilms/actor/categoriaactor.html.twig', [
-                    'peliculas' => $peliculas,
-                    'actor' => $actor
-        ]);
+        if (isset($peliculas)) {
+            return $this->render('@Karfilms/actor/categoriaactor.html.twig', [
+                        'peliculas' => $peliculas,
+                        'actor' => $actor
+            ]);
+        } else {
+            return $this->render('@Karfilms/actor/categoriaactor.html.twig', [
+                        'actor' => $actor
+            ]);
+        }
     }
-    
-    public function indiceActorAction()
-    {
+
+    public function indiceActorAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
         $actores = $actor_repo->findAll();
-        
+
         return $this->render('@Karfilms/actor/indiceactor.html.twig', [
-            "actores" => $actores
+                    "actores" => $actores
         ]);
     }
-    
-    public function addActorAction(Request $request)
-    {
+
+    public function addActorAction(Request $request) {
         $actor = new Actor();
         $form = $this->createForm(ActorType::class, $actor);
-        
+
         $form->handleRequest($request);
-        
-        if($form->isSubmitted())
-        {
-            if($form->isValid())
-            {
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
                 $actor = new Actor();
                 $actor->setNombre($form->get("nombre")->getData());
-                
+
                 $em->persist($actor);
                 $flush = $em->flush();
-                
-                if($flush == null)
-                {
+
+                if ($flush == null) {
                     $status = "Actor añadido correctamente.";
-                }
-                else
-                {
+                } else {
                     $status = "Error al añadir el actor.";
                 }
-            }
-            else
-            {
+            } else {
                 $status = "El actor no se ha añadido porque el formulario no es válido.";
             }
-            
+
             $this->session->getFlashBag()->add("status", $status);
             return $this->redirectToRoute("indice_actor");
         }
-        
+
         return $this->render('@Karfilms/actor/addactor.html.twig', [
-            "form" => $form->createView()
+                    "form" => $form->createView()
         ]);
     }
-    
-    public function eliminarActorAction($id)
-    {
+
+    public function eliminarActorAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
         $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
         $actor = $actor_repo->find($id);
-        
-        if(count($actor->getActorpelicula()) == 0) 
-        {
+
+        if (count($actor->getActorpelicula()) == 0) {
             $em->remove($actor);
             $em->flush();
         }
-        
+
         return $this->redirectToRoute("indice_actor");
     }
-    
-    public function editarActorAction($id, Request $request)
-    {
+
+    public function editarActorAction($id, Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
         $actor = $actor_repo->find($id);
-        
+
         $form = $this->createForm(ActorType::class, $actor);
-        
+
         $form->handleRequest($request);
-        
-        if($form->isSubmitted())
-        {
-            if($form->isValid())
-            {
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
                 $actor->setNombre($form->get("nombre")->getData());
-                
+
                 $em->persist($actor);
                 $flush = $em->flush();
-                
-                if($flush == null)
-                {
+
+                if ($flush == null) {
                     $status = "Actor editado correctamente.";
-                }
-                else
-                {
+                } else {
                     $status = "Error al editar el actor.";
                 }
-            }
-            else
-            {
+            } else {
                 $status = "El actor no se ha editado porque el formulario no es válido.";
             }
-            
+
             $this->session->getFlashBag()->add("status", $status);
             return $this->redirectToRoute("indice_actor");
         }
-        
+
         return $this->render('@Karfilms/actor/editaractor.html.twig', [
-            "form" => $form->createView()
+                    "form" => $form->createView()
         ]);
     }
+
 }

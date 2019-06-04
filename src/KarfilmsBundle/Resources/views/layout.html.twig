@@ -22,9 +22,6 @@
                         <a class="nav-link {% block estadocartelera %}{% endblock %}" href="{{ path("mostrar_cartelera") }}">Cartelera</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% block estadosugerencia %}{% endblock %}" href="{{ path("mostrar_sugerencia") }}">Sugerencias</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link {% block estadogenero %}{% endblock %}" href="{{ path("mostrar_genero") }}">Géneros</a>
                     </li>
                     <li class="nav-item">
@@ -32,6 +29,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% block estadodirector %}{% endblock %}" href="{{ path("mostrar_director") }}">Directores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block estadosugerencia %}{% endblock %}" href="{{ path("mostrar_sugerencia") }}">Sugerencias</a>
                     </li>
                     <form class="form-inline my-2 my-lg-0">
                         <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
@@ -107,8 +107,16 @@
                     for (var i in data.peliculas)
                     {
                         var titulo = data.peliculas[i].titulo;
-
-                        texto += "<a id='pelicula" + i + "' href='#'>" + titulo + "</a><br>";
+                        var id = data.peliculas[i].id;
+                        
+                        if(!/inicio/.test(window.location.href))
+                        {
+                            texto += "<a id='pelicula" + i + "' href='../../cartelera/"+titulo+"/"+id+"'>" + titulo + "</a><br>";
+                        }
+                        else
+                        {
+                            texto += "<a id='pelicula" + i + "' href='cartelera/"+titulo+"/"+id+"'>" + titulo + "</a><br>";
+                        }
                     }
                     $('#resultados').html(texto);
                 },

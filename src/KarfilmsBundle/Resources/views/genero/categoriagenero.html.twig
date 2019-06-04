@@ -6,63 +6,65 @@
     <div class="col-lg-12">
         <h1>{{ genero.nombre }}</h1>
         <hr>
-        <table class="table table-bordered">
-            {% for pelicula in peliculas %}
-                <tr>
-                    <td height="200" width="150"><img height="200" width="150" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}"</td>
-                    <td>
-                        <h3><a href="{{ path("mostrar_pelicula", {"titulo":pelicula.titulo, "id":pelicula.id}) }}">{{ pelicula.titulo }}</a></h3>
-                        <p><strong>Duración: </strong>{{ pelicula.duracion }} minutos</p>
-                        <p><strong>Clasificación por edades: </strong>{{ pelicula.idEdad.clasificacion }}</p>
-                        <p>
-                            <strong>Reparto: </strong>
-                            {% for peli in pelicula.Actorpelicula %}
-                                {{ peli.idActor.nombre }}
-                            {% endfor %}
-                        </p>
-                        <p>
-                            <strong>Dirección: </strong>
-                            {% for peli in pelicula.Directorpelicula %}
-                                {{ peli.idDirector.nombre }}
-                            {% endfor %}
-                        </p>
-                        <p>
-                            <strong>Géneros: </strong>
-                            {% for peli in pelicula.Generopelicula %}
-                                {{ peli.idGenero.nombre }}
-                            {% endfor %}
-                        </p>
-                        <p><strong>Sinopsis: </strong>{{ pelicula.sinopsis }}</p>
-                        <p>
-                            <strong>Sesiones: </strong><br>
-                            {% if pelicula.Sesiones is empty %}
-                                No hay sesiones disponibles.
-                            {% else %}
-                                {% set array_sesiones = [] %}
-                                {% for sesiones in pelicula.Sesiones %}
-                                    {% set array_sesiones = array_sesiones|merge([sesiones.horarios]) %}
+        {% if peliculas is defined %}
+            <table class="table table-bordered">
+                {% for pelicula in peliculas %}
+                    <tr>
+                        <td height="200" width="150"><img height="200" width="150" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}"</td>
+                        <td>
+                            <h3><a href="{{ path("mostrar_pelicula", {"titulo":pelicula.titulo, "id":pelicula.id}) }}">{{ pelicula.titulo }}</a></h3>
+                            <p><strong>Duración: </strong>{{ pelicula.duracion }} minutos</p>
+                            <p><strong>Clasificación por edades: </strong>{{ pelicula.idEdad.clasificacion }}</p>
+                            <p>
+                                <strong>Reparto: </strong>
+                                {% for peli in pelicula.Actorpelicula %}
+                                    <a href="{{ path("categoria_actor", {"nombre":peli.idActor.nombre}) }}">{{ peli.idActor.nombre }}</a>
                                 {% endfor %}
-                                <select id="{{ pelicula.id }}" class="form-control col-lg-2 float-left">
-                                    {% for sesion in array_sesiones|sort %}
-                                        {% if usado is defined and usado != sesion|date("d-m") %}
-                                            <option>{{ sesion|date("d-m") }}</option>
-                                            {% set usado = sesion|date("d-m") %}
-                                        {% elseif usado is defined and usado == sesion|date("d-m") %}
-                                            {% set usado = sesion|date("d-m") %}
-                                        {% else %}
-                                            <option>{{ sesion|date("d-m") }}</option>
-                                            {% set usado = sesion|date("d-m") %}
-                                        {% endif %}
+                            </p>
+                            <p>
+                                <strong>Dirección: </strong>
+                                {% for peli in pelicula.Directorpelicula %}
+                                    <a href="{{ path("categoria_director", {"nombre":peli.idDirector.nombre}) }}">{{ peli.idDirector.nombre }}</a>
+                                {% endfor %}
+                            </p>
+                            <p>
+                                <strong>Géneros: </strong>
+                                {% for peli in pelicula.Generopelicula %}
+                                    <a href="{{ path("categoria_genero", {"nombre":peli.idGenero.nombre}) }}">{{ peli.idGenero.nombre }}</a>
+                                {% endfor %}
+                            </p>
+                            <p><strong>Sinopsis: </strong>{{ pelicula.sinopsis }}</p>
+                            <p>
+                                <strong>Sesiones: </strong><br>
+                                {% if pelicula.Sesiones is empty %}
+                                    No hay sesiones disponibles.
+                                {% else %}
+                                    {% set array_sesiones = [] %}
+                                    {% for sesiones in pelicula.Sesiones %}
+                                        {% set array_sesiones = array_sesiones|merge([sesiones.horarios]) %}
                                     {% endfor %}
-                                </select>
-                                Horarios:
-                                <span id="horarios{{ pelicula.id }}"></span>
-                            {% endif %}
-                        </p>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
+                                    <select id="{{ pelicula.id }}" class="form-control col-lg-2 float-left">
+                                        {% for sesion in array_sesiones|sort %}
+                                            {% if usado is defined and usado != sesion|date("d-m") %}
+                                                <option>{{ sesion|date("d-m") }}</option>
+                                                {% set usado = sesion|date("d-m") %}
+                                            {% elseif usado is defined and usado == sesion|date("d-m") %}
+                                                {% set usado = sesion|date("d-m") %}
+                                            {% else %}
+                                                <option>{{ sesion|date("d-m") }}</option>
+                                                {% set usado = sesion|date("d-m") %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                    Horarios:
+                                    <span id="horarios{{ pelicula.id }}"></span>
+                                {% endif %}
+                            </p>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
     </div>
 {% endblock %}
 {% block javascripts %}

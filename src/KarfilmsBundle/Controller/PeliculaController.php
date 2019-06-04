@@ -32,7 +32,7 @@ class PeliculaController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
 
         return $em->createQuery("SELECT p.id, p.titulo FROM KarfilmsBundle:Pelicula p WHERE p.titulo LIKE :pelicula")
-                        ->setParameter("pelicula", $pelicula . "%")
+                        ->setParameter("pelicula", "%" . $pelicula . "%")
                         ->getResult();
     }
     

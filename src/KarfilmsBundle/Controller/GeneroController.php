@@ -30,18 +30,23 @@ class GeneroController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $genero_repo = $em->getRepository('KarfilmsBundle:Genero');
         $genero = $genero_repo->findOneBy(["nombre" => $nombre]);
-        
+
         $peliculas_obj = $genero->getGeneropelicula();
-        
-        foreach($peliculas_obj as $pelicula)
-        {
+
+        foreach ($peliculas_obj as $pelicula) {
             $peliculas[] = $pelicula->getIdPelicula();
         }
 
-        return $this->render('@Karfilms/genero/categoriagenero.html.twig', [
-                    'peliculas' => $peliculas,
-                    'genero' => $genero
-        ]);
+        if (isset($peliculas)) {
+            return $this->render('@Karfilms/genero/categoriagenero.html.twig', [
+                        'peliculas' => $peliculas,
+                        'genero' => $genero
+            ]);
+        } else {
+            return $this->render('@Karfilms/genero/categoriagenero.html.twig', [
+                        'genero' => $genero
+            ]);
+        }
     }
 
     public function indiceGeneroAction() {
