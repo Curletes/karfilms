@@ -222,3 +222,21 @@ mostrar_genero:
 categoria_genero:
     path: /generos/{nombre}
     defaults: { _controller: KarfilmsBundle:Genero:categoriaGenero }
+    
+#ACTORES
+mostrar_actor:
+    path: /actores
+    defaults: { _controller: KarfilmsBundle:Actor:mostrarActor }
+    
+categoria_actor:
+    path: /actores/{nombre}
+    defaults: { _controller: KarfilmsBundle:Actor:categoriaActor }
+    
+#DIRECTORES
+mostrar_director:
+    path: /directores
+    defaults: { _controller: KarfilmsBundle:Director:mostrarDirector }
+    
+categoria_director:
+    path: /directores/{nombre}
+    defaults: { _controller: KarfilmsBundle:Director:categoriaDirector }

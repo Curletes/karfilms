@@ -1,0 +1,25 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block estadodirector %} active {% endblock%}
+
+{% block body %}
+    <div class="col-lg-6">
+        <h2>Directores</h2>
+        <hr>
+        <table class="table table-bordered">
+            <tr>
+                <th>Nombre</th>
+                <th>Acción</th>
+            </tr>
+            {% for director in directores %}
+                <tr>
+                    <td>{{ director.nombre }}</td>
+                    <td>
+                        <a href="{{ path("categoria_director", {"nombre":director.nombre}) }}" class="btn btn-primary">Ver</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

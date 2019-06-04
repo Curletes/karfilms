@@ -17,6 +17,34 @@ class ActorController extends Controller
         $this->session = new Session();
     }
     
+    public function mostrarActorAction() {
+        $em = $this->getDoctrine()->getEntityManager();
+        $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
+        $actores = $actor_repo->findAll();
+
+        return $this->render('@Karfilms/actor/mostraractor.html.twig', [
+                    "actores" => $actores
+        ]);
+    }
+
+    public function categoriaActorAction($nombre) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $actor_repo = $em->getRepository('KarfilmsBundle:Actor');
+        $actor = $actor_repo->findOneBy(["nombre" => $nombre]);
+        
+        $peliculas_obj = $actor->getActorpelicula();
+        
+        foreach($peliculas_obj as $pelicula)
+        {
+            $peliculas[] = $pelicula->getIdPelicula();
+        }
+
+        return $this->render('@Karfilms/actor/categoriaactor.html.twig', [
+                    'peliculas' => $peliculas,
+                    'actor' => $actor
+        ]);
+    }
+    
     public function indiceActorAction()
     {
         $em = $this->getDoctrine()->getEntityManager();

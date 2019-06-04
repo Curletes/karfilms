@@ -1,0 +1,25 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block estadoactor %} active {% endblock%}
+
+{% block body %}
+    <div class="col-lg-6">
+        <h2>Actores</h2>
+        <hr>
+        <table class="table table-bordered">
+            <tr>
+                <th>Nombre</th>
+                <th>Acción</th>
+            </tr>
+            {% for actor in actores %}
+                <tr>
+                    <td>{{ actor.nombre }}</td>
+                    <td>
+                        <a href="{{ path("categoria_actor", {"nombre":actor.nombre}) }}" class="btn btn-primary">Ver</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

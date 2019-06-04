@@ -28,10 +28,15 @@ class GeneroController extends Controller {
 
     public function categoriaGeneroAction($nombre) {
         $em = $this->getDoctrine()->getEntityManager();
-        $pelicula_repo = $em->getRepository('KarfilmsBundle:Pelicula');
-        $peliculas = $pelicula_repo->findAll();
         $genero_repo = $em->getRepository('KarfilmsBundle:Genero');
         $genero = $genero_repo->findOneBy(["nombre" => $nombre]);
+        
+        $peliculas_obj = $genero->getGeneropelicula();
+        
+        foreach($peliculas_obj as $pelicula)
+        {
+            $peliculas[] = $pelicula->getIdPelicula();
+        }
 
         return $this->render('@Karfilms/genero/categoriagenero.html.twig', [
                     'peliculas' => $peliculas,

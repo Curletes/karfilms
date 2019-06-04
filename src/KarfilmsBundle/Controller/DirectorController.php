@@ -17,6 +17,34 @@ class DirectorController extends Controller
         $this->session = new Session();
     }
     
+    public function mostrarDirectorAction() {
+        $em = $this->getDoctrine()->getEntityManager();
+        $director_repo = $em->getRepository("KarfilmsBundle:Director");
+        $directores = $director_repo->findAll();
+
+        return $this->render('@Karfilms/director/mostrardirector.html.twig', [
+                    "directores" => $directores
+        ]);
+    }
+
+    public function categoriaDirectorAction($nombre) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $director_repo = $em->getRepository('KarfilmsBundle:Director');
+        $director = $director_repo->findOneBy(["nombre" => $nombre]);
+        
+        $peliculas_obj = $director->getDirectorpelicula();
+        
+        foreach($peliculas_obj as $pelicula)
+        {
+            $peliculas[] = $pelicula->getIdPelicula();
+        }
+
+        return $this->render('@Karfilms/director/categoriadirector.html.twig', [
+                    'peliculas' => $peliculas,
+                    'director' => $director
+        ]);
+    }
+    
     public function indiceDirectorAction()
     {
         $em = $this->getDoctrine()->getEntityManager();

@@ -27,6 +27,12 @@
                     <li class="nav-item">
                         <a class="nav-link {% block estadogenero %}{% endblock %}" href="{{ path("mostrar_genero") }}">Géneros</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block estadoactor %}{% endblock %}" href="{{ path("mostrar_actor") }}">Actores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block estadodirector %}{% endblock %}" href="{{ path("mostrar_director") }}">Directores</a>
+                    </li>
                     <form class="form-inline my-2 my-lg-0">
                         <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
                         <span id="resultados"></span>
