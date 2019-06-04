@@ -109,13 +109,13 @@
                         var titulo = data.peliculas[i].titulo;
                         var id = data.peliculas[i].id;
                         
-                        if(!/inicio/.test(window.location.href))
+                        if(/(inicio|cartelera|generos|actores|directores|sugerencias)$/.test(window.location.href))
                         {
-                            texto += "<a id='pelicula" + i + "' href='../../cartelera/"+titulo+"/"+id+"'>" + titulo + "</a><br>";
+                            texto += "<a id='pelicula" + i + "' href='cartelera/"+titulo+"/"+id+"'>" + titulo + "</a><br>";
                         }
                         else
                         {
-                            texto += "<a id='pelicula" + i + "' href='cartelera/"+titulo+"/"+id+"'>" + titulo + "</a><br>";
+                            texto += "<a id='pelicula" + i + "' href='../../cartelera/"+titulo+"/"+id+"'>" + titulo + "</a><br>";
                         }
                     }
                     $('#resultados').html(texto);
