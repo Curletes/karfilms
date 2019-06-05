@@ -37,12 +37,12 @@
                         {% set like = "false" %}
                         {% for valoracion in sugerencia.Valoracion|sort %}
                             {% set valoraciones = [] %}
-                            {% set valoraciones = valoraciones|merge([valoracion]) %}
+                            {% set valoraciones = valoraciones|merge([valoracion.idUsuario.id]) %}
                             {% for valoracion in valoraciones|sort %}
                                 {% set hayvaloraciones = hayvaloraciones + 1 %}
-                                {% if app.user.id is defined and valoracion.idUsuario.id == app.user.id %}
+                                {% if app.user.id is defined and valoracion == app.user.id %}
                                     {% set like = "true" %}
-                                {% elseif app.user.id is defined and valoracion.idUsuario.id != app.user.id %}
+                                {% elseif app.user.id is defined and valoracion != app.user.id %}
                                     {% set like = "false" %}
                                 {% endif %}
                             {% endfor %}
