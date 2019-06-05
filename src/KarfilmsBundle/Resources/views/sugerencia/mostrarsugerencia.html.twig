@@ -36,17 +36,18 @@
                         {% set hayvaloraciones = 0 %}
                         {% for valoracion in sugerencia.Valoracion %}
                             {% set hayvaloraciones = hayvaloraciones + 1 %}
-                            {% if valoracion.idUsuario.id == app.user.id %}
-                                <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-success">Like</a>
-                            {% else %}
-                                <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
+                            {% if app.user.id is defined %}
+                                {% if valoracion.idUsuario.id == app.user.id and hayvaloraciones == 1 %}
+                                    <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-success">Like</a>
+                                {% elseif valoracion.idUsuario.id != app.user.id and hayvaloraciones == 1 %}
+                                    <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
+                                {% endif %}
                             {% endif %}
-                            <span id="valoracionescont">({{ hayvaloraciones }})</span>
                         {% endfor %}
-                        {% if hayvaloraciones == 0 %}
+                        {% if hayvaloraciones == 0 and app.user.id is defined %}
                             <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
-                            <span id="valoracionescont">({{ hayvaloraciones }})</a>
                         {% endif %}
+                        <span id="valoracionescont">Le gusta a {{ hayvaloraciones }} usuarios.</span>
                     </td>
                 </tr>
             {% endfor %}
