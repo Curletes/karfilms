@@ -36,12 +36,15 @@
                         {% set hayvaloraciones = 0 %}
                         {% set like = "false" %}
                         {% for valoracion in sugerencia.Valoracion|sort %}
-                            {% set hayvaloraciones = hayvaloraciones + 1 %}
-                            {% if app.user.id is defined and valoracion.idUsuario.id == app.user.id %}
-                                {% set like = "true" %}
-                            {% elseif app.user.id is defined and valoracion.idUsuario.id != app.user.id %}
-                                {% set like = "false" %}
-                            {% endif %}
+                            {% set valoraciones[] = valoracion %}
+                            {% for valoracion in valoraciones|sort %}
+                                {% set hayvaloraciones = hayvaloraciones + 1 %}
+                                {% if app.user.id is defined and valoracion.idUsuario.id == app.user.id %}
+                                    {% set like = "true" %}
+                                {% elseif app.user.id is defined and valoracion.idUsuario.id != app.user.id %}
+                                    {% set like = "false" %}
+                                {% endif %}
+                            {% endfor %}
                         {% endfor %}
                         {% if app.user.id is defined and hayvaloraciones == 0 %}
                             <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
