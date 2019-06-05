@@ -73,7 +73,6 @@ class SugerenciaController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $sugerencia_repo = $em->getRepository("KarfilmsBundle:Sugerencia");
         $sugerencia = $sugerencia_repo->find($idSugerencia);
-
         $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
         $usuario = $usuario_repo->find($idUsuario);
         
