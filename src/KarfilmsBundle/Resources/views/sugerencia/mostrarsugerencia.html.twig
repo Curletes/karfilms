@@ -35,7 +35,7 @@
                         {% endif %}
                         {% set hayvaloraciones = 0 %}
                         {% set like = false %}
-                        {% for valoracion in sugerencia.Valoracion %}
+                        {% for valoracion in sugerencia.Valoracion|sort %}
                             {% set hayvaloraciones = hayvaloraciones + 1 %}
                             {% if app.user.id is defined and valoracion.idUsuario.id == app.user.id %}
                                 {% set like = true %}
