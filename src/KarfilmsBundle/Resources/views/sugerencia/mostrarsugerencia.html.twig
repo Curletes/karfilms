@@ -14,10 +14,10 @@
             {% endif %}
         {% endfor %}
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
-        <div class="col-lg-6">
-            {{ form_start(form, {'action': '', 'method':'POST'}) }}
-            {{ form_end(form) }}
-        </div>
+            <div class="col-lg-6">
+                {{ form_start(form, {'action': '', 'method':'POST'}) }}
+                {{ form_end(form) }}
+            </div>
         {% endif %}
         <table class="table table-bordered">
             {% for sugerencia in sugerencias %}
@@ -26,21 +26,29 @@
                     <td>
                         {% if app.user.id is defined and sugerencia.idUsuario.id == app.user.id %}
                             <strong><a href="{{ path("mi_perfil", {"id":sugerencia.idUsuario.id}) }}">{{ sugerencia.idUsuario.Nombre }}</a></strong>
-                        {% else %}
+                            {% else %}
                             <strong><a href="{{ path("perfil_usuario", {"nombre":sugerencia.idUsuario.Nombre, "id":sugerencia.idUsuario.id}) }}">{{ sugerencia.idUsuario.Nombre }}</a></strong>
-                        {% endif %}
+                            {% endif %}
                         <p>{{ sugerencia.texto }}</p>
                         {% if app.user.id is defined and app.user.id == sugerencia.idUsuario.id or is_granted("ROLE_ADMIN") %}
                             <a href="{{ path("eliminar_sugerencia", {"id":sugerencia.id}) }}" class="btn btn-danger">Eliminar</a>
                         {% endif %}
                         {% set hayvaloraciones = 0 %}
+                        {% set like = false %}
                         {% for valoracion in sugerencia.Valoracion %}
                             {% set hayvaloraciones = hayvaloraciones + 1 %}
+                            {% if app.user.id is defined and valoracion.idUsuario.id == app.user.id %}
+                                {% set like = true %}
+                            {% else %}
+                                {% set like = false %}
+                            {% endif %}
                         {% endfor %}
-                        {% if app.user.id is defined and valoracion.idUsuario.id == app.user.id %}
-                            <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-success">Like</a>
-                        {% else %}
+                        {% if app.user.id is defined and hayvaloraciones == 0 %}
                             <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
+                        {% elseif app.user.id is defined and like == true %}
+                             <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-success">Like</a>
+                        {% elseif app.user.id is defined and like == false %}
+                             <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
                         {% endif %}
                         <span id="valoracionescont">Le gusta a {{ hayvaloraciones }} usuario{%if hayvaloraciones != 1 %}s{% endif %}.</span>
                     </td>
