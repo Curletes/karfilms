@@ -36,7 +36,8 @@
                         {% set hayvaloraciones = 0 %}
                         {% set like = "false" %}
                         {% for valoracion in sugerencia.Valoracion|sort %}
-                            {% set valoraciones[] = valoracion %}
+                            {% set valoraciones = [] %}
+                            {% set valoraciones = valoraciones|merge([valoracion]) %}
                             {% for valoracion in valoraciones|sort %}
                                 {% set hayvaloraciones = hayvaloraciones + 1 %}
                                 {% if app.user.id is defined and valoracion.idUsuario.id == app.user.id %}
