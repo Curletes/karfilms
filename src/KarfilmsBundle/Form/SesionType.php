@@ -9,22 +9,26 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class SesionType extends AbstractType
-{
+class SesionType extends AbstractType {
+
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder->add('horarios', DateTimeType::class, array("label" => "Fecha y hora:", "required"=>"required"))
-                ->add('idPelicula', EntityType::class, array("label" => "Película:", "required"=>"required", "mapped" => false, "class" => "KarfilmsBundle:Pelicula"))
-                ->add('idSala', EntityType::class, array("label" => "Sala:", "required"=>"required", "mapped" => false, "class" => "KarfilmsBundle:Sala"))
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder->add('horarios', DateTimeType::class, array("label" => "Fecha y hora:", "required" => "required", 'placeholder' => [
+                        'year' => 'Año', 'month' => 'Mes', 'day' => 'Día',
+                        'hour' => 'Hora', 'minute' => 'Minutos',
+            ]))
+                ->add('idPelicula', EntityType::class, array("label" => "Película:", "required" => "required", "mapped" => false, "class" => "KarfilmsBundle:Pelicula"))
+                ->add('idSala', EntityType::class, array("label" => "Sala:", "required" => "required", "mapped" => false, "class" => "KarfilmsBundle:Sala"))
                 ->add('Enviar', SubmitType::class);
-    }/**
+    }
+
+/**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
-    {
+
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'KarfilmsBundle\Entity\Sesion'
         ));
@@ -33,10 +37,8 @@ class SesionType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
-    {
+    public function getBlockPrefix() {
         return 'karfilmsbundle_sesion';
     }
-
 
 }

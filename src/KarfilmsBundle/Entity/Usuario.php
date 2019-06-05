@@ -4,6 +4,7 @@ namespace KarfilmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Usuario
@@ -83,6 +84,11 @@ class Usuario implements UserInterface
     }
     
     // END AUTH
+    protected $Valoracion;
+    
+    public function __construct() {
+        $this->Valoracion = new ArrayCollection();
+    }
     
     function getId() {
         return $this->id;
@@ -138,6 +144,10 @@ class Usuario implements UserInterface
 
     function setIcono($icono) {
         $this->icono = $icono;
+    }
+
+    public function getValoracion() {
+        return $this->Valoracion;
     }
 }
 

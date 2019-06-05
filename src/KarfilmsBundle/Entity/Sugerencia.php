@@ -3,6 +3,7 @@
 namespace KarfilmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Sugerencia
@@ -37,6 +38,12 @@ class Sugerencia
      * })
      */
     private $idUsuario;
+    
+    protected $Valoracion;
+    
+    public function __construct() {
+        $this->Valoracion = new ArrayCollection();
+    }
 
     function getId() {
         return $this->id;
@@ -62,6 +69,14 @@ class Sugerencia
         $this->idUsuario = $idUsuario;
     }
 
+    public function addActorpelicula(\KarfilmsBundle\Entity\Usuario $usuario) {
+        $this->Valoracion[] = $usuario;
 
+        return $this;
+    }
+
+    public function getValoracion() {
+        return $this->Valoracion;
+    }
 }
 

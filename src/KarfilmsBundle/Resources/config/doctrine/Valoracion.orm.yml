@@ -8,6 +8,11 @@ KarfilmsBundle\Entity\Valoracion:
         fk_id_sugerencia_idx:
             columns:
                 - id_sugerencia
+    uniqueConstraints:
+        fk_valoracion_idx:
+            columns:
+                - id_usuario
+                - id_sugerencia
     id:
         id:
             type: integer
@@ -23,7 +28,7 @@ KarfilmsBundle\Entity\Valoracion:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: null
+            inversedBy: Sugerencia
             joinColumns:
                 id_sugerencia:
                     referencedColumnName: id

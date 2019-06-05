@@ -214,6 +214,10 @@ eliminar_sugerencia:
     path: /sugerencias/{id}
     defaults: { _controller: KarfilmsBundle:Sugerencia:eliminarSugerencia }
 
+like_sugerencia:
+    path: /sugerencias/like/{idSugerencia}{idUsuario}
+    defaults: { _controller: KarfilmsBundle:Sugerencia:likeSugerencia }
+
 #GÉNEROS
 mostrar_genero:
     path: /generos

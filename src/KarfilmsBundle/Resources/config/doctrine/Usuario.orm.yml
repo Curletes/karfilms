@@ -57,4 +57,9 @@ KarfilmsBundle\Entity\Usuario:
             options:
                 fixed: false
                 default: 'anonimo.png'
+    oneToMany:
+        Valoracion:
+            targetEntity: Valoracion
+            mappedBy: idUsuario
+            cascade: ["persist"]
     lifecycleCallbacks: {  }

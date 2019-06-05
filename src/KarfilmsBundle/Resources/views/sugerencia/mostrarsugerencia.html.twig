@@ -33,6 +33,18 @@
                         {% if app.user.id is defined and app.user.id == sugerencia.idUsuario.id or is_granted("ROLE_ADMIN") %}
                             <a href="{{ path("eliminar_sugerencia", {"id":sugerencia.id}) }}" class="btn btn-danger">Eliminar</a>
                         {% endif %}
+                        {% set hayvaloraciones = 1 %}
+                        {% for valoracion in sugerencia.Valoracion %}
+                            {% set hayvaloraciones = 0 %}
+                            {% if valoracion.idUsuario.id == app.user.id %}
+                                <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-success">Like</a>
+                            {% else %}
+                                <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
+                            {% endif %}
+                        {% endfor %}
+                        {% if hayvaloraciones == 1 %}
+                            <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

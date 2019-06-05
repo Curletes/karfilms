@@ -32,4 +32,9 @@ KarfilmsBundle\Entity\Sugerencia:
                 id_usuario:
                     referencedColumnName: id
             orphanRemoval: false
+    oneToMany:
+        Valoracion:
+            targetEntity: Valoracion
+            mappedBy: idSugerencia
+            cascade: ["persist"]
     lifecycleCallbacks: {  }
