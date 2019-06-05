@@ -39,10 +39,8 @@
                             {% set hayvaloraciones = hayvaloraciones + 1 %}
                             {% if app.user.id is defined and valoracion.idUsuario.id == app.user.id %}
                                 {% set like = "true" %}
-                                estoy en true
                             {% elseif app.user.id is defined and valoracion.idUsuario.id != app.user.id %}
                                 {% set like = "false" %}
-                                estoy en false
                             {% endif %}
                         {% endfor %}
                         {% if app.user.id is defined and hayvaloraciones == 0 %}
