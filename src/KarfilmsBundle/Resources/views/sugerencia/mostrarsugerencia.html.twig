@@ -30,7 +30,7 @@
                             <strong><a href="{{ path("perfil_usuario", {"nombre":sugerencia.idUsuario.Nombre, "id":sugerencia.idUsuario.id}) }}">{{ sugerencia.idUsuario.Nombre }}</a></strong>
                         {% endif %}
                         <p>{{ sugerencia.texto }}</p>
-                        {% if app.user.id is defined and app.user.id == sugerencia.idUsuario.id %}
+                        {% if app.user.id is defined and app.user.id == sugerencia.idUsuario.id or is_granted("ROLE_ADMIN") %}
                             <a href="{{ path("eliminar_sugerencia", {"id":sugerencia.id}) }}" class="btn btn-danger">Eliminar</a>
                         {% endif %}
                     </td>

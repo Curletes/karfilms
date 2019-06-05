@@ -34,7 +34,7 @@
                         <a class="nav-link {% block estadosugerencia %}{% endblock %}" href="{{ path("mostrar_sugerencia") }}">Sugerencias</a>
                     </li>
                     <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
+                        <input id="buscador" class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
                         <span id="resultados"></span>
                     </form>
                 </ul>
@@ -93,7 +93,7 @@
 
     $(document).ready(function ()
     {
-        $("input").keyup(function ()
+        $("#buscador").keyup(function ()
         {
             var texto = "";
             $.ajax({
@@ -112,6 +112,10 @@
                         if(/(admin)\/.+\/\d/.test(window.location.href))
                         {
                             texto += "<a id='pelicula" + i + "' href='../../../cartelera/"+titulo+"/"+id+"'>" + titulo + "</a><br>";
+                        }
+                        else if(/(admin)\/.+\/.+$/.test(window.location.href))
+                        {
+                            texto += "<a id='pelicula" + i + "' href='../../cartelera/"+titulo+"/"+id+"'>" + titulo + "</a><br>";
                         }
                         else if(/(admin)\//.test(window.location.href))
                         {
