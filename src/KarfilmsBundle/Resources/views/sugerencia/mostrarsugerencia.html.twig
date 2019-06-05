@@ -38,8 +38,10 @@
                         {% for valoracion in sugerencia.Valoracion|sort %}
                             {% set hayvaloraciones = hayvaloraciones + 1 %}
                             {% if app.user.id is defined and valoracion.idUsuario.id == app.user.id %}
+                                {{dump(like)}}
                                 {% set like = true %}
                             {% elseif app.user.id is defined and valoracion.idUsuario.id != app.user.id %}
+                                {{ dump(like) }}
                                 {% set like = false %}
                             {% endif %}
                         {% endfor %}
