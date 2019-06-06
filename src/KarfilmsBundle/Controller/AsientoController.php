@@ -43,21 +43,31 @@ class AsientoController extends Controller
             if($form->isValid())
             {
                 $em = $this->getDoctrine()->getEntityManager();
-                $asiento = new Asiento();
-                $asiento->setFila($form->get("fila")->getData());
-                $asiento->setButaca($form->get("butaca")->getData());
-                $asiento->setIdSala($form->get("idSala")->getData());
                 
-                $em->persist($asiento);
-                $flush = $em->flush();
+                $asiento_repo = $em->getRepository("KarfilmsBundle:Asiento");
+                $asiento_existe = $asiento_repo->findOneBy([
+                    "idSala" => $form->get("idSala")->getData(),
+                    "fila" => $form->get("fila")->getData(),
+                    "butaca" => $form->get("butaca")->getData()
+                ]);
                 
-                if($flush == null)
-                {
-                    $status = "Asiento añadido correctamente.";
+                if ($asiento_existe == null) {
+                    $asiento = new Asiento();
+                    $asiento->setFila($form->get("fila")->getData());
+                    $asiento->setButaca($form->get("butaca")->getData());
+                    $asiento->setIdSala($form->get("idSala")->getData());
+
+                    $em->persist($asiento);
+                    $flush = $em->flush();
+
+                    if($flush == null)
+                    {
+                        $status = "Asiento añadido correctamente.";
+                    }
                 }
                 else
                 {
-                    $status = "Error al añadir el asiento.";
+                    $status = "Error ese asiento ya existe.";
                 }
             }
             else
@@ -109,20 +119,30 @@ class AsientoController extends Controller
         {
             if($form->isValid())
             {
-                $asiento->setFila($form->get("fila")->getData());
-                $asiento->setButaca($form->get("butaca")->getData());
-                $asiento->setIdSala($form->get("idSala")->getData());
+                $asiento_repo = $em->getRepository("KarfilmsBundle:Asiento");
+                $asiento_existe = $asiento_repo->findOneBy([
+                    "idSala" => $form->get("idSala")->getData(),
+                    "fila" => $form->get("fila")->getData(),
+                    "butaca" => $form->get("butaca")->getData()
+                ]);
                 
-                $em->persist($asiento);
-                $flush = $em->flush();
-                
-                if($flush == null)
-                {
-                    $status = "Asiento editado correctamente.";
+                if ($asiento_existe == null) {
+                    $asiento = new Asiento();
+                    $asiento->setFila($form->get("fila")->getData());
+                    $asiento->setButaca($form->get("butaca")->getData());
+                    $asiento->setIdSala($form->get("idSala")->getData());
+
+                    $em->persist($asiento);
+                    $flush = $em->flush();
+
+                    if($flush == null)
+                    {
+                        $status = "Asiento añadido correctamente.";
+                    }
                 }
                 else
                 {
-                    $status = "Error al editar el asiento.";
+                    $status = "Ese asiento ya existe.";
                 }
             }
             else

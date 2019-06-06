@@ -33,9 +33,9 @@
                     <li class="nav-item">
                         <a class="nav-link {% block estadosugerencia %}{% endblock %}" href="{{ path("mostrar_sugerencia") }}">Sugerencias</a>
                     </li>
-                    <form class="form-inline my-2 my-lg-0">
+                    <form class="navbar-form navbar-left">
                         <input id="buscador" class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
-                        <span id="resultados"></span>
+                        <div class="dropdown"><span id="resultados"></span></div>
                     </form>
                 </ul>
                 <ul class="nav navbar-nav ml-auto mr-5">
@@ -104,36 +104,33 @@
                 },
                 success: function (data)
                 {
+                    texto += "<div class='dropdown-menu show'>";
                     for (var i in data.peliculas)
                     {
                         var titulo = data.peliculas[i].titulo;
                         var id = data.peliculas[i].id;
-                        
-                        if(/(admin)\/.+\/\d/.test(window.location.href))
+
+                        if (/(admin)\/.+\/\d/.test(window.location.href))
                         {
-                            texto += "<a id='pelicula" + i + "' href='../../../cartelera/"+titulo+"/"+id+"'>" + titulo + "</a><br>";
-                        }
-                        else if(/(admin)\/.+\/.+$/.test(window.location.href))
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
+                        } else if (/(admin)\/.+\/.+$/.test(window.location.href))
                         {
-                            texto += "<a id='pelicula" + i + "' href='../../cartelera/"+titulo+"/"+id+"'>" + titulo + "</a><br>";
-                        }
-                        else if(/(admin)\//.test(window.location.href))
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
+                        } else if (/(admin)\//.test(window.location.href))
                         {
-                            texto += "<a id='pelicula" + i + "' href='../cartelera/"+titulo+"/"+id+"'>" + titulo + "</a><br>";
-                        }
-                        else if(/((-\d+)|registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias)$/.test(window.location.href))
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
+                        } else if (/((-\d+)|registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias)$/.test(window.location.href))
                         {
-                            texto += "<a id='pelicula" + i + "' href='cartelera/"+titulo+"/"+id+"'>" + titulo + "</a><br>";
-                        }
-                        else if(/(registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias)\/.+\//.test(window.location.href))
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
+                        } else if (/(registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias)\/.+\//.test(window.location.href))
                         {
-                            texto += "<a id='pelicula" + i + "' href='../../cartelera/"+titulo+"/"+id+"'>" + titulo + "</a><br>";
-                        }
-                        else if(/(registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias)\//.test(window.location.href))
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
+                        } else if (/(registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias)\//.test(window.location.href))
                         {
-                            texto += "<a id='pelicula" + i + "' href='../cartelera/"+titulo+"/"+id+"'>" + titulo + "</a><br>";
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
                         }
                     }
+                    texto += "</div>";
                     $('#resultados').html(texto);
                 },
                 error: function (data, xhr, status)

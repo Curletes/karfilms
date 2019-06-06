@@ -110,20 +110,29 @@ class SesionController extends Controller
         {
             if($form->isValid())
             {
-                $sesion->setHorarios($form->get("horarios")->getData());
-                $sesion->setIdSala($form->get("idSala")->getData());
-                $sesion->setIdPelicula($form->get("idPelicula")->getData());
+                $sesion_repo = $em->getRepository("KarfilmsBundle:Sesion");
+                $sesion_ocupada = $sesion_repo->findOneBy([
+                    "idSala" => $form->get("idSala")->getData(),
+                    "horarios" => $form->get("horarios")->getData()
+                ]);
                 
-                $em->persist($sesion);
-                $flush = $em->flush();
+                if ($sesion_ocupada == null) {
+                    $sesion = new Sesion();
+                    $sesion->setHorarios($form->get("horarios")->getData());
+                    $sesion->setIdPelicula($form->get("idPelicula")->getData());
+                    $sesion->setIdSala($form->get("idSala")->getData());
+                    
+                    $em->persist($sesion);
+                    $flush = $em->flush();
                 
-                if($flush == null)
-                {
-                    $status = "Sesión editada correctamente.";
+                    if($flush == null)
+                    {
+                        $status = "Sesión añadida correctamente.";
+                    }
                 }
                 else
                 {
-                    $status = "Error al editar la sesión.";
+                    $status = "Esa sesión ya está ocupada.";
                 }
             }
             else
