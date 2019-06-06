@@ -62,6 +62,14 @@ class SugerenciaController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $sugerencia_repo = $em->getRepository("KarfilmsBundle:Sugerencia");
         $sugerencia = $sugerencia_repo->find($id);
+        
+        $valoracion_repo = $em->getRepository("KarfilmsBundle:Valoracion");
+        $valoraciones = $valoracion_repo->findBy(["idSugerencia" => $id]);
+
+        foreach($valoraciones as $valoracion)
+        {
+            $em->remove($valoracion);
+        }
 
         $em->remove($sugerencia);
         $em->flush();

@@ -35,30 +35,26 @@
                         {% endif %}
                         {% set hayvaloraciones = 0 %}
                         {% set like = "false" %}
-                        {% for valoracion in sugerencia.Valoracion|sort %}
-                            {% set valoraciones = [] %}
-                            {% set valoraciones = valoraciones|merge([valoracion.idUsuario.id]) %}
-                            {% for valoracion in valoraciones|sort %}
-                                {% set hayvaloraciones = hayvaloraciones + 1 %}
-                                {% if app.user.id is defined and valoracion == app.user.id %}
-                                    {% set like = "true" %}
-                                {% elseif app.user.id is defined and valoracion != app.user.id %}
-                                    {% set like = "false" %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endfor %}
-                        {% if app.user.id is defined and hayvaloraciones == 0 %}
-                            <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
-                        {% elseif app.user.id is defined and like == "true" %}
-                            <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-success">Like</a>
-                        {% elseif app.user.id is defined and like == "false" %}
-                            <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
-                        {% endif %}
-                        <span id="valoracionescont">Le gusta a {{ hayvaloraciones }} usuario{%if hayvaloraciones != 1 %}s{% endif %}.</span>
-                    </td>
-                </tr>
+                        {% for valoracion in sugerencia.Valoracion %}
+                            {% set hayvaloraciones = hayvaloraciones + 1 %}
+                            {% if app.user.id is defined and valoracion.idUsuario.id == app.user.id %}
+                                {% set like = "true" %}
+                            {% elseif app.user.id is defined and valoracion.idUsuario.id != app.user.id and like == "false" %}
+                                {% set like = "false" %}
+                            {% endif %}
+                    {% endfor %}
+                    {% if app.user.id is defined and hayvaloraciones == 0 %}
+                        <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
+                    {% elseif app.user.id is defined and like == "true" %}
+                        <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-success">Like</a>
+                    {% elseif app.user.id is defined and like == "false" %}
+                        <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
+                    {% endif %}
+                    <span id="valoracionescont">Le gusta a {{ hayvaloraciones }} usuario{%if hayvaloraciones != 1 %}s{% endif %}.</span>
+                </td>
+            </tr>
             {% endfor %}
-        </table>
-    </div>
-    <div class="clearfix"></div>
-{% endblock %}
+            </table>
+        </div>
+        <div class="clearfix"></div>
+        {% endblock %}
