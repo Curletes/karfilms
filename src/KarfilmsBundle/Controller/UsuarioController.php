@@ -162,7 +162,7 @@ class UsuarioController extends Controller {
             }
 
             $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("perfil_usuario", ["id" => $id]);
+            return $this->redirectToRoute("mi_perfil", ["id" => $id]);
         }
 
         return $this->render('@Karfilms/usuario/editarusuario.html.twig', [
