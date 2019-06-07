@@ -20,24 +20,13 @@
             </tr>
             
             {% for sesion in sesiones %}
-                {% set reservado = false %}
                 <tr>
                     <td>Día {{ sesion.horarios|date("d/m") }} a las {{ sesion.horarios|date("H:i") }}</td>
                     <td>{{ sesion.idPelicula.titulo }}</td>
                     <td>{{ sesion.idSala.nombre }}</td>
                     <td>
-                        {% for reserva in reservas %}
-                            {% if sesion.id == reserva.idSesion.id %}
-                                {% set reservado = true %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if reservado == true %}
-                            <a href="#" class="btn btn-warning disabled">Editar</a>
-                            <a href="#" class="btn btn-danger disabled">Eliminar</a>
-                        {% else %}
-                            <a href="{{ path("editar_sesion", {"id":sesion.id}) }}" class="btn btn-warning">Editar</a>
-                            <a href="{{ path("eliminar_sesion", {"id":sesion.id}) }}" class="btn btn-danger">Eliminar</a>
-                        {% endif %}
+                        <a href="{{ path("editar_sesion", {"id":sesion.id}) }}" class="btn btn-warning">Editar</a>
+                        <a href="{{ path("eliminar_sesion", {"id":sesion.id}) }}" class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}
