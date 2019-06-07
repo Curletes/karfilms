@@ -119,6 +119,9 @@
                         } else if (/(admin)\//.test(window.location.href))
                         {
                             texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
+                        } else if (/(reserva)/.test(window.location.href))
+                        {
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
                         } else if (/((-\d+)|registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias)$/.test(window.location.href))
                         {
                             texto += "<a class='dropdown-item' id='pelicula" + i + "' href='cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";

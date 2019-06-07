@@ -108,11 +108,23 @@ class UsuarioController extends Controller {
         $sugerencia_repo = $em->getRepository("KarfilmsBundle:Sugerencia");
         $sugerencias = $sugerencia_repo->findAll();
         
+        $valoracion_repo = $em->getRepository("KarfilmsBundle:Valoracion");
+        $valoraciones = $valoracion_repo->findAll();
+        
         foreach($sugerencias as $sugerencia)
         {
             if($sugerencia->getIdUsuario()->getId() == $id)
             {
                 $em->remove($sugerencia);
+                $em->flush();
+            }
+        }
+        
+        foreach($valoraciones as $valoracion)
+        {
+            if($valoracion->getIdUsuario()->getId() == $id)
+            {
+                $em->remove($valoracion);
                 $em->flush();
             }
         }

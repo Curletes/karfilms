@@ -1,22 +1,30 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
-    <div class="col-lg-9">
-        <h2>Reserva de entrada</h2>
-        <hr>
-        <table class="table table-bordered">
-            <tr>
-                <th>Fecha y hora</th>
-                <th>Película</th>
-                <th>Seleccionar asiento</th>
-                <th>Acción</th>
-            </tr>    
-                <tr>
-                    <td>Día {{ sesion.horarios|date("d/m") }} a las {{ sesion.horarios|date("H:i") }}</td>
-                    <td>{{ pelicula.titulo }}</td>
-                </tr>
-        </table>
-        <a href="{{ path("inicio") }}" class="btn btn-secondary">Cancelar</a>
-    </div>
-    <div class="clearfix"></div>
+    {% set accesible = false %}
+    {% for hora in pelicula.Sesiones %}
+        {% if hora.horarios == sesion.horarios %}
+            {% set accesible = true %}
+            <div class="col-lg-9">
+                <h2>Reserva de entrada</h2>
+                <hr>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Fecha y hora</th>
+                        <th>Película</th>
+                        <th>Seleccionar asiento</th>
+                        <th>Acción</th>
+                    </tr>    
+                        <tr>
+                            <td>Día {{ sesion.horarios|date("d/m") }} a las {{ sesion.horarios|date("H:i") }}</td>
+                            <td>{{ pelicula.titulo }}</td>
+                        </tr>
+                </table>
+                <a href="{{ path("inicio") }}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% if accesible == false %}
+        <div class="alert alert-danger">Imposible acceder a esta página.</div>
+    {% endif %}
 {% endblock %}
