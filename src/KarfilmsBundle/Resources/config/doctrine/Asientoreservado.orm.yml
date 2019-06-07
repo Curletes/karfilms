@@ -2,9 +2,6 @@ KarfilmsBundle\Entity\Asientoreservado:
     type: entity
     table: asientosreservados
     indexes:
-        fk_reserva_idx:
-            columns:
-                - id_reserva
         fk_seat_idx:
             columns:
                 - id_asiento
@@ -21,16 +18,6 @@ KarfilmsBundle\Entity\Asientoreservado:
             generator:
                 strategy: IDENTITY
     manyToOne:
-        idReserva:
-            targetEntity: Reserva
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                id_reserva:
-                    referencedColumnName: id
-            orphanRemoval: false
         idAsiento:
             targetEntity: Asiento
             cascade: {  }

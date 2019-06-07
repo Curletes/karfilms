@@ -148,4 +148,19 @@ class SesionController extends Controller
             "form" => $form->createView()
         ]);
     }
+    
+    public function reservarEntradaAction(Request $request, $pelicula, $sesion)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
+        $pelicula = $pelicula_repo->find(["id" => $pelicula]);
+        
+        $sesion_repo = $em->getRepository("KarfilmsBundle:Sesion");
+        $sesion = $sesion_repo->find(["id" => $sesion]);
+        
+        return $this->render('@Karfilms/reserva/reservarentrada.html.twig', [
+            "pelicula" => $pelicula,
+            "sesion" => $sesion
+        ]);
+    }
 }

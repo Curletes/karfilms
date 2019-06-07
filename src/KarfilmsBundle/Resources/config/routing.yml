@@ -143,6 +143,10 @@ eliminar_sesion:
 editar_sesion:
     path: /admin/sesiones/editar-sesion/{id}
     defaults: { _controller: KarfilmsBundle:Sesion:editarSesion }
+    
+reservar_entrada:
+    path: /reserva/{pelicula}/{sesion}
+    defaults: { _controller: KarfilmsBundle:Sesion:reservarEntrada }
 
 ###################ACCIONES SOBRE LAS PELÍCULAS###################
 indice_pelicula:

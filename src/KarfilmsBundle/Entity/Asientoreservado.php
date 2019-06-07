@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Asientoreservado
  *
- * @ORM\Table(name="asientosreservados", indexes={@ORM\Index(name="fk_reserva_idx", columns={"id_reserva"}), @ORM\Index(name="fk_seat_idx", columns={"id_asiento"}), @ORM\Index(name="fk_session_idx", columns={"id_sesion"})})
+ * @ORM\Table(name="asientosreservados", indexes={@ORM\Index(name="fk_seat_idx", columns={"id_asiento"}), @ORM\Index(name="fk_session_idx", columns={"id_sesion"})})
  * @ORM\Entity
  */
 class Asientoreservado
@@ -20,16 +20,6 @@ class Asientoreservado
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
-    /**
-     * @var \KarfilmsBundle\Entity\Reserva
-     *
-     * @ORM\ManyToOne(targetEntity="KarfilmsBundle\Entity\Reserva")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_reserva", referencedColumnName="id")
-     * })
-     */
-    private $idReserva;
 
     /**
      * @var \KarfilmsBundle\Entity\Asiento
@@ -54,10 +44,6 @@ class Asientoreservado
         return $this->id;
     }
 
-    function getIdReserva(): \KarfilmsBundle\Entity\Reserva {
-        return $this->idReserva;
-    }
-
     function getIdAsiento(): \KarfilmsBundle\Entity\Asiento {
         return $this->idAsiento;
     }
@@ -68,10 +54,6 @@ class Asientoreservado
 
     function setId($id) {
         $this->id = $id;
-    }
-
-    function setIdReserva(\KarfilmsBundle\Entity\Reserva $idReserva) {
-        $this->idReserva = $idReserva;
     }
 
     function setIdAsiento(\KarfilmsBundle\Entity\Asiento $idAsiento) {
