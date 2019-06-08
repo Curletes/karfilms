@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Doctrine\ORM\EntityRepository;
 
 class ReservarAsientoType extends AbstractType {
 
@@ -19,14 +20,28 @@ class ReservarAsientoType extends AbstractType {
                     "required" => "required",
                     "mapped" => false,
                     "class" => "KarfilmsBundle:Asiento",
-                    "choice_label" => "fila"
+                    "choice_label" => "fila",
+                    "query_builder" => function (EntityRepository $er) use ($options){
+                        return $er->createQueryBuilder('a')
+                                ->orderBy('a.fila', 'ASC')
+                                ->where('a.idSala = :idSala')
+                                ->groupBy("a.fila")
+                                ->setParameter("idSala", $options["idSala"]);
+                    },
                 ))
                 ->add('butaca', EntityType::class, array(
                     "label" => "Butaca:",
                     "required" => "required",
                     "mapped" => false,
                     "class" => "KarfilmsBundle:Asiento",
-                    "choice_label" => "butaca"
+                    "choice_label" => "butaca",
+                    "query_builder" => function (EntityRepository $er) use ($options){
+                        return $er->createQueryBuilder('a')
+                                ->orderBy('a.butaca', 'ASC')
+                                ->where('a.idSala = :idSala')
+                                ->groupBy("a.butaca")
+                                ->setParameter("idSala", $options["idSala"]);
+                    },
                 ))
                 ->add('Enviar', SubmitType::class);
     }
@@ -36,7 +51,7 @@ class ReservarAsientoType extends AbstractType {
      */
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'KarfilmsBundle\Entity\Asiento'
+            'idSala' => null,
         ));
     }
 
