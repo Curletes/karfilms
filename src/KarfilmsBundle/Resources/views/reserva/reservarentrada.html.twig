@@ -18,6 +18,13 @@
                         <tr>
                             <td>Día {{ sesion.horarios|date("d/m") }} a las {{ sesion.horarios|date("H:i") }}</td>
                             <td>{{ pelicula.titulo }}</td>
+                            <form>
+                            <td>
+                                {{ form_start(form, {'action':'', 'method':'POST'}) }}
+                                {{ form_end(form) }}
+                            </td>
+                            <td><input class="btn btn-info" type="submit" value="Comprar"></td>
+                            </form>
                         </tr>
                 </table>
                 <a href="{{ path("inicio") }}" class="btn btn-secondary">Cancelar</a>

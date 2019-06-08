@@ -34,7 +34,7 @@ KarfilmsBundle\Entity\Sesion:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: null
+            inversedBy: sesion
             joinColumns:
                 id_pelicula:
                     referencedColumnName: id
@@ -49,4 +49,9 @@ KarfilmsBundle\Entity\Sesion:
                 id_sala:
                     referencedColumnName: id
             orphanRemoval: false
+    oneToMany:
+        Asientoreservado:
+            targetEntity: Asientoreservado
+            mappedBy: idSesion
+            cascade: ["persist"]
     lifecycleCallbacks: {  }

@@ -4,6 +4,7 @@ namespace KarfilmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints\DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Sesion
@@ -49,8 +50,11 @@ class Sesion
      */
     private $idSala;
     
+    protected $Asientoreservado;
+    
     public function __construct() {
         $this->horarios = new \DateTime();
+        $this->Asientoreservado = new ArrayCollection();
     }
     
     function getId() {
@@ -85,7 +89,15 @@ class Sesion
         $this->idSala = $idSala;
     }
 
+    public function addAsientoreservado(\KarfilmsBundle\Entity\Asiento $asiento) {
+        $this->Asientoreservado[] = $asiento;
 
+        return $this;
+    }
+
+    public function getAsientoreservado() {
+        return $this->Asientoreservado;
+    }
 
 }
 

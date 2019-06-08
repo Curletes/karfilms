@@ -3,6 +3,7 @@
 namespace KarfilmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Asiento
@@ -44,7 +45,13 @@ class Asiento
      * })
      */
     private $idSala;
-
+    
+    protected $Asientoreservado;
+    
+    public function __construct() {
+        $this->Asientoreservado = new ArrayCollection();
+    }
+    
     function getId() {
         return $this->id;
     }
@@ -75,6 +82,9 @@ class Asiento
 
     function setIdSala(\KarfilmsBundle\Entity\Sala $idSala) {
         $this->idSala = $idSala;
+    }
+    public function getAsientoreservado() {
+        return $this->Asientoreservado;
     }
 }
 

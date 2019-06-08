@@ -39,4 +39,9 @@ KarfilmsBundle\Entity\Asiento:
                 id_sala:
                     referencedColumnName: id
             orphanRemoval: false
+    oneToMany:
+        Asientoreservado:
+            targetEntity: Asientoreservado
+            mappedBy: idAsiento
+            cascade: ["persist"]
     lifecycleCallbacks: {  }

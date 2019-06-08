@@ -23,7 +23,7 @@ KarfilmsBundle\Entity\Asientoreservado:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: null
+            inversedBy: Asientoreservado
             joinColumns:
                 id_asiento:
                     referencedColumnName: id
