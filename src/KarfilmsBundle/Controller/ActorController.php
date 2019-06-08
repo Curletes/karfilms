@@ -90,7 +90,7 @@ class ActorController extends Controller {
         return $this->render('@Karfilms/actor/addactor.html.twig', [
                     "form" => $form->createView()
         ]);
-    }k
+    }
 
     public function eliminarActorAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
