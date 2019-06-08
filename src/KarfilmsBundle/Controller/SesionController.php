@@ -167,7 +167,7 @@ class SesionController extends Controller
         }*/
 
         $asiento_repo = $em->getRepository("KarfilmsBundle:Asiento");
-        $asientos = $asiento_repo->findOneBy(["idSala"=>$sala]);
+        $asientos = $asiento_repo->findBy(["idSala"=>$sala]);
 
         $form = $this->createForm(ReservarAsientoType::class, $asientos);
         
