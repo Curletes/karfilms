@@ -192,7 +192,19 @@ class AsientoController extends Controller {
             }
 
             $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("inicio");
+            if ($status == "Asiento reservado correctamente.") {
+                return $this->render('@Karfilms/reserva/mostrarentrada.html.twig', [
+                            "fila" => $asiento->getFila(),
+                            "butaca" => $asiento->getButaca(),
+                            "pelicula" => $pelicula->getTitulo(),
+                            "sesion" => $sesion->getHorarios(),
+                            "sala" => $sesion->getIdSala()->getNombre()
+                ]);
+            }
+            else
+            {
+                return $this->redirectToRoute("inicio");
+            }
         }
         return $this->render('@Karfilms/reserva/reservarentrada.html.twig', [
                     "pelicula" => $pelicula,

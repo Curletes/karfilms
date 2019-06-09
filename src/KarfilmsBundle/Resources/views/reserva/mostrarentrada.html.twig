@@ -1,0 +1,32 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block body %}
+    <div class="col-lg-9">
+        <h2>Tu entrada</h2>
+        <hr>
+        {% for message in app.session.flashbag().get('status') %}
+            {% if message == "Asiento reservado correctamente." %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% else %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+        <table class="table table-bordered">
+            <tr>
+                <th>Sesión</th>
+                <th>Película</th>
+                <th>Sala</th>
+                <th>Asiento</th>
+            </tr>    
+            <tr>
+                <td>Día {{ sesion|date("d/m") }} a las {{ sesion|date("H:i") }}</td>
+                <td>{{ pelicula }}</td>
+                <td>{{ sala }}</td>
+                <td>
+                    Fila: {{ fila }}<br>
+                    Butaca: {{ butaca }}
+                </td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}
