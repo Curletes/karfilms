@@ -4,7 +4,6 @@
     <div class="col-lg-9">
         <h2>Tu entrada</h2>
         <hr>
-        <p>Guarda o imprime esta página para no perder la entrada.</p>
         {% for message in app.session.flashbag().get('status') %}
             {% if message == "Asiento reservado correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>
@@ -12,6 +11,7 @@
                 <div class="alert alert-danger">{{ message }}</div>
             {% endif %}
         {% endfor %}
+        <div class="alert alert-warning">Guarda o imprime esta página para no perder la entrada.</div>
         <table class="table table-bordered">
             <tr>
                 <th>Sesión</th>
