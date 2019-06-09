@@ -12,19 +12,17 @@
                     <tr>
                         <th>Fecha y hora</th>
                         <th>Película</th>
+                        <th>Precio</th>
                         <th>Seleccionar asiento</th>
-                        <th>Acción</th>
                     </tr>    
                         <tr>
                             <td>Día {{ sesion.horarios|date("d/m") }} a las {{ sesion.horarios|date("H:i") }}</td>
                             <td>{{ pelicula.titulo }}</td>
-                            <form>
+                            <td>5€</td>
                             <td>
                                 {{ form_start(form, {'action':'', 'method':'POST'}) }}
                                 {{ form_end(form) }}
                             </td>
-                            <td><input class="btn btn-info" type="submit" value="Comprar"></td>
-                            </form>
                         </tr>
                 </table>
                 <a href="{{ path("inicio") }}" class="btn btn-secondary">Cancelar</a>

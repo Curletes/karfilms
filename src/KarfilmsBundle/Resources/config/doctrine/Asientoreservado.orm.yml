@@ -8,6 +8,9 @@ KarfilmsBundle\Entity\Asientoreservado:
         fk_session_idx:
             columns:
                 - id_sesion
+    uniqueConstraints:
+        fk_reserva_idx:
+          columns: [ id_asiento, id_sesion ]
     id:
         id:
             type: integer

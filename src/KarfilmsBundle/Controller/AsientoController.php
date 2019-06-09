@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use KarfilmsBundle\Entity\Asiento;
 use KarfilmsBundle\Form\AsientoType;
 use KarfilmsBundle\Form\ReservarAsientoType;
+use KarfilmsBundle\Entity\Asientoreservado;
 
 class AsientoController extends Controller {
 
@@ -158,36 +159,41 @@ class AsientoController extends Controller {
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
+                $asientoreservado = new Asientoreservado();
+                $em = $this->getDoctrine()->getEntityManager();
                 $asiento_repo = $em->getRepository("KarfilmsBundle:Asiento");
-                $asiento_existe = $asiento_repo->findOneBy([
-                    "idSala" => $form->get("idSala")->getData(),
-                    "fila" => $form->get("fila")->getData(),
-                    "butaca" => $form->get("butaca")->getData()
+
+                $asiento = $asiento_repo->findOneBy([
+                    "fila" => $form->get("fila")->getData()->getFila(),
+                    "butaca" => $form->get("butaca")->getData()->getButaca()
                 ]);
 
-                if ($asiento_existe == null) {
-                    $asiento = new Asiento();
-                    $asiento->setFila($form->get("fila")->getData());
-                    $asiento->setButaca($form->get("butaca")->getData());
-                    $asiento->setIdSala($form->get("idSala")->getData());
+                $reserva_repo = $em->getRepository("KarfilmsBundle:Asientoreservado");
+                $reserva = $reserva_repo->findOneBy([
+                    "idSesion" => $sesion,
+                    "idAsiento" => $asiento
+                ]);
 
-                    $em->persist($asiento);
+                if ($reserva == null) {
+                    $asientoreservado->setIdAsiento($asiento);
+                    $asientoreservado->setIdSesion($sesion);
+
+                    $em->persist($asientoreservado);
                     $flush = $em->flush();
 
                     if ($flush == null) {
-                        $status = "Asiento añadido correctamente.";
+                        $status = "Asiento reservado correctamente.";
                     }
                 } else {
-                    $status = "Ese asiento ya existe.";
+                    $status = "Este asiento ya está reservado.";
                 }
             } else {
-                $status = "El asiento no se ha editada porque el formulario no es válido.";
+                $status = "El asiento no se ha reservado porque el formulario no es válido.";
             }
 
             $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("indice_asiento");
+            return $this->redirectToRoute("inicio");
         }
-
         return $this->render('@Karfilms/reserva/reservarentrada.html.twig', [
                     "pelicula" => $pelicula,
                     "sesion" => $sesion,

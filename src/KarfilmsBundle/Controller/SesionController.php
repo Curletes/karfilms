@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use KarfilmsBundle\Entity\Sesion;
 use KarfilmsBundle\Form\SesionType;
+use KarfilmsBundle\Entity\Asientoreservado;
 
 class SesionController extends Controller
 {
@@ -85,6 +86,17 @@ class SesionController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $sesion_repo = $em->getRepository("KarfilmsBundle:Sesion");
         $sesion = $sesion_repo->find($id);
+        
+        $reserva_repo = $em->getRepository("KarfilmsBundle:Asientoreservado");
+        $reservas = $reserva_repo->findAll();
+        
+        foreach($reservas as $reserva)
+        {
+            if($reserva->getIdSesion()->getId() == $sesion->getId())
+            {
+                $em->remove($reserva);
+            }
+        }
         
         $em->remove($sesion);
         $em->flush();

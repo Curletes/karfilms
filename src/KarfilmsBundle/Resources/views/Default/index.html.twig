@@ -6,6 +6,13 @@
     <div class="col-lg-12">
         <h1>Estrenos</h1>
         <hr>
+        {% for message in app.session.flashbag().get('status') %}
+            {% if message == "Asiento reservado correctamente." %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% else %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
         {% if peliculas is defined %}
             <div class="ism-slider" data-transition_type="fade" data-play_type="loop" data-buttons="false" data-radios="false" id="my-slider">
                 <ol>

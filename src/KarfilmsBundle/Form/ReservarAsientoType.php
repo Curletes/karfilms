@@ -43,7 +43,7 @@ class ReservarAsientoType extends AbstractType {
                                 ->setParameter("idSala", $options["idSala"]);
                     },
                 ))
-                ->add('Enviar', SubmitType::class);
+                ->add('Comprar', SubmitType::class);
     }
 
     /**
