@@ -1,0 +1,25 @@
+{% extends '@Karfilms/layout.html.twig' %}
+
+{% block estadoedad %} active {% endblock%}
+
+{% block body %}
+    <div class="col-lg-6">
+        <h2>Clasificaciones por edades</h2>
+        <hr>
+        <table class="table table-bordered">
+            <tr>
+                <th>Nombre</th>
+                <th>Acción</th>
+            </tr>
+            {% for edad in edades %}
+                <tr>
+                    <td>{{ edad.clasificacion }}</td>
+                    <td>
+                        <a href="{{ path("categoria_edad", {"clasificacion":edad.clasificacion}) }}" class="btn btn-primary">Ver</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

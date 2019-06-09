@@ -17,6 +17,36 @@ class EdadController extends Controller
         $this->session = new Session();
     }
     
+    public function mostrarEdadAction() {
+        $em = $this->getDoctrine()->getEntityManager();
+        $edad_repo = $em->getRepository("KarfilmsBundle:Edad");
+        $edades = $edad_repo->findAll();
+
+        return $this->render('@Karfilms/edad/mostraredad.html.twig', [
+                    "edades" => $edades
+        ]);
+    }
+
+    public function categoriaEdadAction($clasificacion) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $edad_repo = $em->getRepository('KarfilmsBundle:Edad');
+        $edad = $edad_repo->findOneBy(["clasificacion" => $clasificacion]);
+        $idEdad = $edad->getId();
+        $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
+        $peliculas = $pelicula_repo->findBy(["idEdad" => $idEdad]);
+
+        if (isset($peliculas)) {
+            return $this->render('@Karfilms/edad/categoriaedad.html.twig', [
+                        'peliculas' => $peliculas,
+                        'edad' => $edad
+            ]);
+        } else {
+            return $this->render('@Karfilms/edad/categoriaedad.html.twig', [
+                        'edad' => $edad
+            ]);
+        }
+    }
+    
     public function indiceEdadAction()
     {
         $em = $this->getDoctrine()->getEntityManager();

@@ -1,29 +1,12 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
-{%block estadoindex %} active {% endblock %}
+{% block estadoedad %} active {% endblock%}
 
 {% block body %}
     <div class="col-lg-12">
-        <h1>Estrenos</h1>
+        <h1>{{ edad.clasificacion }}</h1>
         <hr>
-        {% for message in app.session.flashbag().get('status') %}
-            {% if message == "Asiento reservado correctamente." %}
-                <div class="alert alert-success">{{ message }}</div>
-            {% else %}
-                <div class="alert alert-danger">{{ message }}</div>
-            {% endif %}
-        {% endfor %}
         {% if peliculas is defined %}
-            <div class="ism-slider" data-transition_type="fade" data-play_type="loop" data-buttons="false" data-radios="false" id="my-slider">
-                <ol>
-                    {% for pelicula in peliculas %}
-                        <li>
-                            <img width="550" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}">
-                        </li>
-                    {% endfor %}
-                </ol>
-            </div>
-            <hr>
             <table class="table table-bordered">
                 {% for pelicula in peliculas %}
                     <tr>
@@ -53,25 +36,29 @@
                             <p><strong>Sinopsis: </strong>{{ pelicula.sinopsis }}</p>
                             <p>
                                 <strong>Sesiones: </strong><br>
-                                {% set array_sesiones = [] %}
-                                {% for sesiones in pelicula.Sesiones %}
-                                    {% set array_sesiones = array_sesiones|merge([sesiones.horarios]) %}
-                                {% endfor %}
-                                <select id="{{ pelicula.id }}" class="form-control col-lg-2 float-left">
-                                    {% for sesion in array_sesiones|sort %}
-                                        {% if usado is defined and usado != sesion|date("d-m") %}
-                                            <option>{{ sesion|date("d-m") }}</option>
-                                            {% set usado = sesion|date("d-m") %}
-                                        {% elseif usado is defined and usado == sesion|date("d-m") %}
-                                            {% set usado = sesion|date("d-m") %}
-                                        {% else %}
-                                            <option>{{ sesion|date("d-m") }}</option>
-                                            {% set usado = sesion|date("d-m") %}
-                                        {% endif %}
+                                {% if pelicula.Sesiones is empty %}
+                                    No hay sesiones disponibles.
+                                {% else %}
+                                    {% set array_sesiones = [] %}
+                                    {% for sesiones in pelicula.Sesiones %}
+                                        {% set array_sesiones = array_sesiones|merge([sesiones.horarios]) %}
                                     {% endfor %}
-                                </select>
-                                Horarios:
-                                <span id="horarios{{ pelicula.id }}"></span>
+                                    <select id="{{ pelicula.id }}" class="form-control col-lg-2 float-left">
+                                        {% for sesion in array_sesiones|sort %}
+                                            {% if usado is defined and usado != sesion|date("d-m") %}
+                                                <option>{{ sesion|date("d-m") }}</option>
+                                                {% set usado = sesion|date("d-m") %}
+                                            {% elseif usado is defined and usado == sesion|date("d-m") %}
+                                                {% set usado = sesion|date("d-m") %}
+                                            {% else %}
+                                                <option>{{ sesion|date("d-m") }}</option>
+                                                {% set usado = sesion|date("d-m") %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                    Horarios:
+                                    <span id="horarios{{ pelicula.id }}"></span>
+                                {% endif %}
                             </p>
                         </td>
                     </tr>

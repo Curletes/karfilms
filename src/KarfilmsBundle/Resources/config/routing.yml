@@ -248,3 +248,12 @@ mostrar_director:
 categoria_director:
     path: /directores/{nombre}
     defaults: { _controller: KarfilmsBundle:Director:categoriaDirector }
+
+#CLASIFICACIONES POR EDADES
+mostrar_edad:
+    path: /edades
+    defaults: { _controller: KarfilmsBundle:Edad:mostrarEdad }
+    
+categoria_edad:
+    path: /edades/{clasificacion}
+    defaults: { _controller: KarfilmsBundle:Edad:categoriaEdad }

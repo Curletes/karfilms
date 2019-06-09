@@ -25,6 +25,9 @@
                         <a class="nav-link {% block estadogenero %}{% endblock %}" href="{{ path("mostrar_genero") }}">Géneros</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {% block estadoedad %}{% endblock %}" href="{{ path("mostrar_edad") }}">Clasificaciones por edades</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {% block estadoactor %}{% endblock %}" href="{{ path("mostrar_actor") }}">Actores</a>
                     </li>
                     <li class="nav-item">
@@ -109,8 +112,10 @@
                     {
                         var titulo = data.peliculas[i].titulo;
                         var id = data.peliculas[i].id;
-
-                        if (/(admin)\/.+\/\d/.test(window.location.href))
+                        if (/(edades\/[a-zA-Z0-9_])/.test(window.location.href))
+                        {
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
+                        } else if (/(admin)\/.+\/\d/.test(window.location.href))
                         {
                             texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
                         } else if (/(admin)\/.+\/.+$/.test(window.location.href))
@@ -122,13 +127,13 @@
                         } else if (/(reserva)/.test(window.location.href))
                         {
                             texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
-                        } else if (/((-\d+)|registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias)$/.test(window.location.href))
+                        } else if (/((-\d+)|registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias|edades)$/.test(window.location.href))
                         {
                             texto += "<a class='dropdown-item' id='pelicula" + i + "' href='cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
                         } else if (/(registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias)\/.+\//.test(window.location.href))
                         {
                             texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
-                        } else if (/(registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias)\//.test(window.location.href))
+                        } else if (/(registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias|edades)\//.test(window.location.href))
                         {
                             texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
                         }
@@ -141,7 +146,8 @@
                     alert(status)
                 }
             });
-        });
+        }
+        );
     });
 </script>
 </body>
