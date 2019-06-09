@@ -4,6 +4,7 @@
     <div class="col-lg-9">
         <h2>Tu entrada</h2>
         <hr>
+        <p>Guarda o imprime esta página para no perder la entrada.</p>
         {% for message in app.session.flashbag().get('status') %}
             {% if message == "Asiento reservado correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>

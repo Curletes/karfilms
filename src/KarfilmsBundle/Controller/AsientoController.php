@@ -185,7 +185,7 @@ class AsientoController extends Controller {
                         $status = "Asiento reservado correctamente.";
                     }
                 } else {
-                    $status = "Este asiento ya está reservado.";
+                    $status = "Este asiento ya está reservado. Por favor, elige otro asiento.";
                 }
             } else {
                 $status = "El asiento no se ha reservado porque el formulario no es válido.";
