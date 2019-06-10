@@ -91,41 +91,43 @@
                 var texto = "";
                 var idspan = $(this).closest("p").children("span").attr('id');
                 
-                {% for pelicula in peliculas %}
-                    if($(this).attr('id') == {{ pelicula.id }})
-                    {
-                        $.ajax({
-                            type: "POST",
-                            url: "{{ path('mostrar_sesiones_ajax') }}",
-                            data: {
-                                diames: $(this).children("option:selected").val(),
-                                id: $(this).attr('id')
-                            },
-                            success: function (data)
-                            {
-                                for (var i in data.sesiones)
+                {% if peliculas is defined %}
+                    {% for pelicula in peliculas %}
+                        if($(this).attr('id') == {{ pelicula.id }})
+                        {
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ path('mostrar_sesiones_ajax') }}",
+                                data: {
+                                    diames: $(this).children("option:selected").val(),
+                                    id: $(this).attr('id')
+                                },
+                                success: function (data)
                                 {
-                                    for (var horarios in data.sesiones[i])
+                                    for (var i in data.sesiones)
                                     {
-                                        var fecha = data.sesiones[i].horarios.date;
-                                        var hora = fecha.substring(11, 16);
-                                        {% for sesion in pelicula.Sesiones %}
-                                            if(fecha == "{{sesion.horarios|date('Y-m-d H:i:s.sss')}}")
-                                            {
-                                                texto += "<a id='sesion" + i + "' href='{{ path("reservar_entrada", {"pelicula":pelicula.id, "sesion":sesion.id}) }}'>" + hora + "</a>";
-                                            }
-                                        {% endfor %}
+                                        for (var horarios in data.sesiones[i])
+                                        {
+                                            var fecha = data.sesiones[i].horarios.date;
+                                            var hora = fecha.substring(11, 16);
+                                            {% for sesion in pelicula.Sesiones %}
+                                                if(fecha == "{{sesion.horarios|date('Y-m-d H:i:s.sss')}}")
+                                                {
+                                                    texto += "<a id='sesion" + i + "' href='{{ path("reservar_entrada", {"pelicula":pelicula.id, "sesion":sesion.id}) }}'>" + hora + "</a>";
+                                                }
+                                            {% endfor %}
+                                        }
                                     }
+                                    $('#' + idspan).html(texto);
+                                },
+                                error: function (data, xhr, status)
+                                {
+                                    alert(status)
                                 }
-                                $('#' + idspan).html(texto);
-                            },
-                            error: function (data, xhr, status)
-                            {
-                                alert(status)
-                            }
-                        });
-                    }
-                {% endfor %}
+                            });
+                        }
+                    {% endfor %}
+            {% endif %}
             });
         });
     </script>
