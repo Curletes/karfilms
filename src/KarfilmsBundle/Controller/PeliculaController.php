@@ -219,6 +219,7 @@ class PeliculaController extends Controller {
                     $status = "Error al añadir la película.";
                 }
             } else {
+                die(var_dump($form["trailer"]->getData()));
                 $status = "La pelicula no se ha añadido porque el formulario no es válido.";
             }
 
