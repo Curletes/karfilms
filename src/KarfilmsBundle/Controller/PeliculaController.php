@@ -318,6 +318,10 @@ class PeliculaController extends Controller {
                         return $this->redirectToRoute("indice_pelicula");
                     }
                 }
+                else
+                {
+                    $pelicula->setCartel($cartel);
+                }
 
                 $ficheroTrailer = $form["trailer"]->getData();
 
@@ -334,6 +338,10 @@ class PeliculaController extends Controller {
                         $this->session->getFlashBag()->add("status", $status2);
                         return $this->redirectToRoute("indice_pelicula");
                     }
+                }
+                else
+                {
+                    $pelicula->setTrailer($trailer);
                 }
 
                 $pelicula->setDuracion($form->get("duracion")->getData());
