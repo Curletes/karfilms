@@ -210,6 +210,8 @@ class UsuarioController extends Controller {
                     } else {
                         $usuario->setIcono($icono);
                         $status = "Sólo se permiten las extensiones .jpg, .jpeg y .png.";
+                        $this->session->getFlashBag()->add("status", $status);
+                        return $this->redirectToRoute("mi_perfil", ["id" => $id]);
                     }
                 } else {
                     $usuario->setIcono($icono);
