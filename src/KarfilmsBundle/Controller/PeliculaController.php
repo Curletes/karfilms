@@ -307,17 +307,16 @@ class PeliculaController extends Controller {
                 if ($ficheroCartel != null) {
                     $ext = $ficheroCartel->guessExtension();
 
-                    if ($ext == "jpg" || $ext == "png" || $ext == "jpeg") {
+                    if ($ext == "jpg" || $ext == "png" || $ext == "jpeg" || $ext == "pdf") {
                         $nombre_fichero = time() . "." . $ext;
                         $ficheroCartel->move("imagenes/carteles", $nombre_fichero);
 
                         $pelicula->setCartel($nombre_fichero);
                     } else {
-                        $pelicula->setCartel($cartel);
-                        $status2 = "Sólo se permiten las extensiones .jpg, .jpeg y .png";
+                        $status2 = "Sólo se permiten las extensiones .jpg, .jpeg, .png y .bmp.";
+                        $this->session->getFlashBag()->add("status", $status2);
+                        return $this->redirectToRoute("indice_pelicula");
                     }
-                } else {
-                    $pelicula->setCartel($cartel);
                 }
 
                 $ficheroTrailer = $form["trailer"]->getData();
@@ -331,11 +330,10 @@ class PeliculaController extends Controller {
 
                         $pelicula->setTrailer($nombre_fichero);
                     } else {
-                        $pelicula->setTrailer($trailer);
                         $status2 = "Sólo se permiten las extensiones .mp4, .avi, .wmv y .mov.";
+                        $this->session->getFlashBag()->add("status", $status2);
+                        return $this->redirectToRoute("indice_pelicula");
                     }
-                } else {
-                    $pelicula->setTrailer($trailer);
                 }
 
                 $pelicula->setDuracion($form->get("duracion")->getData());
