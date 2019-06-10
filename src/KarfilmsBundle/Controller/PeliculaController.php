@@ -172,11 +172,10 @@ class PeliculaController extends Controller {
 
                         $pelicula->setCartel($nombre_fichero);
                     } else {
-                        $pelicula->setCartel($cartel);
                         $status2 = "Sólo se permiten las extensiones .jpg, .jpeg, .png y .bmp.";
+                        $this->session->getFlashBag()->add("status", $status2);
+                        return $this->redirectToRoute("indice_pelicula");
                     }
-                } else {
-                    $pelicula->setCartel($cartel);
                 }
 
                 $ficheroTrailer = $form["trailer"]->getData();
@@ -190,11 +189,10 @@ class PeliculaController extends Controller {
 
                         $pelicula->setTrailer($nombre_fichero);
                     } else {
-                        $pelicula->setTrailer($trailer);
                         $status2 = "Sólo se permiten las extensiones .mp4, .avi, .wmv y .mov.";
+                        $this->session->getFlashBag()->add("status", $status2);
+                        return $this->redirectToRoute("indice_pelicula");
                     }
-                } else {
-                    $pelicula->setTrailer($trailer);
                 }
 
                 $pelicula->setDuracion($form->get("duracion")->getData());
