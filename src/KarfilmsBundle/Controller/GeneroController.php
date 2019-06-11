@@ -19,7 +19,7 @@ class GeneroController extends Controller {
     public function mostrarGeneroAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         
-        $dql = "SELECT g FROM KarfilmsBundle:Genero g";
+        $dql = "SELECT g FROM KarfilmsBundle:Genero g ORDER BY g.nombre ASC";
         $query = $em->createQuery($dql);
  
         $paginator = $this->get('knp_paginator');

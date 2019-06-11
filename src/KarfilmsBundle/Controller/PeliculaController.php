@@ -21,7 +21,7 @@ class PeliculaController extends Controller {
     public function mostrarCarteleraAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         
-        $dql = "SELECT p FROM KarfilmsBundle:Pelicula p";
+        $dql = "SELECT p FROM KarfilmsBundle:Pelicula p ORDER BY p.titulo ASC";
         $query = $em->createQuery($dql);
  
         $paginator = $this->get('knp_paginator');
@@ -39,7 +39,7 @@ class PeliculaController extends Controller {
     public function pelicula($pelicula) {
         $em = $this->getDoctrine()->getEntityManager();
 
-        return $em->createQuery("SELECT p.id, p.titulo FROM KarfilmsBundle:Pelicula p WHERE p.titulo LIKE :pelicula")
+        return $em->createQuery("SELECT p.id, p.titulo FROM KarfilmsBundle:Pelicula p WHERE p.titulo LIKE :pelicula ORDER BY p.titulo ASC")
                         ->setParameter("pelicula", "%" . $pelicula . "%")
                         ->getResult();
     }

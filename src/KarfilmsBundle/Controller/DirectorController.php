@@ -19,7 +19,7 @@ class DirectorController extends Controller {
     public function mostrarDirectorAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $dql = "SELECT d FROM KarfilmsBundle:Director d";
+        $dql = "SELECT d FROM KarfilmsBundle:Director d ORDER BY d.nombre ASC";
         $query = $em->createQuery($dql);
  
         $paginator = $this->get('knp_paginator');
@@ -67,7 +67,7 @@ class DirectorController extends Controller {
     public function indiceDirectorAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         
-        $dql = "SELECT d FROM KarfilmsBundle:Director d";
+        $dql = "SELECT d FROM KarfilmsBundle:Director d ORDER BY d.nombre ASC";
         $query = $em->createQuery($dql);
  
         $paginator = $this->get('knp_paginator');

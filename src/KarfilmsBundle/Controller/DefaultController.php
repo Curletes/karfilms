@@ -18,7 +18,7 @@ class DefaultController extends Controller {
             }
         }
 
-        $dql = "SELECT p FROM KarfilmsBundle:Pelicula p JOIN KarfilmsBundle:Sesion s WHERE s.idPelicula = p.id";
+        $dql = "SELECT p FROM KarfilmsBundle:Pelicula p JOIN KarfilmsBundle:Sesion s WHERE s.idPelicula = p.id ORDER BY p.titulo ASC";
         $query = $em->createQuery($dql);
 
         $paginator = $this->get('knp_paginator');

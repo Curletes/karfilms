@@ -19,9 +19,8 @@ class ActorController extends Controller {
     public function mostrarActorAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
-        $actores = $actor_repo->findAll();
         
-        $dql = "SELECT a FROM KarfilmsBundle:Actor a";
+        $dql = "SELECT a FROM KarfilmsBundle:Actor a ORDER BY a.nombre ASC";
         $query = $em->createQuery($dql);
  
         $paginator = $this->get('knp_paginator');
@@ -32,7 +31,6 @@ class ActorController extends Controller {
         );
 
         return $this->render('@Karfilms/actor/mostraractor.html.twig', [
-                    "actores" => $actores,
                     "pagination" => $pagination
         ]);
     }
@@ -69,10 +67,8 @@ class ActorController extends Controller {
 
     public function indiceActorAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
-        $actores = $actor_repo->findAll();
         
-        $dql = "SELECT a FROM KarfilmsBundle:Actor a";
+        $dql = "SELECT a FROM KarfilmsBundle:Actor a ORDER BY a.nombre ASC";
         $query = $em->createQuery($dql);
  
         $paginator = $this->get('knp_paginator');
@@ -83,7 +79,6 @@ class ActorController extends Controller {
         );
 
         return $this->render('@Karfilms/actor/indiceactor.html.twig', [
-                    "actores" => $actores,
                     "pagination" => $pagination
         ]);
     }

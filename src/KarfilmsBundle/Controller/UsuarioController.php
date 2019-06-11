@@ -92,10 +92,8 @@ class UsuarioController extends Controller {
 
     public function indiceUsuarioAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
-        $usuarios = $usuario_repo->findAll();
         
-        $dql = "SELECT u FROM KarfilmsBundle:Usuario u";
+        $dql = "SELECT u FROM KarfilmsBundle:Usuario u ORDER BY u.nombre ASC";
         $query = $em->createQuery($dql);
  
         $paginator = $this->get('knp_paginator');
@@ -106,7 +104,6 @@ class UsuarioController extends Controller {
         );
 
         return $this->render('@Karfilms/usuario/indiceusuario.html.twig', [
-                    "usuarios" => $usuarios,
                     "pagination" => $pagination
         ]);
     }
