@@ -127,13 +127,13 @@
                         } else if (/(reserva)/.test(window.location.href))
                         {
                             texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
-                        } else if (/((-\d+)|registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias|edades)$/.test(window.location.href))
+                        } else if (/((-\d+)|registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias|edades|page=\d)$/.test(window.location.href))
                         {
                             texto += "<a class='dropdown-item' id='pelicula" + i + "' href='cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
-                        } else if (/(registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias)\/.+\//.test(window.location.href))
+                        } else if (/(registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias|page=\d)\/.+\//.test(window.location.href))
                         {
                             texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
-                        } else if (/(registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias|edades)\//.test(window.location.href))
+                        } else if (/(registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias|edades|page=\d)\//.test(window.location.href))
                         {
                             texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
                         }
