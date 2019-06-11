@@ -51,10 +51,22 @@ class SugerenciaController extends Controller {
             $this->session->getFlashBag()->add("status", $status);
             return $this->redirectToRoute('mostrar_sugerencia');
         }
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $dql = "SELECT s FROM KarfilmsBundle:Sugerencia s";
+        $query = $em->createQuery($dql);
+ 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query,
+                $request->query->getInt('page', 1),
+                5
+        );
 
         return $this->render('@Karfilms/sugerencia/mostrarsugerencia.html.twig', [
                     "sugerencias" => $sugerencias,
-                    "form" => $form->createView()
+                    "form" => $form->createView(),
+                    "pagination" => $pagination
         ]);
     }
 

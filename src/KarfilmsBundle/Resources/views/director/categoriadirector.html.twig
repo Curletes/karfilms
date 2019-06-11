@@ -14,7 +14,7 @@
                         <td>
                             <h3><a href="{{ path("mostrar_pelicula", {"titulo":pelicula.titulo, "id":pelicula.id}) }}">{{ pelicula.titulo }}</a></h3>
                             <p><strong>Duración: </strong>{{ pelicula.duracion }} minutos</p>
-                            <p><strong>Clasificación por edades: </strong>{{ pelicula.idEdad.clasificacion }}</p>
+                            <p><strong>Clasificación por edades: </strong><a href="{{ path("categoria_edad", {"clasificacion":pelicula.idEdad.clasificacion}) }}">{{ pelicula.idEdad.clasificacion }}</a></p>
                             <p>
                                 <strong>Reparto: </strong>
                                 {% for peli in pelicula.Actorpelicula %}

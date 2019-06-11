@@ -19,8 +19,14 @@
                 {{ form_end(form) }}
             </div>
         {% endif %}
+        <div class="count">
+            <span class="label label-primary">
+                Sugerencias en total: {{ pagination.getTotalItemCount }}
+            </span>
+        </div>
+
         <table class="table table-bordered">
-            {% for sugerencia in sugerencias %}
+            {% for sugerencia in pagination %}
                 <tr>
                     <th height="100" width="100"><img height="100" width="100" src="{{ asset("imagenes/perfiles/") ~ sugerencia.idUsuario.icono }}"></th>
                     <td>
@@ -55,6 +61,9 @@
                 </tr>
             {% endfor %}
         </table>
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
     </div>
     <div class="clearfix"></div>
 {% endblock %}
