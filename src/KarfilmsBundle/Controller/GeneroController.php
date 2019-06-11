@@ -16,17 +16,25 @@ class GeneroController extends Controller {
         $this->session = new Session();
     }
 
-    public function mostrarGeneroAction() {
+    public function mostrarGeneroAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        $genero_repo = $em->getRepository("KarfilmsBundle:Genero");
-        $generos = $genero_repo->findAll();
+        
+        $dql = "SELECT g FROM KarfilmsBundle:Genero g";
+        $query = $em->createQuery($dql);
+ 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query,
+                $request->query->getInt('page', 1),
+                5
+        );
 
         return $this->render('@Karfilms/genero/mostrargenero.html.twig', [
-                    "generos" => $generos
+                    "pagination" => $pagination
         ]);
     }
 
-    public function categoriaGeneroAction($nombre) {
+    public function categoriaGeneroAction(Request $request, $nombre) {
         $em = $this->getDoctrine()->getEntityManager();
         $genero_repo = $em->getRepository('KarfilmsBundle:Genero');
         $genero = $genero_repo->findOneBy(["nombre" => $nombre]);
@@ -36,10 +44,17 @@ class GeneroController extends Controller {
         foreach ($peliculas_obj as $pelicula) {
             $peliculas[] = $pelicula->getIdPelicula();
         }
+        
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $peliculas,
+                $request->query->getInt('page', 1),
+                5
+        );
 
         if (isset($peliculas)) {
             return $this->render('@Karfilms/genero/categoriagenero.html.twig', [
-                        'peliculas' => $peliculas,
+                        "pagination" => $pagination,
                         'genero' => $genero
             ]);
         } else {
@@ -49,13 +64,21 @@ class GeneroController extends Controller {
         }
     }
 
-    public function indiceGeneroAction() {
+    public function indiceGeneroAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        $genero_repo = $em->getRepository("KarfilmsBundle:Genero");
-        $generos = $genero_repo->findAll();
+        
+        $dql = "SELECT g FROM KarfilmsBundle:Genero g";
+        $query = $em->createQuery($dql);
+ 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query,
+                $request->query->getInt('page', 1),
+                5
+        );
 
         return $this->render('@Karfilms/genero/indicegenero.html.twig', [
-                    "generos" => $generos
+                    "pagination" => $pagination
         ]);
     }
 

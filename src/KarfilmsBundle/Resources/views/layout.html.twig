@@ -112,9 +112,9 @@
                     {
                         var titulo = data.peliculas[i].titulo;
                         var id = data.peliculas[i].id;
-                        if (/(edades\/[a-zA-Z0-9_])/.test(window.location.href))
+                        if (/(edades|directores|actores|generos\/[a-zA-Z0-9_])/.test(window.location.href))
                         {
-                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
                         } else if (/(admin)\/.+\/\d/.test(window.location.href))
                         {
                             texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";

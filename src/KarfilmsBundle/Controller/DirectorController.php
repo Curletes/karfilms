@@ -16,17 +16,25 @@ class DirectorController extends Controller {
         $this->session = new Session();
     }
 
-    public function mostrarDirectorAction() {
+    public function mostrarDirectorAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        $director_repo = $em->getRepository("KarfilmsBundle:Director");
-        $directores = $director_repo->findAll();
+
+        $dql = "SELECT d FROM KarfilmsBundle:Director d";
+        $query = $em->createQuery($dql);
+ 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query,
+                $request->query->getInt('page', 1),
+                5
+        );
 
         return $this->render('@Karfilms/director/mostrardirector.html.twig', [
-                    "directores" => $directores
+                    "pagination" => $pagination
         ]);
     }
 
-    public function categoriaDirectorAction($nombre) {
+    public function categoriaDirectorAction(Request $request, $nombre) {
         $em = $this->getDoctrine()->getEntityManager();
         $director_repo = $em->getRepository('KarfilmsBundle:Director');
         $director = $director_repo->findOneBy(["nombre" => $nombre]);
@@ -36,10 +44,17 @@ class DirectorController extends Controller {
         foreach ($peliculas_obj as $pelicula) {
             $peliculas[] = $pelicula->getIdPelicula();
         }
-
+        
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $peliculas,
+                $request->query->getInt('page', 1),
+                5
+        );
+        
         if (isset($peliculas)) {
             return $this->render('@Karfilms/director/categoriadirector.html.twig', [
-                        'peliculas' => $peliculas,
+                        "pagination" => $pagination,
                         'director' => $director
             ]);
         } else {
@@ -49,13 +64,21 @@ class DirectorController extends Controller {
         }
     }
 
-    public function indiceDirectorAction() {
+    public function indiceDirectorAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        $director_repo = $em->getRepository("KarfilmsBundle:Director");
-        $directores = $director_repo->findAll();
+        
+        $dql = "SELECT d FROM KarfilmsBundle:Director d";
+        $query = $em->createQuery($dql);
+ 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query,
+                $request->query->getInt('page', 1),
+                5
+        );
 
         return $this->render('@Karfilms/director/indicedirector.html.twig', [
-                    "directores" => $directores
+                    "pagination" => $pagination
         ]);
     }
 

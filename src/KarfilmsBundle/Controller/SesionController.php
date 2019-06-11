@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use KarfilmsBundle\Entity\Sesion;
 use KarfilmsBundle\Form\SesionType;
-use KarfilmsBundle\Entity\Asientoreservado;
 
 class SesionController extends Controller
 {
@@ -18,14 +17,22 @@ class SesionController extends Controller
         $this->session = new Session();
     }
     
-    public function indiceSesionAction()
+    public function indiceSesionAction(Request $request)
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $sesion_repo = $em->getRepository("KarfilmsBundle:Sesion");
-        $sesiones = $sesion_repo->findAll();
+        
+        $dql = "SELECT s FROM KarfilmsBundle:Sesion s";
+        $query = $em->createQuery($dql);
+ 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query,
+                $request->query->getInt('page', 1),
+                5
+        );
                 
         return $this->render('@Karfilms/sesion/indicesesion.html.twig', [
-            "sesiones" => $sesiones,
+            "pagination" => $pagination
         ]);
     }
     

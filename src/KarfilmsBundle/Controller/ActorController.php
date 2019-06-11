@@ -16,17 +16,28 @@ class ActorController extends Controller {
         $this->session = new Session();
     }
 
-    public function mostrarActorAction() {
+    public function mostrarActorAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
         $actores = $actor_repo->findAll();
+        
+        $dql = "SELECT a FROM KarfilmsBundle:Actor a";
+        $query = $em->createQuery($dql);
+ 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query,
+                $request->query->getInt('page', 1),
+                5
+        );
 
         return $this->render('@Karfilms/actor/mostraractor.html.twig', [
-                    "actores" => $actores
+                    "actores" => $actores,
+                    "pagination" => $pagination
         ]);
     }
 
-    public function categoriaActorAction($nombre) {
+    public function categoriaActorAction(Request $request, $nombre) {
         $em = $this->getDoctrine()->getEntityManager();
         $actor_repo = $em->getRepository('KarfilmsBundle:Actor');
         $actor = $actor_repo->findOneBy(["nombre" => $nombre]);
@@ -36,10 +47,17 @@ class ActorController extends Controller {
         foreach ($peliculas_obj as $pelicula) {
             $peliculas[] = $pelicula->getIdPelicula();
         }
+        
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $peliculas,
+                $request->query->getInt('page', 1),
+                5
+        );
 
         if (isset($peliculas)) {
             return $this->render('@Karfilms/actor/categoriaactor.html.twig', [
-                        'peliculas' => $peliculas,
+                        "pagination" => $pagination,
                         'actor' => $actor
             ]);
         } else {
@@ -49,13 +67,24 @@ class ActorController extends Controller {
         }
     }
 
-    public function indiceActorAction() {
+    public function indiceActorAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
         $actores = $actor_repo->findAll();
+        
+        $dql = "SELECT a FROM KarfilmsBundle:Actor a";
+        $query = $em->createQuery($dql);
+ 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query,
+                $request->query->getInt('page', 1),
+                5
+        );
 
         return $this->render('@Karfilms/actor/indiceactor.html.twig', [
-                    "actores" => $actores
+                    "actores" => $actores,
+                    "pagination" => $pagination
         ]);
     }
 

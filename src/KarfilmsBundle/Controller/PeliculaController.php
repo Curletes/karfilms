@@ -18,13 +18,21 @@ class PeliculaController extends Controller {
         $this->session = new Session();
     }
 
-    public function mostrarCarteleraAction() {
+    public function mostrarCarteleraAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
-        $peliculas = $pelicula_repo->findAll();
+        
+        $dql = "SELECT p FROM KarfilmsBundle:Pelicula p";
+        $query = $em->createQuery($dql);
+ 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query,
+                $request->query->getInt('page', 1),
+                5
+        );
 
         return $this->render('@Karfilms/pelicula/mostrarcartelera.html.twig', [
-                    "peliculas" => $peliculas,
+                    "pagination" => $pagination
         ]);
     }
     
@@ -65,13 +73,21 @@ class PeliculaController extends Controller {
         return $response;
     }
 
-    public function indicePeliculaAction() {
+    public function indicePeliculaAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
-        $peliculas = $pelicula_repo->findAll();
+        
+        $dql = "SELECT p FROM KarfilmsBundle:Pelicula p";
+        $query = $em->createQuery($dql);
+ 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query,
+                $request->query->getInt('page', 1),
+                5
+        );
 
         return $this->render('@Karfilms/pelicula/indicepelicula.html.twig', [
-                    "peliculas" => $peliculas
+                    "pagination" => $pagination
         ]);
     }
 

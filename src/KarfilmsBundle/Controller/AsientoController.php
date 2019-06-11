@@ -18,16 +18,24 @@ class AsientoController extends Controller {
         $this->session = new Session();
     }
 
-    public function indiceAsientoAction() {
+    public function indiceAsientoAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        $asiento_repo = $em->getRepository("KarfilmsBundle:Asiento");
-        $asientos = $asiento_repo->findBy([], ['idSala' => 'ASC', 'fila' => 'ASC', 'butaca' => 'ASC']);
+        
+        $dql = "SELECT a FROM KarfilmsBundle:Asiento a";
+        $query = $em->createQuery($dql);
+ 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query,
+                $request->query->getInt('page', 1),
+                5
+        );
 
         $asientoreservado_repo = $em->getRepository("KarfilmsBundle:Asientoreservado");
         $asientosreservados = $asientoreservado_repo->findAll();
 
         return $this->render('@Karfilms/asiento/indiceasiento.html.twig', [
-                    "asientos" => $asientos,
+                    "pagination" => $pagination,
                     "asientosreservados" => $asientosreservados
         ]);
     }

@@ -27,18 +27,26 @@ class EdadController extends Controller
         ]);
     }
 
-    public function categoriaEdadAction($clasificacion) {
+    public function categoriaEdadAction(Request $request, $clasificacion) {
         $em = $this->getDoctrine()->getEntityManager();
+        
         $edad_repo = $em->getRepository('KarfilmsBundle:Edad');
         $edad = $edad_repo->findOneBy(["clasificacion" => $clasificacion]);
         $idEdad = $edad->getId();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $peliculas = $pelicula_repo->findBy(["idEdad" => $idEdad]);
+ 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $peliculas,
+                $request->query->getInt('page', 1),
+                5
+        );
 
         if (isset($peliculas)) {
             return $this->render('@Karfilms/edad/categoriaedad.html.twig', [
-                        'peliculas' => $peliculas,
-                        'edad' => $edad
+                        'edad' => $edad,
+                        "pagination" => $pagination
             ]);
         } else {
             return $this->render('@Karfilms/edad/categoriaedad.html.twig', [

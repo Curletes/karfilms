@@ -24,8 +24,13 @@
                 </ol>
             </div>
             <hr>
+            <div class="count">
+                <span class="label label-primary">
+                    Películas en total: {{ pagination.getTotalItemCount }}
+                </span>
+            </div>
             <table class="table table-bordered">
-                {% for pelicula in peliculas %}
+                {% for pelicula in pagination %}
                     <tr>
                         <td height="200" width="150"><img height="200" width="150" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}"</td>
                         <td>
@@ -78,6 +83,9 @@
                 {% endfor %}
             </table>
         {% endif %}
+         <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
     </div>
 {% endblock %}
 {% block javascripts %}
@@ -90,10 +98,10 @@
             {
                 var texto = "";
                 var idspan = $(this).closest("p").children("span").attr('id');
-                
-                {% if peliculas is defined %}
-                    {% for pelicula in peliculas %}
-                        if($(this).attr('id') == {{ pelicula.id }})
+
+        {% if peliculas is defined %}
+            {% for pelicula in peliculas %}
+                        if ($(this).attr('id') == {{ pelicula.id }})
                         {
                             $.ajax({
                                 type: "POST",
@@ -110,25 +118,25 @@
                                         {
                                             var fecha = data.sesiones[i].horarios.date;
                                             var hora = fecha.substring(11, 16);
-                                            {% for sesion in pelicula.Sesiones %}
-                                                if(fecha == "{{sesion.horarios|date('Y-m-d H:i:s.sss')}}")
+                {% for sesion in pelicula.Sesiones %}
+                                                if (fecha == "{{sesion.horarios|date('Y-m-d H:i:s.sss')}}")
                                                 {
                                                     texto += "<a id='sesion" + i + "' href='{{ path("reservar_entrada", {"pelicula":pelicula.id, "sesion":sesion.id}) }}'>" + hora + "</a>";
                                                 }
-                                            {% endfor %}
+                {% endfor %}
+                                            }
                                         }
+                                        $('#' + idspan).html(texto);
+                                    },
+                                    error: function (data, xhr, status)
+                                    {
+                                        alert(status)
                                     }
-                                    $('#' + idspan).html(texto);
-                                },
-                                error: function (data, xhr, status)
-                                {
-                                    alert(status)
-                                }
-                            });
-                        }
-                    {% endfor %}
-            {% endif %}
+                                });
+                            }
+            {% endfor %}
+        {% endif %}
+                });
             });
-        });
     </script>
 {% endblock %}

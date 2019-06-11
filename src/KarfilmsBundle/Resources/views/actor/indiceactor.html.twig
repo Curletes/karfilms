@@ -11,12 +11,17 @@
                 <div class="alert alert-danger">{{ message }}</div>
             {% endif %}
         {% endfor %}
+        <div class="count">
+            <span class="label label-primary">
+                Actores en total: {{ pagination.getTotalItemCount }}
+            </span>
+        </div>
         <table class="table table-bordered">
             <tr>
                 <th>Nombre</th>
                 <th>Acción</th>
             </tr>
-            {% for actor in actores %}
+            {% for actor in pagination %}
                 <tr>
                     <td>{{ actor.nombre }}</td>
                     <td>
@@ -30,7 +35,10 @@
                 </tr>
             {% endfor %}
         </table>
-        <a href="{{ path("add_actor") }}" class="btn btn-primary">Añadir actor</a>
+        <a href="{{ path("add_actor") }}" class="btn btn-primary">Añadir actor</a><br><br>
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
     </div>
     <div class="clearfix"></div>
 {% endblock %}
