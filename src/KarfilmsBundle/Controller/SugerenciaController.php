@@ -52,7 +52,6 @@ class SugerenciaController extends Controller {
             return $this->redirectToRoute('mostrar_sugerencia');
         }
         
-        $em = $this->getDoctrine()->getEntityManager();
         $dql = "SELECT s FROM KarfilmsBundle:Sugerencia s";
         $query = $em->createQuery($dql);
  

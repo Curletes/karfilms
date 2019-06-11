@@ -11,12 +11,17 @@
                 <div class="alert alert-danger">{{ message }}</div>
             {% endif %}
         {% endfor %}
+        <div class="count">
+            <span class="label label-primary">
+                Usuarios en total: {{ pagination.getTotalItemCount }}
+            </span>
+        </div>
         <table class="table table-bordered">
             <tr>
                 <th>Nombre de usuario</th>
                 <th>Acción</th>
             </tr>
-            {% for usuario in usuarios %}
+            {% for usuario in pagination %}
                 <tr>
                     <td>
                         {% if usuario.id == app.user.id %}
@@ -36,6 +41,9 @@
                 </tr>
             {% endfor %}
         </table>
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
     </div>
     <div class="clearfix"></div>
 {% endblock %}

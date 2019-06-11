@@ -90,13 +90,24 @@ class UsuarioController extends Controller {
         ]);
     }
 
-    public function indiceUsuarioAction() {
+    public function indiceUsuarioAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
         $usuarios = $usuario_repo->findAll();
+        
+        $dql = "SELECT u FROM KarfilmsBundle:Usuario u";
+        $query = $em->createQuery($dql);
+ 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $query,
+                $request->query->getInt('page', 1),
+                5
+        );
 
         return $this->render('@Karfilms/usuario/indiceusuario.html.twig', [
-                    "usuarios" => $usuarios
+                    "usuarios" => $usuarios,
+                    "pagination" => $pagination
         ]);
     }
 
