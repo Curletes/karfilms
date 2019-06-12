@@ -26,7 +26,7 @@ class AsientoController extends Controller {
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $query, $request->query->getInt('page', 1), 5
+                $query, $request->query->getInt('page', 1), 12
         );
 
         $asientoreservado_repo = $em->getRepository("KarfilmsBundle:Asientoreservado");
@@ -112,6 +112,8 @@ class AsientoController extends Controller {
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+
                 $asiento_repo = $em->getRepository("KarfilmsBundle:Asiento");
                 $asiento_existe = $asiento_repo->findOneBy([
                     "idSala" => $form->get("idSala")->getData(),
@@ -120,7 +122,7 @@ class AsientoController extends Controller {
                 ]);
 
                 if ($asiento_existe == null) {
-                    $asiento = new Asiento();
+
                     $asiento->setFila($form->get("fila")->getData());
                     $asiento->setButaca($form->get("butaca")->getData());
                     $asiento->setIdSala($form->get("idSala")->getData());
@@ -226,23 +228,54 @@ class AsientoController extends Controller {
             for ($fila = 1; $fila <= 12; $fila++) {
                 for ($butaca = 1; $butaca <= 12; $butaca++) {
 
-                    $asiento = new Asiento();
-                    $asiento->setFila($fila);
-                    $asiento->setButaca($butaca);
-                    $asiento->setIdSala($sala);
+                    $asiento_repo = $em->getRepository("KarfilmsBundle:Asiento");
+                    $asiento_existe = $asiento_repo->findOneBy([
+                        "idSala" => $sala,
+                        "butaca" => $butaca,
+                        "fila" => $fila
+                    ]);
 
-                    $em->persist($asiento);
-                    $flush = $em->flush();
+                    if ($asiento_existe == null) {
+                        $asiento = new Asiento();
+                        $asiento->setFila($fila);
+                        $asiento->setButaca($butaca);
+                        $asiento->setIdSala($sala);
+
+                        $em->persist($asiento);
+                        $flush = $em->flush();
+
+                        if ($flush == null) {
+                            $status = "Asientos añadidos correctamente.";
+                        }
+                    } else {
+                        $status = "Error. Estos asientos ya existen.";
+                    }
                 }
             }
+        }
 
-            if ($flush == null) {
-                $status = "Asientos añadidos correctamente.";
-            } else {
-                $status = "Error ese asiento ya existe.";
+        $this->session->getFlashBag()->add("status", $status);
+        return $this->redirectToRoute("indice_asiento");
+    }
+
+    public function eliminarTodosLosAsientosAction() {
+        $em = $this->getDoctrine()->getEntityManager();
+        $sala_repo = $em->getRepository("KarfilmsBundle:Sala");
+        $salas = $sala_repo->findAll();
+
+        $asiento_repo = $em->getRepository("KarfilmsBundle:Asiento");
+        $asientos = $asiento_repo->findAll();
+
+        foreach ($salas as $sala) {
+            foreach ($asientos as $asiento) {
+
+                if ($asiento->getIdSala()->getId() == $sala->getId()) {
+                    $em->remove($asiento);
+                    $em->flush();
+                }
             }
         }
-        $this->session->getFlashBag()->add("status", $status);
+
         return $this->redirectToRoute("indice_asiento");
     }
 

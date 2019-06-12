@@ -5,7 +5,7 @@
         <h2>Asientos</h2>
         <hr>
         {% for message in app.session.flashbag().get('status') %}
-            {% if message == "Asiento añadido correctamente." or message == "Asiento editado correctamente." %}
+            {% if message == "Asiento añadido correctamente." or message == "Asiento editado correctamente." or message == "Asientos añadidos correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>
             {% else %}
                 <div class="alert alert-danger">{{ message }}</div>
@@ -46,7 +46,14 @@
             {% endfor %}
         </table>
         <a href="{{ path("add_asiento") }}" class="btn btn-primary">Añadir asiento</a>
-        <a href="{{ path("add_todos_asientos") }}" class="btn btn-primary">Añadir todos los asientos</a><br/><br/>
+        <a href="{{ path("add_todos_asientos") }}" class="btn btn-primary">Rellenar asientos</a>
+        {% set enuso = false %}
+        {% for asiento in pagination %}
+            {% set enuso = true %}
+        {% endfor %}
+        {% if enuso == true %}
+            <a href="{{ path("eliminar_todos_asientos") }}" class="btn btn-danger">Eliminar todos los asientos</a><br/><br/>
+        {% endif %}
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>

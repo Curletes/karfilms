@@ -186,6 +186,10 @@ eliminar_asiento:
     path: /admin/asientos/eliminar-asiento/{id}
     defaults: { _controller: KarfilmsBundle:Asiento:eliminarAsiento }
     
+eliminar_todos_asientos:
+    path: /admin/asientos/eliminar-todos-asientos
+    defaults: { _controller: KarfilmsBundle:Asiento:eliminarTodosLosAsientos }
+    
 editar_asiento:
     path: /admin/asientos/editar-asiento/{id}
     defaults: { _controller: KarfilmsBundle:Asiento:editarAsiento }
