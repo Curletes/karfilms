@@ -84,7 +84,7 @@
                     {% endfor %}
                 </table>
             {% endif %}
-             <div class="navigation">
+            <div class="navigation">
                 {{ knp_pagination_render(pagination) }}
             </div>
         {% endif %}
@@ -120,12 +120,12 @@
                                         {
                                             var fecha = data.sesiones[i].horarios.date;
                                             var hora = fecha.substring(11, 16);
-                {% for sesion in pelicula.Sesiones %}
+                                            {% for sesion in pelicula.Sesiones %}
                                                 if (fecha == "{{sesion.horarios|date('Y-m-d H:i:s.sss')}}")
                                                 {
                                                     texto += "<a id='sesion" + i + "' href='{{ path("reservar_entrada", {"pelicula":pelicula.id, "sesion":sesion.id}) }}'>" + hora + "</a>";
                                                 }
-                {% endfor %}
+                                            {% endfor %}
                                             }
                                         }
                                         $('#' + idspan).html(texto);

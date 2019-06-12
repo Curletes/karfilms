@@ -16,11 +16,18 @@ class SalaController extends Controller {
         $this->session = new Session();
     }
 
+    /*
+     * Muestra las salas que están en la base de datos.
+     */
     public function indiceSalaAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $sala_repo = $em->getRepository("KarfilmsBundle:Sala");
         $salas = $sala_repo->findAll();
 
+        /*
+         * Se comprueba que no tienen sesiones asignadas para que no puedan
+         * borrarse.
+         */
         $sesion_repo = $em->getRepository("KarfilmsBundle:Sesion");
         $sesiones = $sesion_repo->findAll();
 
@@ -30,21 +37,37 @@ class SalaController extends Controller {
         ]);
     }
 
+    /*
+     * Función para crear un formulario para añadir nuevas salas a la base de
+     * datos.
+     */
     public function addSalaAction(Request $request) {
+        /*
+         * Se crea un objeto sala nuevo y se manda con el formulario para que
+         * muestre los campos de la entidad que tienen que rellenarse.
+         */
         $sala = new Sala();
         $form = $this->createForm(SalaType::class, $sala);
 
+        //Se recogen los datos enviados desde el formulario.
         $form->handleRequest($request);
 
+        //Esta parte de la función se ejecuta cuando el formulario se ha enviado y es válido.
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
                 $sala = new Sala();
+                
+                /*
+                 * Se hace un set en la entidad Sala con el nombre introdudido
+                 * en el formulario y se guarda con persist y flush.
+                 */
                 $sala->setNombre($form->get("nombre")->getData());
 
                 $em->persist($sala);
                 $flush = $em->flush();
 
+                //Si la variable flush está vacía, significa que los datos se han añadido sin problema.
                 if ($flush == null) {
                     $status = "Sala añadida correctamente.";
                 } else {
@@ -54,6 +77,10 @@ class SalaController extends Controller {
                 $status = "El sala no se ha añadida porque el formulario no es válido.";
             }
 
+            /*
+             * Se envía a la vista el mensaje creado y guardado en la variable status,
+             * y redirige hacia la vista de todas las salas.
+             */
             $this->session->getFlashBag()->add("status", $status);
             return $this->redirectToRoute("indice_sala");
         }
@@ -63,6 +90,7 @@ class SalaController extends Controller {
         ]);
     }
 
+    //Método para eliminar salas, reconociendo la sala en específico por el id enviado desde la url
     public function eliminarSalaAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
         $sala_repo = $em->getRepository("KarfilmsBundle:Sala");
@@ -71,6 +99,7 @@ class SalaController extends Controller {
         $sesion_repo = $em->getRepository("KarfilmsBundle:Sesion");
         $sesiones = $sesion_repo->findAll();
 
+        //Si la sala no tiene ninguna sesión, se borra.
         if (empty($sesiones)) {
             $em->remove($sala);
             $em->flush();
@@ -86,6 +115,12 @@ class SalaController extends Controller {
         return $this->redirectToRoute("indice_sala");
     }
 
+    /*
+     * Función para editar las salas de la base de datos, recogiendo el id de
+     * la sala en cuestión enviado por la url y también los datos enviados desde
+     * el formulario de edición con la variable $request.
+     * Funcionamiento similar al de la función para añadir salas.
+     */
     public function editarSalaAction($id, Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $sala_repo = $em->getRepository("KarfilmsBundle:Sala");

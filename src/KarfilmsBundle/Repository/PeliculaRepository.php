@@ -11,6 +11,10 @@ use KarfilmsBundle\Entity\Generopelicula;
 
 class PeliculaRepository extends \Doctrine\ORM\EntityRepository {
 
+    /*
+     * Función para asignar actores a una película. Este método es llamado desde
+     * la función para añadir y editar películas en el controlador correspondiente.
+     */
     public function guardarActoresPelicula($actores = null, $titulo = null, $pelicula = null) {
         $em = $this->getEntityManager();
 
@@ -22,14 +26,30 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository {
             ]);
         }
 
+        /*
+         * Se crea un array con todos los actores que se han escrito, separándolos por
+         * las comas.
+         */
         $actores .= ",";
         $actores = explode(",", $actores);
 
         foreach ($actores as $actor) {
+            /*
+             * Se comprueba que el actor introducido no esté vacío.
+             */
             if (strlen($actor) > 0) {
+                /*
+                 * Si el actor tiene espacios antes o después de su nombre, estos
+                 * se eliminan y se comprueba si el actor ya existe.
+                 */
                 $actor = trim($actor);
                 $isset_actor = $actor_repo->findOneBy(["nombre" => $actor]);
 
+                /*
+                 * Si el actor no existe, se crea el objeto actor y se hace un
+                 * set con su nombre y se guarda, comprobando de nuevo que no esté
+                 * vacío ni tenga espacios al inicio o al final de la cadena.
+                 */
                 if ($isset_actor == null) {
                     $actor_obj = new Actor();
                     $actor_obj->setNombre($actor);
@@ -39,9 +59,17 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository {
                         $em->flush();
                     }
                 }
-
+                
+                /*
+                 * Se busca el actor que se acaba de añadir a la tabla actores.
+                 */
                 $actor = $actor_repo->findOneBy(["nombre" => $actor]);
 
+                /*
+                 * Se crea el objeto Actorpelicula para añadir el id de la película
+                 * y el id del actor a la tabla actorespeliculas, asignando el actor
+                 * correctamente a la película especificada.
+                 */
                 $Actorpelicula = new Actorpelicula();
                 $Actorpelicula->setIdPelicula($pelicula);
                 $Actorpelicula->setIdActor($actor);
@@ -54,6 +82,9 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository {
         return $flush;
     }
 
+    /*
+     * Función para guardar los directores de la misma forma que los actores.
+     */
     public function guardarDirectoresPelicula($directores = null, $titulo = null, $pelicula = null) {
         $em = $this->getEntityManager();
 
@@ -97,6 +128,9 @@ class PeliculaRepository extends \Doctrine\ORM\EntityRepository {
         return $flush;
     }
 
+    /*
+     * Función para añadir los géneros de la misma forma que los actores y directores.
+     */
     public function guardarGenerosPelicula($generos = null, $titulo = null, $pelicula = null) {
         $em = $this->getEntityManager();
 
