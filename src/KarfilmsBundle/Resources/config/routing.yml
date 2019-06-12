@@ -177,6 +177,10 @@ indice_asiento:
 add_asiento:
     path: /admin/asientos/nuevo-asiento
     defaults: { _controller: KarfilmsBundle:Asiento:addAsiento }
+    
+add_todos_asientos:
+    path: /admin/asientos/add-todos-asientos
+    defaults: { _controller: KarfilmsBundle:Asiento:addTodosLosAsientos }
 
 eliminar_asiento:
     path: /admin/asientos/eliminar-asiento/{id}

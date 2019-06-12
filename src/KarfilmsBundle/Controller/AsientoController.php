@@ -20,15 +20,13 @@ class AsientoController extends Controller {
 
     public function indiceAsientoAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        
+
         $dql = "SELECT a FROM KarfilmsBundle:Asiento a";
         $query = $em->createQuery($dql);
- 
+
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $query,
-                $request->query->getInt('page', 1),
-                5
+                $query, $request->query->getInt('page', 1), 5
         );
 
         $asientoreservado_repo = $em->getRepository("KarfilmsBundle:Asientoreservado");
@@ -208,9 +206,7 @@ class AsientoController extends Controller {
                             "sesion" => $sesion->getHorarios(),
                             "sala" => $sesion->getIdSala()->getNombre()
                 ]);
-            }
-            else
-            {
+            } else {
                 return $this->redirectToRoute("inicio");
             }
         }
@@ -219,6 +215,35 @@ class AsientoController extends Controller {
                     "sesion" => $sesion,
                     "form" => $form->createView()
         ]);
+    }
+
+    public function addTodosLosAsientosAction(Request $request) {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $sala_repo = $em->getRepository("KarfilmsBundle:Sala");
+        $salas = $sala_repo->findAll();
+        foreach ($salas as $sala) {
+            for ($fila = 1; $fila <= 12; $fila++) {
+                for ($butaca = 1; $butaca <= 12; $butaca++) {
+
+                    $asiento = new Asiento();
+                    $asiento->setFila($fila);
+                    $asiento->setButaca($butaca);
+                    $asiento->setIdSala($sala);
+
+                    $em->persist($asiento);
+                    $flush = $em->flush();
+                }
+            }
+
+            if ($flush == null) {
+                $status = "Asientos añadidos correctamente.";
+            } else {
+                $status = "Error ese asiento ya existe.";
+            }
+        }
+        $this->session->getFlashBag()->add("status", $status);
+        return $this->redirectToRoute("indice_asiento");
     }
 
 }
