@@ -2,7 +2,7 @@
 
 {% block body %}
     <!--Vista que muestra las salas que existen en la base de datos-->
-    <div class="col-lg-6">
+    <section class="col-lg-6">
         <h2>Salas</h2>
         <hr>
         <!--Aquí se muestran los mensajes generados en el controlador al añadir
@@ -43,6 +43,6 @@
         </table>
         <!--Botón que activa la función para añadir salas en el controlador-->
         <a href="{{ path("add_sala") }}" class="btn btn-primary">Añadir sala</a>
-    </div>
+    </section>
     <div class="clearfix"></div>
 {% endblock %}

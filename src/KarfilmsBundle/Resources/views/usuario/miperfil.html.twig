@@ -6,74 +6,76 @@
     {% if app.user.id is not defined or app.user.id != id %}
         <div class="alert alert-danger">No tienes permiso para acceder a esta página</div>
     {% else %}
-        <div class="col-lg-8">
-            <h1>Mi perfil</h1>
-            <hr>
-            <!--Mensaje qe muestra los mensajes al editar los datos del usuario-->
-            {% for message in app.session.flashbag().get('status') %}
-                {% if message == "Perfil editado correctamente." %}
-                    <div class="alert alert-success">{{ message }}</div>
-                {% else %}
-                    <div class="alert alert-danger">{{ message }}</div>
-                {% endif %}
-            {% endfor %}
-            <table class="table table-bordered">
-                <tr>
-                    <th>Nombre de usuario</th>
-                    <th>Imagen de perfil</th>
-                    <th>Acción</th>
-                </tr>
-                <tr>
-                    <td>{{ usuario.nombre }}</td>
-                    <td>
-                        <img height="200" width="200" src="{{ asset('imagenes/perfiles/' ~ usuario.icono) }}">
-                    </td>
-                    <td>
-                        <!--Botones para cambiar el icono o editar los datos, mandando el id del usuario al controlador-->
-                        <a href="{{ path("cambiar_icono", {"id":usuario.id}) }}" class="btn btn-primary">Cambiar icono</a>
-                        <a href="{{ path("editar_usuario", {"id":usuario.id}) }}" class="btn btn-warning">Editar usuario</a>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-lg-8">
-            <h2>Tus sugerencias</h2>
-            <hr>
-            <table class="table table-bordered">
-                <!--Muestra de las sugerencias del usuario, recorriendo el array de sugerencias.
-                Funcionamiento igual que en la vista de sugerencias-->
-                {% for sugerencia in sugerencias %}
+        <section>
+            <article class="col-lg-8">
+                <h1>Mi perfil</h1>
+                <hr>
+                <!--Mensaje qe muestra los mensajes al editar los datos del usuario-->
+                {% for message in app.session.flashbag().get('status') %}
+                    {% if message == "Perfil editado correctamente." %}
+                        <div class="alert alert-success">{{ message }}</div>
+                    {% else %}
+                        <div class="alert alert-danger">{{ message }}</div>
+                    {% endif %}
+                {% endfor %}
+                <table class="table table-bordered">
                     <tr>
-                        <th height="100" width="100"><img height="100" width="100" src="{{ asset("imagenes/perfiles/") ~ sugerencia.idUsuario.icono }}"></th>
+                        <th>Nombre de usuario</th>
+                        <th>Imagen de perfil</th>
+                        <th>Acción</th>
+                    </tr>
+                    <tr>
+                        <td>{{ usuario.nombre }}</td>
                         <td>
-                            <strong><a href="{{ path("mi_perfil", {"id":sugerencia.idUsuario.id}) }}">{{ sugerencia.idUsuario.Nombre }}</a></strong>
-                            <p>{{ sugerencia.texto }}</p>
-                            {% if app.user.id is defined and app.user.id == sugerencia.idUsuario.id %}
-                                <a href="{{ path("eliminar_sugerencia", {"id":sugerencia.id}) }}" class="btn btn-danger">Eliminar</a>
-                            {% endif %}
-                            {% set hayvaloraciones = 0 %}
-                            {% set like = "false" %}
-                            {% for valoracion in sugerencia.Valoracion %}
-                                {% set hayvaloraciones = hayvaloraciones + 1 %}
-                                {% if app.user.id is defined and valoracion.idUsuario.id == app.user.id %}
-                                    {% set like = "true" %}
-                                {% elseif app.user.id is defined and valoracion.idUsuario.id != app.user.id and like == "false" %}
-                                    {% set like = "false" %}
-                                {% endif %}
-                            {% endfor %}
-                            {% if app.user.id is defined and hayvaloraciones == 0 %}
-                                <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
-                            {% elseif app.user.id is defined and like == "true" %}
-                                <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-success">Like</a>
-                            {% elseif app.user.id is defined and like == "false" %}
-                                <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
-                            {% endif %}
-                            <span id="valoracionescont">Le gusta a {{ hayvaloraciones }} usuario{%if hayvaloraciones != 1 %}s{% endif %}.</span>
+                            <img height="200" width="200" src="{{ asset('imagenes/perfiles/' ~ usuario.icono) }}">
+                        </td>
+                        <td>
+                            <!--Botones para cambiar el icono o editar los datos, mandando el id del usuario al controlador-->
+                            <a href="{{ path("cambiar_icono", {"id":usuario.id}) }}" class="btn btn-primary">Cambiar icono</a>
+                            <a href="{{ path("editar_usuario", {"id":usuario.id}) }}" class="btn btn-warning">Editar usuario</a>
                         </td>
                     </tr>
-                {% endfor %}
-            </table>
-        </div>
+                </table>
+            </article>
+            <article class="col-lg-8">
+                <h2>Tus sugerencias</h2>
+                <hr>
+                <table class="table table-bordered">
+                    <!--Muestra de las sugerencias del usuario, recorriendo el array de sugerencias.
+                    Funcionamiento igual que en la vista de sugerencias-->
+                    {% for sugerencia in sugerencias %}
+                        <tr>
+                            <th height="100" width="100"><img height="100" width="100" src="{{ asset("imagenes/perfiles/") ~ sugerencia.idUsuario.icono }}"></th>
+                            <td>
+                                <strong><a href="{{ path("mi_perfil", {"id":sugerencia.idUsuario.id}) }}">{{ sugerencia.idUsuario.Nombre }}</a></strong>
+                                <p>{{ sugerencia.texto }}</p>
+                                {% if app.user.id is defined and app.user.id == sugerencia.idUsuario.id %}
+                                    <a href="{{ path("eliminar_sugerencia", {"id":sugerencia.id}) }}" class="btn btn-danger">Eliminar</a>
+                                {% endif %}
+                                {% set hayvaloraciones = 0 %}
+                                {% set like = "false" %}
+                                {% for valoracion in sugerencia.Valoracion %}
+                                    {% set hayvaloraciones = hayvaloraciones + 1 %}
+                                    {% if app.user.id is defined and valoracion.idUsuario.id == app.user.id %}
+                                        {% set like = "true" %}
+                                    {% elseif app.user.id is defined and valoracion.idUsuario.id != app.user.id and like == "false" %}
+                                        {% set like = "false" %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if app.user.id is defined and hayvaloraciones == 0 %}
+                                    <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
+                                {% elseif app.user.id is defined and like == "true" %}
+                                    <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-success">Like</a>
+                                {% elseif app.user.id is defined and like == "false" %}
+                                    <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
+                                {% endif %}
+                                <span id="valoracionescont">Le gusta a {{ hayvaloraciones }} usuario{%if hayvaloraciones != 1 %}s{% endif %}.</span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </article>
+        </section>
     {% endif %}
     <div class="clearfix"></div>
 {% endblock %}

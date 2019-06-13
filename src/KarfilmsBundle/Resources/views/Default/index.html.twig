@@ -4,7 +4,7 @@
 
 {% block body %}
     <!--Vista para la página de inicio-->
-    <div class="col-lg-12">
+    <section class="col-lg-12">
         <h1>Estrenos</h1>
         <hr>
         <!--Muestra los mensajes generados en el controlador
@@ -19,7 +19,7 @@
         {% if pagination is defined %}
             <!--Array que recorre las películas para mostrar sus carteles en el slider-->
             {% if peliculas is defined %}
-                <div class="ism-slider" data-transition_type="fade" data-play_type="loop" data-buttons="false" data-radios="false" id="my-slider">
+                <div class="d-none d-sm-block ism-slider" data-transition_type="fade" data-play_type="loop" data-buttons="false" data-radios="false" id="my-slider">
                     <ol>
                         {% for pelicula in peliculas %}
                             <li>
@@ -28,7 +28,6 @@
                         {% endfor %}
                     </ol>
                 </div>
-                <hr>
                 <div class="count">
                     <span class="label label-primary">
                         Películas en total: {{ pagination.getTotalItemCount }}
@@ -103,7 +102,7 @@
                 {{ knp_pagination_render(pagination) }}
             </div>
         {% endif %}
-    </div>
+    </section>
 {% endblock %}
 {% block javascripts %}
     <script>

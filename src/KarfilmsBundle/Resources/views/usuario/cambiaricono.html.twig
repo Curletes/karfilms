@@ -7,7 +7,7 @@
     {% if app.user.id is not defined or app.user.id != id %}
         <div class="alert alert-danger">No tienes permiso para acceder a esta página</div>
     {% else %}
-    <div class="col-lg-8">
+    <section class="col-lg-8">
         <h2>Mi perfil</h2>
         <hr>
         <!--Aquí se muestran los mensajes al editar el icono de usuario-->
@@ -38,7 +38,7 @@
                     </td>
                 </tr>
         </table>
-    </div>
+    </section>
     {% endif %}
     <div class="clearfix"></div>
 {% endblock %}

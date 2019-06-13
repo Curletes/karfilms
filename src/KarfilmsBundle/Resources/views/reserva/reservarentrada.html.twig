@@ -6,7 +6,7 @@
     {% for hora in pelicula.Sesiones %}
         {% if hora.horarios == sesion.horarios %}
             {% set accesible = true %}
-            <div class="col-lg-9">
+            <section class="col-lg-9">
                 <h2>Reserva de entrada</h2>
                 <hr>
                 <table class="table table-bordered">
@@ -30,7 +30,7 @@
                 </table>
                 <!--Botón para volver a la página de inicio-->
                 <a href="{{ path("inicio") }}" class="btn btn-secondary">Cancelar</a>
-            </div>
+            </section>
         {% endif %}
     {% endfor %}
     <!--Condición para que el usuario no acceda a una página de reserva que realmente

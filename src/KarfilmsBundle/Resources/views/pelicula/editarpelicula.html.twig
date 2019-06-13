@@ -2,7 +2,7 @@
 
 {% block body %}
     <!--Vista para editar películas-->
-    <div class="col-lg-6">
+    <section class="col-lg-6">
         <h2>Editar película</h2>
         <hr>
         <img height="50" width="50" src="{{ asset('imagenes/carteles/' ~ cartel) }}">
@@ -13,7 +13,7 @@
             {{ form_row(form.directores, { 'value': directores|trim(",") }) }}
             {{ form_row(form.generos, { 'value': generos|trim(",") }) }}
         {{ form_end(form) }}
-    </div>
+    </section>
     <div class="clearfix"></div>
     <!--Botón que lleva a la vista de todas las películas-->
     <a href="{{ path("indice_pelicula") }}" class="btn btn-secondary">Cancelar</a>

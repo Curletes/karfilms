@@ -6,7 +6,7 @@
 
 {% block body %}
     <!--Vista del formulario para iniciar sesión-->
-    <div class="col-lg-6">
+    <section class="col-lg-6">
         <!--Aquí se muestran los mensajes de cuando el usuario se registra correctamente-->
         {% for message in app.session.flashbag().get('status') %}
             {% if message == "Registrado correctamente." %}
@@ -27,7 +27,7 @@
             <input type="submit" value="Enviar" class="btn btn-primary"/>
             <input type="hidden" name="_target_path" value="/inicio"/>
         </form>
-    </div>
+    </section>
     <div class="clearfix"></div><br>
     <!--Botón para activar la función del controlador que muestra el formulario para
     registrarse-->

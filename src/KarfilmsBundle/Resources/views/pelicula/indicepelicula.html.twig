@@ -2,7 +2,7 @@
 
 {% block body %}
     <!--Vista que muestra las películas que existen en la base de datos-->
-    <div class="col-lg-8">
+    <section class="col-lg-8">
         <h2>Películas</h2>
         <hr>
         <!--Aquí se muestran los mensajes generados en el controlador al añadir
@@ -47,6 +47,6 @@
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>
-    </div>
+    </section>
     <div class="clearfix"></div>
 {% endblock %}

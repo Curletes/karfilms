@@ -8,7 +8,7 @@
 
 {% block body %}
     <!--Vista de los detalles de la película seleccionada por el usuario-->
-    <div class="col-lg-12">
+    <section class="col-lg-12">
         <h2>{{ pelicula.titulo }}</h2>
         <hr>
         <table class="table">
@@ -67,6 +67,6 @@
         {% else %}
             <a href="{{ path("mostrar_cartelera") }}" class="btn btn-primary">Atrás</a>
         {% endif %}
-    </div>
+    </section>
     <div class="clearfix"></div>
 {% endblock %}

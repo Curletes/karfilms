@@ -2,13 +2,13 @@
 
 {% block body %}
     <!--Vista para añadir directores-->
-    <div class="col-lg-6">
+    <section class="col-lg-6">
         <h2>Nuevo director</h2>
         <hr>
         <!--Muestra el formulario generado en el controlador-->
         {{ form_start(form, {'action':'', 'method':'POST'}) }}
         {{ form_end(form) }}
-    </div>
+    </section>
     <div class="clearfix"></div>
     <!--Botón para volver a la vista de muestra de todos los directores-->
     <a href="{{ path("indice_director") }}" class="btn btn-secondary">Cancelar</a>

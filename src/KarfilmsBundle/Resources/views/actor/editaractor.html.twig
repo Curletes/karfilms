@@ -2,13 +2,13 @@
 
 {% block body %}
     <!--Vista para editar actores-->
-    <div class="col-lg-6">
+    <section class="col-lg-6">
         <h2>Editar actor</h2>
         <hr>
         <!--Se muestra el formulario generado desde el controlador-->
         {{ form_start(form, {'action':'', 'method':'POST'}) }}
         {{ form_end(form) }}
-    </div>
+    </section>
     <div class="clearfix"></div>
     <!--Botón que lleva a la vista de todos los actores-->
     <a href="{{ path("indice_actor") }}" class="btn btn-secondary">Cancelar</a>

@@ -3,57 +3,59 @@
 {% block body %}
     <!--Vista del perfil de un usuario que no eres tú.
     Funcionamiento similar a la vista de Mi Perfil-->
-    <div class="col-lg-8">
-        <h1>Perfil de {{ usuario.nombre }}</h1>
-        <hr>
-        <table class="table table-bordered">
-            <tr>
-                <th>Nombre de usuario</th>
-                <th>Imagen de perfil</th>
-            </tr>
-            <tr>
-                <td>{{ usuario.nombre }}</td>
-                <td>
-                    <img height="200" width="200" src="{{ asset('imagenes/perfiles/' ~ usuario.icono) }}">
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="col-lg-8">
-        <h2>Sugerencias de {{ usuario.nombre }}</h2>
-        <hr>
-        <table class="table table-bordered">
-            {% for sugerencia in sugerencias %}
+    <section>
+        <article class="col-lg-8">
+            <h1>Perfil de {{ usuario.nombre }}</h1>
+            <hr>
+            <table class="table table-bordered">
                 <tr>
-                    <th height="100" width="100"><img height="100" width="100" src="{{ asset("imagenes/perfiles/") ~ sugerencia.idUsuario.icono }}"></th>
+                    <th>Nombre de usuario</th>
+                    <th>Imagen de perfil</th>
+                </tr>
+                <tr>
+                    <td>{{ usuario.nombre }}</td>
                     <td>
-                        <strong><a href="{{ path("perfil_usuario", {"nombre":sugerencia.idUsuario.Nombre, "id":sugerencia.idUsuario.id}) }}">{{ sugerencia.idUsuario.Nombre }}</a></strong>
-                        <p>{{ sugerencia.texto }}</p>
-                        {% if app.user.id is defined and app.user.id == sugerencia.idUsuario.id %}
-                            <a href="{{ path("eliminar_sugerencia", {"id":sugerencia.id}) }}" class="btn btn-danger">Eliminar</a>
-                        {% endif %}
-                        {% set hayvaloraciones = 0 %}
-                        {% set like = "false" %}
-                        {% for valoracion in sugerencia.Valoracion %}
-                            {% set hayvaloraciones = hayvaloraciones + 1 %}
-                            {% if app.user.id is defined and valoracion.idUsuario.id == app.user.id %}
-                                {% set like = "true" %}
-                            {% elseif app.user.id is defined and valoracion.idUsuario.id != app.user.id and like == "false" %}
-                                {% set like = "false" %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if app.user.id is defined and hayvaloraciones == 0 %}
-                            <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
-                        {% elseif app.user.id is defined and like == "true" %}
-                            <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-success">Like</a>
-                        {% elseif app.user.id is defined and like == "false" %}
-                            <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
-                        {% endif %}
-                        <span id="valoracionescont">Le gusta a {{ hayvaloraciones }} usuario{%if hayvaloraciones != 1 %}s{% endif %}.</span>
+                        <img height="200" width="200" src="{{ asset('imagenes/perfiles/' ~ usuario.icono) }}">
                     </td>
                 </tr>
-            {% endfor %}
-        </table>
-    </div>
+            </table>
+        </article>
+        <article class="col-lg-8">
+            <h2>Sugerencias de {{ usuario.nombre }}</h2>
+            <hr>
+            <table class="table table-bordered">
+                {% for sugerencia in sugerencias %}
+                    <tr>
+                        <th height="100" width="100"><img height="100" width="100" src="{{ asset("imagenes/perfiles/") ~ sugerencia.idUsuario.icono }}"></th>
+                        <td>
+                            <strong><a href="{{ path("perfil_usuario", {"nombre":sugerencia.idUsuario.Nombre, "id":sugerencia.idUsuario.id}) }}">{{ sugerencia.idUsuario.Nombre }}</a></strong>
+                            <p>{{ sugerencia.texto }}</p>
+                            {% if app.user.id is defined and app.user.id == sugerencia.idUsuario.id %}
+                                <a href="{{ path("eliminar_sugerencia", {"id":sugerencia.id}) }}" class="btn btn-danger">Eliminar</a>
+                            {% endif %}
+                            {% set hayvaloraciones = 0 %}
+                            {% set like = "false" %}
+                            {% for valoracion in sugerencia.Valoracion %}
+                                {% set hayvaloraciones = hayvaloraciones + 1 %}
+                                {% if app.user.id is defined and valoracion.idUsuario.id == app.user.id %}
+                                    {% set like = "true" %}
+                                {% elseif app.user.id is defined and valoracion.idUsuario.id != app.user.id and like == "false" %}
+                                    {% set like = "false" %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if app.user.id is defined and hayvaloraciones == 0 %}
+                                <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
+                            {% elseif app.user.id is defined and like == "true" %}
+                                <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-success">Like</a>
+                            {% elseif app.user.id is defined and like == "false" %}
+                                <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
+                            {% endif %}
+                            <span id="valoracionescont">Le gusta a {{ hayvaloraciones }} usuario{%if hayvaloraciones != 1 %}s{% endif %}.</span>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </article>
+    </section>
     <div class="clearfix"></div>
 {% endblock %}
