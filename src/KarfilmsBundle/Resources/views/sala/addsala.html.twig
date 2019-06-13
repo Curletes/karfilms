@@ -3,7 +3,45 @@
 {% block body %}
     <!--Vista para añadir salas-->
     <section class="col-lg-6">
-        <h2>Nuevo sala</h2>
+        <br>
+        <nav aria-labelledby="navbar-label">
+            <ul class="breadcrumb col-lg-9">
+                <li>
+                    <a itemprop="url" href="{{ path("inicio") }}">
+                        <span itemprop="title">Inicio</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span itemprop="title">Administración</span>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("indice_sala") }}">
+                        <span itemprop="title">Salas</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("add_sala") }}">
+                        <span itemprop="title">Añadir sala</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <h2>Nueva sala</h2>
         <hr>
         <!--Creación del formulario que se envía desde el controlador-->
         {{ form_start(form, {'action':'', 'method':'POST'}) }}

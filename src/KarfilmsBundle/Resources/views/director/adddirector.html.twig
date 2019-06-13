@@ -3,6 +3,44 @@
 {% block body %}
     <!--Vista para añadir directores-->
     <section class="col-lg-6">
+        <br>
+        <nav aria-labelledby="navbar-label">
+            <ul class="breadcrumb col-lg-9">
+                <li>
+                    <a itemprop="url" href="{{ path("inicio") }}">
+                        <span itemprop="title">Inicio</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span itemprop="title">Administración</span>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("indice_director") }}">
+                        <span itemprop="title">Directores</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("add_director") }}">
+                        <span itemprop="title">Añadir directores</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <h2>Nuevo director</h2>
         <hr>
         <!--Muestra el formulario generado en el controlador-->

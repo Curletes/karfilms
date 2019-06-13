@@ -583,7 +583,8 @@ class PeliculaController extends Controller {
                     "trailer" => $trailer,
                     "actores" => $actores,
                     "directores" => $directores,
-                    "generos" => $generos
+                    "generos" => $generos,
+                    "pelicula" => $pelicula
         ]);
     }
 

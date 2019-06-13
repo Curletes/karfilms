@@ -3,6 +3,44 @@
 {% block body %}
     <!--Vista para añadir asientos-->
     <section class="col-lg-6">
+        <br>
+        <nav aria-labelledby="navbar-label">
+            <ul class="breadcrumb col-lg-9">
+                <li>
+                    <a itemprop="url" href="{{ path("inicio") }}">
+                        <span itemprop="title">Inicio</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span itemprop="title">Administración</span>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("indice_asiento") }}">
+                        <span itemprop="title">Asientos</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("add_asiento") }}">
+                        <span itemprop="title">Añadir asiento</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <h2>Nuevo asiento</h2>
         <hr>
         <!--Se muestra el formulario creado en el controlador-->

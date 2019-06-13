@@ -2,7 +2,44 @@
 
 {% block body %}
     <!--Vista para añadir edades-->
-    <section class="col-lg-6">
+    <section class="col-lg-6">        <br>
+        <nav aria-labelledby="navbar-label">
+            <ul class="breadcrumb col-lg-12">
+                <li>
+                    <a itemprop="url" href="{{ path("inicio") }}">
+                        <span itemprop="title">Inicio</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span itemprop="title">Administración</span>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("indice_edad") }}">
+                        <span itemprop="title">Clasificación por edades</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("add_edad") }}">
+                        <span itemprop="title">Añadir edad</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <h2>Nueva edad</h2>
         <hr>
         <!--Creación del formulario que se envía desde el controlador-->

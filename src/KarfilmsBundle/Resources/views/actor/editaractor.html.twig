@@ -3,6 +3,44 @@
 {% block body %}
     <!--Vista para editar actores-->
     <section class="col-lg-6">
+        <br>
+        <nav aria-labelledby="navbar-label">
+            <ul class="breadcrumb col-lg-9">
+                <li>
+                    <a itemprop="url" href="{{ path("inicio") }}">
+                        <span itemprop="title">Inicio</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span itemprop="title">Administración</span>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("indice_actor") }}">
+                        <span itemprop="title">Actores</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("editar_actor", {"id":actor.id}) }}">
+                        <span itemprop="title">Editar actor</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <h2>Editar actor</h2>
         <hr>
         <!--Se muestra el formulario generado desde el controlador-->

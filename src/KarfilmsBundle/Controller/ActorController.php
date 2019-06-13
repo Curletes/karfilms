@@ -216,7 +216,8 @@ class ActorController extends Controller {
         }
 
         return $this->render('@Karfilms/actor/editaractor.html.twig', [
-                    "form" => $form->createView()
+                    "form" => $form->createView(),
+                    "actor" => $actor
         ]);
     }
 

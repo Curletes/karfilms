@@ -3,6 +3,44 @@
 {% block body %}
     <!--Vista para añadir sesiones-->
     <section class="col-lg-6">
+        <br>
+        <nav aria-labelledby="navbar-label">
+            <ul class="breadcrumb col-lg-9">
+                <li>
+                    <a itemprop="url" href="{{ path("inicio") }}">
+                        <span itemprop="title">Inicio</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span itemprop="title">Administración</span>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("indice_sesion") }}">
+                        <span itemprop="title">Sesiones</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("add_sesion") }}">
+                        <span itemprop="title">Añadir sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <h2>Nueva sesión</h2>
         <hr>
         <!--Creación del formulario que se envía desde el controlador-->

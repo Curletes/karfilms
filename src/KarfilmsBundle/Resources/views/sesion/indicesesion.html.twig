@@ -3,6 +3,34 @@
 {% block body %}
     <!--Vista que muestra las sesiones que existen en la base de datos-->
     <section class="col-lg-9">
+        <br>
+        <nav aria-labelledby="navbar-label">
+            <ul class="breadcrumb col-lg-5">
+                <li>
+                    <a itemprop="url" href="{{ path("inicio") }}">
+                        <span itemprop="title">Inicio</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span itemprop="title">Administración</span>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("indice_sesion") }}">
+                        <span itemprop="title">Sesiones</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <h2>Sesiones</h2>
         <hr>
         <!--Aquí se muestran los mensajes generados en el controlador al añadir

@@ -3,6 +3,34 @@
 {% block body %}
     <!--Vista que muestra los usuarios que existen en la base de datos-->
     <section class="col-lg-6">
+        <br>
+        <nav aria-labelledby="navbar-label">
+            <ul class="breadcrumb col-lg-7">
+                <li>
+                    <a itemprop="url" href="{{ path("inicio") }}">
+                        <span itemprop="title">Inicio</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span itemprop="title">Administración</span>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("indice_usuario") }}">
+                        <span itemprop="title">Usuarios</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <h2>Usuarios</h2>
         <hr>
         <div class="count">
@@ -23,9 +51,9 @@
                         su nombre enviará a mi perfil, si no, enviará al perfil del usuario en cuestión-->
                         {% if usuario.id == app.user.id %}
                             <strong><a href="{{ path("mi_perfil", {"id":usuario.id}) }}">{{ usuario.nombre }}</a></strong>
-                        {% else %}
+                            {% else %}
                             <strong><a href="{{ path("perfil_usuario", {"nombre":usuario.Nombre, "id":usuario.id}) }}">{{ usuario.nombre }}</a></strong>
-                        {% endif %}
+                            {% endif %}
                     </td>
                     <td>
                         <!--Si el usuario que se muestra tiene el rol de usuario, se mostrará un botón para asignarle el rol de

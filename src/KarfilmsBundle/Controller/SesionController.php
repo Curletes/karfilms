@@ -194,7 +194,8 @@ class SesionController extends Controller {
         }
 
         return $this->render('@Karfilms/sesion/editarsesion.html.twig', [
-                    "form" => $form->createView()
+                    "form" => $form->createView(),
+                    "sesion" => $sesion
         ]);
     }
 

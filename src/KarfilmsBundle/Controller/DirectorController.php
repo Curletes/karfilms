@@ -214,7 +214,8 @@ class DirectorController extends Controller {
         }
 
         return $this->render('@Karfilms/director/editardirector.html.twig', [
-                    "form" => $form->createView()
+                    "form" => $form->createView(),
+                    "director" => $director
         ]);
     }
 }

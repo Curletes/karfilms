@@ -151,7 +151,8 @@ class SalaController extends Controller {
         }
 
         return $this->render('@Karfilms/sala/editarsala.html.twig', [
-                    "form" => $form->createView()
+                    "form" => $form->createView(),
+                    "sala" => $sala
         ]);
     }
 

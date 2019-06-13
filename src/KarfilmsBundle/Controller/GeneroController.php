@@ -217,7 +217,8 @@ class GeneroController extends Controller {
         }
 
         return $this->render('@Karfilms/genero/editargenero.html.twig', [
-                    "form" => $form->createView()
+                    "form" => $form->createView(),
+                    "genero" => $genero
         ]);
     }
 

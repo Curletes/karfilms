@@ -204,7 +204,8 @@ class EdadController extends Controller {
         }
 
         return $this->render('@Karfilms/edad/editaredad.html.twig', [
-                    "form" => $form->createView()
+                    "form" => $form->createView(),
+                    "edad" => $edad
         ]);
     }
 

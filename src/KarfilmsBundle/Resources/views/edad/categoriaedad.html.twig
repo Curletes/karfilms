@@ -5,7 +5,28 @@
 {% block body %}
     <!--Vista para las películas organizadas según la edad seleccionada-->
     <section class="col-lg-12">
-        <h1>{{ edad.clasificacion }}</h1>
+        <br>
+        <nav aria-labelledby="navbar-label">
+            <ul class="breadcrumb col-lg-4">
+                <li>
+                    <a itemprop="url" href="{{ path("mostrar_edad") }}">
+                        <span itemprop="title">Clasificación por edades</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                        <a itemprop="url" href="{{ path("categoria_edad", {"clasificacion":edad.clasificacion}) }}">
+                            <span itemprop="title">{{ edad.clasificacion }}</span>
+                        </a>
+                    </span> 
+                </li>
+            </ul>
+        </nav>
         <hr>
         {% if pagination is defined %}
             <div class="count">
@@ -101,7 +122,7 @@
                 var texto = "";
                 var idspan = $(this).closest("p").children("span").attr('id');
 
-                {% for pelicula in pagination %}
+        {% for pelicula in pagination %}
                     if ($(this).attr('id') == {{ pelicula.id }})
                     {
                         $.ajax({
@@ -124,19 +145,19 @@
                                          * reservar entrada al pulsarse, enviándose el id de la película correspondiente,
                                          * y el id de la sesión.
                                          */
-                                        {% for sesion in pelicula.Sesiones %}
+            {% for sesion in pelicula.Sesiones %}
                                             if (fecha == "{{sesion.horarios|date('Y-m-d H:i:s.sss')}}")
                                             {
                                                 texto += "<a id='sesion" + i + "' href='{{ path("reservar_entrada", {"pelicula":pelicula.id, "sesion":sesion.id}) }}'>" + hora + "</a>";
                                             }
-                                        {% endfor %}
+            {% endfor %}
                                         }
                                     }
                                     $('#' + idspan).html(texto);
                                 }
                             });
                         }
-                    {% endfor %}
+        {% endfor %}
                 });
             });
     </script>

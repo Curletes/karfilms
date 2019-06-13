@@ -188,7 +188,8 @@ class AsientoController extends Controller {
         }
 
         return $this->render('@Karfilms/asiento/editarasiento.html.twig', [
-                    "form" => $form->createView()
+                    "form" => $form->createView(),
+                    "asiento" => $asiento
         ]);
     }
 

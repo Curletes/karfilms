@@ -3,15 +3,53 @@
 {% block body %}
     <!--Vista para editar películas-->
     <section class="col-lg-6">
+        <br>
+        <nav aria-labelledby="navbar-label">
+            <ul class="breadcrumb col-lg-9">
+                <li>
+                    <a itemprop="url" href="{{ path("inicio") }}">
+                        <span itemprop="title">Inicio</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span itemprop="title">Administración</span>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("indice_pelicula") }}">
+                        <span itemprop="title">Películas</span>
+                    </a>
+                    <span class="divider"> 
+                        <span class="accesshide ">
+                            <span class="arrow sep">►</span> 
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <a itemprop="url" href="{{ path("editar_pelicula", {"id":pelicula.id}) }}">
+                        <span itemprop="title">Editar película</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <h2>Editar película</h2>
         <hr>
         <img height="50" width="50" src="{{ asset('imagenes/carteles/' ~ cartel) }}">
         {{ form_start(form, {'action':'', 'method':'POST'}) }}
         <!--Se muestran los inputs para añadir actores, directores y géneros, con los dato
         que introdujo el usuario al añadir la película y separándolos por comas-->
-            {{ form_row(form.actores, { 'value': actores|trim(",") }) }}
-            {{ form_row(form.directores, { 'value': directores|trim(",") }) }}
-            {{ form_row(form.generos, { 'value': generos|trim(",") }) }}
+        {{ form_row(form.actores, { 'value': actores|trim(",") }) }}
+        {{ form_row(form.directores, { 'value': directores|trim(",") }) }}
+        {{ form_row(form.generos, { 'value': generos|trim(",") }) }}
         {{ form_end(form) }}
     </section>
     <div class="clearfix"></div>
