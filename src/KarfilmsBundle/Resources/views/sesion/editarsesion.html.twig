@@ -1,12 +1,15 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista para editar sesiones-->
     <div class="col-lg-6">
         <h2>Editar sesión</h2>
         <hr>
+        <!--Se muestra el formulario generado desde el controlador-->
         {{ form_start(form, {'action':'', 'method':'POST'}) }}
         {{ form_end(form) }}
     </div>
     <div class="clearfix"></div>
+    <!--Botón que lleva a la vista de todas las sesiones-->
     <a href="{{ path("indice_sesion") }}" class="btn btn-secondary">Cancelar</a>
 {% endblock %}

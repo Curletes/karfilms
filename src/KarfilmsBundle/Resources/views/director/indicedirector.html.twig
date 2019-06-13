@@ -1,9 +1,12 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista que muestra los actores que existen en la base de datos-->
     <div class="col-lg-6">
         <h2>Directores</h2>
         <hr>
+        <!--Aquí se muestran los mensajes generados en el controlador al añadir
+        o editar un director-->
         {% for message in app.session.flashbag().get('status') %}
             {% if message == "Director añadido correctamente." or message == "Director editado correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>
@@ -21,11 +24,14 @@
                 <th>Nombre</th>
                 <th>Acción</th>
             </tr>
+            <!--Se recorre el array de directores y se van mostrando uno a uno-->
             {% for director in pagination %}
                 <tr>
                     <td>{{ director.nombre }}</td>
                     <td>
                         <a href="{{ path("editar_director", {"id":director.id}) }}" class="btn btn-warning">Editar</a>
+                        <!--Si el director está registrado en alguna película, el botón de eliminar
+                        aparece desactivado-->
                         {% if director.Directorpelicula|length == 0 %}
                             <a href="{{ path("eliminar_director", {"id":director.id}) }}" class="btn btn-danger">Eliminar</a>
                         {% else %}
@@ -35,7 +41,9 @@
                 </tr>
             {% endfor %}
         </table>
+        <!--Botón que activa la función para añadir directores en el controlador-->
         <a href="{{ path("add_director") }}" class="btn btn-primary">Añadir director</a><br><br>
+        <!--Botones de paginación-->
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>

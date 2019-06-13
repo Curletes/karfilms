@@ -1,12 +1,15 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista para añadir asientos-->
     <div class="col-lg-6">
         <h2>Nuevo asiento</h2>
         <hr>
+        <!--Se muestra el formulario creado en el controlador-->
         {{ form_start(form, {'action':'', 'method':'POST'}) }}
         {{ form_end(form) }}
     </div>
     <div class="clearfix"></div>
+    <!--Botón para volver a la vista de los asientos-->
     <a href="{{ path("indice_asiento") }}" class="btn btn-secondary">Cancelar</a>
 {% endblock %}

@@ -1,9 +1,12 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista que muestra las edades que existen en la base de datos-->
     <div class="col-lg-6">
         <h2>Edades</h2>
         <hr>
+        <!--Aquí se muestran los mensajes generados en el controlador al añadir
+        o editar una edad-->
         {% for message in app.session.flashbag().get('status') %}
             {% if message == "Edad añadida correctamente." or message == "Edad editada correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>
@@ -16,26 +19,35 @@
                 <th>Clasificación</th>
                 <th>Acción</th>
             </tr>
+            <!--Se recorre el array de actores y se van mostrando uno a uno-->
             {% for edad in edades %}
+                <!--Variable declarada para comprobar que la edad está en uso
+                o no, de esta forma el botón para eliminar edad se mostrará desactivado o no-->
                 {% set enuso = false %}
                 <tr>
                     <td>{{ edad.clasificacion }}</td>
                     <td>
                         <a href="{{ path("editar_edad", {"id":edad.id}) }}" class="btn btn-warning">Editar</a>
+                        <!--Se recorre el array de películas. Si el id de la edad coincide
+                        con el id registrado en la película, la variable enuso cambiará a true-->
                         {% for pelicula in peliculas %}
                             {% if edad.id == pelicula.idEdad.id %}
                                 {% set enuso = true %}
                             {% endif %}
                         {% endfor %}
+                        <!--Si enuso es true, el botón de eliminar estará desactivado-->
                         {% if enuso == true %}
                             <a href="#" class="btn btn-danger disabled">Eliminar</a>
                         {% else %}
+                            <!--Botón para eliminar edad. Al pulsarse se manda el id de la edad correspondiente
+                            a través de la url hasta el controlador-->
                             <a href="{{ path("eliminar_edad", {"id":edad.id}) }}" class="btn btn-danger">Eliminar</a>
                         {% endif %}
                     </td>
                 </tr>
             {% endfor %}
         </table>
+        <!--Botón para añadir una edad, activando la función correspondiente en el controlador-->
         <a href="{{ path("add_edad") }}" class="btn btn-primary">Añadir edad</a>
     </div>
     <div class="clearfix"></div>

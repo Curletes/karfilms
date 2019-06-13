@@ -3,6 +3,7 @@
 {% block estadoedad %} active {% endblock%}
 
 {% block body %}
+    <!--Vista de las edades para los usuarios-->
     <div class="col-lg-6">
         <h2>Clasificaciones por edades</h2>
         <hr>
@@ -11,10 +12,14 @@
                 <th>Nombre</th>
                 <th>Acción</th>
             </tr>
+            <!--Muestra las edades uno a uno-->
             {% for edad in edades %}
                 <tr>
                     <td>{{ edad.clasificacion }}</td>
                     <td>
+                        <!--Botón que activa la función para mostrar las películas
+                        organizadas según la edad seleccionada, enviando por la url
+                        el nombre de la clasificación hacia el controlador-->
                         <a href="{{ path("categoria_edad", {"clasificacion":edad.clasificacion}) }}" class="btn btn-primary">Ver</a>
                     </td>
                 </tr>

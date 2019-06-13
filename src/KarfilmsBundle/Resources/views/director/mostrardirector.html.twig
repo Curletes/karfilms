@@ -3,6 +3,7 @@
 {% block estadodirector %} active {% endblock%}
 
 {% block body %}
+    <!--Vista de los directores para los usuarios-->
     <div class="col-lg-6">
         <h2>Directores</h2>
         <hr>
@@ -16,15 +17,20 @@
                 <th>Nombre</th>
                 <th>Acción</th>
             </tr>
+            <!--Muestra los directores uno a uno-->
             {% for director in pagination %}
                 <tr>
                     <td>{{ director.nombre }}</td>
                     <td>
+                        <!--Botón que activa la función para mostrar las películas
+                        organizadas según el director seleccionado, enviando por la url
+                        el nombre del director hacia el controlador-->
                         <a href="{{ path("categoria_director", {"nombre":director.nombre}) }}" class="btn btn-primary">Ver</a>
                     </td>
                 </tr>
             {% endfor %}
         </table>
+        <!--Botones de paginación-->
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>

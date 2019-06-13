@@ -1,9 +1,12 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista que muestra las películas que existen en la base de datos-->
     <div class="col-lg-8">
         <h2>Películas</h2>
         <hr>
+        <!--Aquí se muestran los mensajes generados en el controlador al añadir
+        o editar una película-->
         {% for message in app.session.flashbag().get('status') %}
             {% if message == "Película añadida correctamente." or message == "Película editada correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>
@@ -21,12 +24,14 @@
                 <th>Nombre</th>
                 <th>Acción</th>
             </tr>
+            <!--Se recorre el array de películas y se van mostrando una a una-->
             {% for pelicula in pagination %}
                 <tr>
                     <td>{{ pelicula.titulo }}</td>
                     <td>
                         <a href="{{ path("detalles_pelicula", {"id":pelicula.id}) }}" class="btn btn-secondary">Ver detalles</a>
                         <a href="{{ path("editar_pelicula", {"id":pelicula.id}) }}" class="btn btn-warning">Editar</a>
+                        <!--Si la película tiene alguna sesión, no se puede eliminar-->
                         {% if pelicula.Sesiones|length == 0 %}
                             <a href="{{ path("eliminar_pelicula", {"id":pelicula.id}) }}" class="btn btn-danger">Eliminar</a>
                         {% else %}
@@ -36,7 +41,9 @@
                 </tr>
             {% endfor %}
         </table>
+        <!--Botón que activa la función para añadir películas en el controlador-->
         <a href="{{ path("add_pelicula") }}" class="btn btn-primary">Añadir película</a><br/><br/>
+        <!--Botones de paginación-->
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>

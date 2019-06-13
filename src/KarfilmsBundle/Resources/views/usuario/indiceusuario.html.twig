@@ -1,16 +1,10 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista que muestra los usuarios que existen en la base de datos-->
     <div class="col-lg-6">
         <h2>Usuarios</h2>
         <hr>
-        {% for message in app.session.flashbag().get('status') %}
-            {% if message == "Usuario editado correctamente." %}
-                <div class="alert alert-success">{{ message }}</div>
-            {% else %}
-                <div class="alert alert-danger">{{ message }}</div>
-            {% endif %}
-        {% endfor %}
         <div class="count">
             <span class="label label-primary">
                 Usuarios en total: {{ pagination.getTotalItemCount }}
@@ -21,9 +15,12 @@
                 <th>Nombre de usuario</th>
                 <th>Acción</th>
             </tr>
+            <!--Se recorre el array de usuarios y se van mostrando uno a uno-->
             {% for usuario in pagination %}
                 <tr>
                     <td>
+                        <!--Si el id del usuario con sesión iniciada coincide con el id del usuario que se muestra,
+                        su nombre enviará a mi perfil, si no, enviará al perfil del usuario en cuestión-->
                         {% if usuario.id == app.user.id %}
                             <strong><a href="{{ path("mi_perfil", {"id":usuario.id}) }}">{{ usuario.nombre }}</a></strong>
                         {% else %}
@@ -31,6 +28,9 @@
                         {% endif %}
                     </td>
                     <td>
+                        <!--Si el usuario que se muestra tiene el rol de usuario, se mostrará un botón para asignarle el rol de
+                        administrador, llamando a la función del controlador y enviando su id a través de la url.
+                        Si tiene el rol de administrador, se le asigna el rol de usuario-->
                         {% if usuario.rol == "ROLE_USER" %}
                             <a href="{{ path("hacer_administrador", {"id":usuario.id}) }}" class="btn btn-warning">Hacer administrador</a>
                         {% else %}
@@ -41,6 +41,7 @@
                 </tr>
             {% endfor %}
         </table>
+        <!--Botones de paginación-->
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>

@@ -3,9 +3,12 @@
 {%block estadosugerencia %} active {% endblock %}
 
 {% block body %}
+    <!--Vista de las sugerencias para los usuarios-->
     <div class="col-lg-6">
         <h1>Sugerencias</h1>
         <hr>
+        <!--Aquí se muestran los mensajes generados en el controlador al añadir
+        una sugerencia-->
         {% for message in app.session.flashbag().get('status') %}
             {% if message == "Sugerencia añadida correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>
@@ -13,8 +16,11 @@
                 <div class="alert alert-danger">{{ message }}</div>
             {% endif %}
         {% endfor %}
+        <!--Si el usuario tiene rol administrador o rol usuario, significa que está
+        registrado y con la sesión iniciada, lo que significa que puede mandar sugerencias-->
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
             <div class="col-lg-6">
+                <!--Muestra el formulario generado en el controlador-->
                 {{ form_start(form, {'action': '', 'method':'POST'}) }}
                 {{ form_end(form) }}
             </div>
@@ -25,39 +31,58 @@
             </span>
         </div>
         <table class="table table-bordered">
+            <!--Muestra las sugerencias uno a uno-->
             {% for sugerencia in pagination %}
                 <tr>
                     <th height="100" width="100"><img height="100" width="100" src="{{ asset("imagenes/perfiles/") ~ sugerencia.idUsuario.icono }}"></th>
                     <td>
+                        <!--Si el id del usuario que tiene la sesión iniciada coincide con el id
+                        del usuario que ha enviado esta sugerencia, al pulsar sobre su nombre se mostrará
+                        "mi perfil", si no, se mosstrará el perfil del usuario que haya enviado la sugerencia-->
                         {% if app.user.id is defined and sugerencia.idUsuario.id == app.user.id %}
                             <strong><a href="{{ path("mi_perfil", {"id":sugerencia.idUsuario.id}) }}">{{ sugerencia.idUsuario.Nombre }}</a></strong>
                             {% else %}
                             <strong><a href="{{ path("perfil_usuario", {"nombre":sugerencia.idUsuario.Nombre, "id":sugerencia.idUsuario.id}) }}">{{ sugerencia.idUsuario.Nombre }}</a></strong>
                             {% endif %}
                         <p>{{ sugerencia.texto }}</p>
+                        <!--Si el usuario con la sesión iniciada tiene rol administrador o es el que ha enviado la sugerencia,
+                        podrá eliminar dicha sugerencia-->
                         {% if app.user.id is defined and app.user.id == sugerencia.idUsuario.id or is_granted("ROLE_ADMIN") %}
                             <a href="{{ path("eliminar_sugerencia", {"id":sugerencia.id}) }}" class="btn btn-danger">Eliminar</a>
                         {% endif %}
+                        <!--Se hace un set para comprobar que la sugerencia tenga likes-->
                         {% set like = "false" %}
                         {% for valoracion in sugerencia.Valoracion %}
+                            <!--Al recorrer las valoraciones de la sugerencia, si el id del usuario con
+                            la sesión iniciada coincide con el id de algún usuario que haya valorado la sugerencia,
+                            significará que el usuario registrado ha valorado la sugerencia, por lo que la variable like
+                            será true-->
                             {% if app.user.id is defined and valoracion.idUsuario.id == app.user.id %}
                                 {% set like = "true" %}
                             {% elseif app.user.id is defined and valoracion.idUsuario.id != app.user.id and like == "false" %}
                                 {% set like = "false" %}
                             {% endif %}
                         {% endfor %}
+                        <!--Si el usuario tiene la sesión iniciada y la sugerencia no tiene valoraciones, se mostrará el botón
+                        de like en gris-->
                         {% if app.user.id is defined and sugerencia.Valoracion|length == 0 %}
                             <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
+                        <!--Si el usuario tiene la sesión iniciada y el botón de like está en true, significa que el usuario con
+                        la sesión iniciada ha pulsado el botón, por lo que se mostrará en verde-->
                         {% elseif app.user.id is defined and like == "true" %}
                             <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-success">Like</a>
+                        <!--Si el usuario tiene la sesión iniciada y el botón de like está en false, significa que no hay valoraciones suyas,
+                        por lo que se mostrará en gris-->
                         {% elseif app.user.id is defined and like == "false" %}
                             <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
                         {% endif %}
+                        <!--Muestra cuantas valoraciones tiene el usuario-->
                         <span id="valoracionescont">Le gusta a {{ sugerencia.Valoracion|length }} usuario{% if sugerencia.Valoracion|length != 1 %}s{% endif %}.</span>
                     </td>
                 </tr>
             {% endfor %}
         </table>
+        <!--Botones de paginación-->
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>

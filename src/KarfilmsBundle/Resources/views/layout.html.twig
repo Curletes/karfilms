@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--Vista de la barra de navegación que se hereda en todas las vistas de la aplicación-->
 <html>
     <head>
         <meta charset="UTF-8" />
@@ -15,6 +16,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="nav navbar-nav">
+                    <!--Cada uno de los botones de la barra de navegación-->
                     <li class="nav-item">
                         <a class="nav-link {% block estadoindex %}{% endblock %}" href="{{ path("inicio") }}">Inicio</a>
                     </li>
@@ -36,19 +38,24 @@
                     <li class="nav-item">
                         <a class="nav-link {% block estadosugerencia %}{% endblock %}" href="{{ path("mostrar_sugerencia") }}">Sugerencias</a>
                     </li>
+                    <!--Buscador-->
                     <form class="navbar-form navbar-left">
                         <input id="buscador" class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
+                        <!--Lista desplegable con los resultados del buscador-->
                         <div class="dropdown"><span id="resultados"></span></div>
                     </form>
                 </ul>
                 <ul class="nav navbar-nav ml-auto mr-5">
+                    <!--Este apartado sólo se mostrará para los usuarios que están registrados en la página-->
                     {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+                        <!--Si el rol del usuario con la sesión iniciada es administrador, se mostrará este apartado-->
                         {% if is_granted('ROLE_ADMIN') %}
                             <div class="dropdown">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                     <img src="{{ asset('imagenes/iconos/tuerca.svg') }}">
                                 </button>
                                 <div class="dropdown-menu">
+                                    <!--Botones para administrar cada uno de los apartados de la aplicación-->
                                     <span><strong>Administración</strong></span>
                                     <a class="dropdown-item" href="{{ path("indice_pelicula") }}">Películas</a>
                                     <a class="dropdown-item" href="{{ path("indice_sesion") }}">Sesiones</a>
@@ -62,6 +69,8 @@
                                 </div>
                             </div>
                         {% endif %}
+                        <!--Botón con el nombre del usuario para desplegar una lista con las opciones de ver
+                        Mi Perfil y cerrar sesión-->
                         <div class="dropdown">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                 {{ app.user.nombre }}
@@ -72,6 +81,7 @@
                             </div>
                         </div>
                     {% else %}
+                        <!--Si el usuario no tiene una sesión iniciada, se mostrará este botón-->
                         <li class="nav-item">
                             <a class="nav-link {% block estadologin %}{% endblock %}" href="{{ path("iniciar_sesion") }}">Iniciar sesión</a>
                         </li>
@@ -96,6 +106,9 @@
 
     $(document).ready(function ()
     {
+        /*
+         * Función AJAX que se activa al comenzar a escribir en el buscador
+         */
         $("#buscador").keyup(function ()
         {
             var texto = "";
@@ -107,11 +120,19 @@
                 },
                 success: function (data)
                 {
+                    /*
+                     * Si lo que ha escrito el usuario coincide con las películas registradas en la base de datos,
+                     * se mostrarán los títulos en la lista desplegable
+                     */
                     texto += "<div class='dropdown-menu show'>";
                     for (var i in data.peliculas)
                     {
                         var titulo = data.peliculas[i].titulo;
                         var id = data.peliculas[i].id;
+                        /*
+                         * Condiciones para generar un enlace distinto para las películas según en qué parte de la página
+                         * se encuentre el usuario, comprobándolo mirando la url y usando expresiones regulares.
+                         */
                         if (/(edades|directores|actores|generos\/[a-zA-Z0-9_])/.test(window.location.href))
                         {
                             texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
@@ -140,10 +161,6 @@
                     }
                     texto += "</div>";
                     $('#resultados').html(texto);
-                },
-                error: function (data, xhr, status)
-                {
-                    alert(status)
                 }
             });
         }

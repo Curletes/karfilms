@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block body %}
+    <!--Vista de los detalles de la película seleccionada por el usuario-->
     <div class="col-lg-12">
         <h2>{{ pelicula.titulo }}</h2>
         <hr>
@@ -31,6 +32,8 @@
                 <th>Géneros</th>
             </tr>
             <tr>
+                <!--Se recorren los arrays de directores, actores y géneros para mostrarlos
+                en su sección específica de los detalles de la película-->
                 <td>
                     {% for director in directores %}
                         {{ director }}<br>
@@ -54,6 +57,10 @@
                 <td colspan="3">{{ pelicula.sinopsis }}</td>
             </tr>
         </table>
+        <!--Si el rol del usuario conectado es el de administrador, el botón llevará
+        a la vista de todas las películas en la sección de administrador. Además se
+        mostrará el botón para editar la película.
+        Si el rol del usuario no es administrador, llevará a la página de la cartelera.-->
         {% if is_granted("ROLE_ADMIN") %}
             <a href="{{ path("indice_pelicula") }}" class="btn btn-primary">Atrás</a>
             <a href="{{ path("editar_pelicula", {"id":pelicula.id}) }}" class="btn btn-warning">Editar</a>

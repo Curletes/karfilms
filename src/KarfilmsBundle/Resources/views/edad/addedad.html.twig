@@ -1,12 +1,15 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista para añadir edades-->
     <div class="col-lg-6">
-        <h2>Nuevo edad</h2>
+        <h2>Nueva edad</h2>
         <hr>
+        <!--Creación del formulario que se envía desde el controlador-->
         {{ form_start(form, {'action':'', 'method':'POST'}) }}
         {{ form_end(form) }}
     </div>
     <div class="clearfix"></div>
+    <!--Botón que lleva a la vista de todos las clasificaciones por edad-->
     <a href="{{ path("indice_edad") }}" class="btn btn-secondary">Cancelar</a>
 {% endblock %}

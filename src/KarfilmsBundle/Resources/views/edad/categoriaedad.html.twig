@@ -3,6 +3,7 @@
 {% block estadoedad %} active {% endblock%}
 
 {% block body %}
+    <!--Vista para las películas organizadas según la edad seleccionada-->
     <div class="col-lg-12">
         <h1>{{ edad.clasificacion }}</h1>
         <hr>
@@ -13,6 +14,8 @@
                 </span>
             </div>
             <table class="table table-bordered">
+                <!--Se recorre el array de las películas que se ha enviado desde el controlador
+                y se van mostrando en la página.-->
                 {% for pelicula in pagination %}
                     <tr>
                         <td height="200" width="150"><img height="200" width="150" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}"</td>
@@ -20,6 +23,8 @@
                             <h3><a href="{{ path("mostrar_pelicula", {"titulo":pelicula.titulo, "id":pelicula.id}) }}">{{ pelicula.titulo }}</a></h3>
                             <p><strong>Duración: </strong>{{ pelicula.duracion }} minutos</p>
                             <p><strong>Clasificación por edades: </strong><a href="{{ path("categoria_edad", {"clasificacion":pelicula.idEdad.clasificacion}) }}">{{ pelicula.idEdad.clasificacion }}</a></p>
+                            <!--Se recorren los arrays de actores, directores y géneros que se han enviado
+                            desde el controlador para mostrar los datos correspondientes a la película-->
                             <p>
                                 <strong>Reparto: </strong>
                                 {% for peli in pelicula.Actorpelicula %}
@@ -41,6 +46,10 @@
                             <p><strong>Sinopsis: </strong>{{ pelicula.sinopsis }}</p>
                             <p>
                                 <strong>Sesiones: </strong><br>
+                                <!--Si la película no tiene sesiones disponibles, se muestra un mensaje correspondiente.
+                                Si tiene sesiones, se guardan estas en un array para luego mostrar los días en una lista
+                                desplegable, la cual ejecutará una función AJAX que llamará al controlador y mostrará las horas
+                                que correspondan a la sesión de ese día seleccionado-->
                                 {% if pelicula.Sesiones is empty %}
                                     No hay sesiones disponibles.
                                 {% else %}
@@ -69,6 +78,7 @@
                     </tr>
                 {% endfor %}
             </table>
+            <!--Botones de paginación-->
             <div class="navigation">
                 {{ knp_pagination_render(pagination) }}
             </div>
@@ -79,6 +89,11 @@
     <script>
         'use strict'
 
+        /*
+         * Función AJAX que recoge el día seleccionado y lo manda al controlador,
+         * donde se hace una consulta para que muestre las horas que corresponden
+         * a ese día y las pinte en la etiqueta span de la vista.
+         */
         $(document).ready(function ()
         {
             $("select").click(function ()
@@ -86,7 +101,7 @@
                 var texto = "";
                 var idspan = $(this).closest("p").children("span").attr('id');
 
-        {% for pelicula in pagination %}
+                {% for pelicula in pagination %}
                     if ($(this).attr('id') == {{ pelicula.id }})
                     {
                         $.ajax({
@@ -104,23 +119,24 @@
                                     {
                                         var fecha = data.sesiones[i].horarios.date;
                                         var hora = fecha.substring(11, 16);
-            {% for sesion in pelicula.Sesiones %}
+                                        /*
+                                         * Cada hora se muesta en una etiqueta "a" que activa la función de
+                                         * reservar entrada al pulsarse, enviándose el id de la película correspondiente,
+                                         * y el id de la sesión.
+                                         */
+                                        {% for sesion in pelicula.Sesiones %}
                                             if (fecha == "{{sesion.horarios|date('Y-m-d H:i:s.sss')}}")
                                             {
                                                 texto += "<a id='sesion" + i + "' href='{{ path("reservar_entrada", {"pelicula":pelicula.id, "sesion":sesion.id}) }}'>" + hora + "</a>";
                                             }
-            {% endfor %}
+                                        {% endfor %}
                                         }
                                     }
                                     $('#' + idspan).html(texto);
-                                },
-                                error: function (data, xhr, status)
-                                {
-                                    alert(status)
                                 }
                             });
                         }
-        {% endfor %}
+                    {% endfor %}
                 });
             });
     </script>

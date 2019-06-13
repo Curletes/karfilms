@@ -3,9 +3,12 @@
 {%block estadoindex %} active {% endblock %}
 
 {% block body %}
+    <!--Vista para la página de inicio-->
     <div class="col-lg-12">
         <h1>Estrenos</h1>
         <hr>
+        <!--Muestra los mensajes generados en el controlador
+        que se envían al usuario al registrar asientos-->
         {% for message in app.session.flashbag().get('status') %}
             {% if message == "Asiento reservado correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>
@@ -14,6 +17,7 @@
             {% endif %}
         {% endfor %}
         {% if pagination is defined %}
+            <!--Array que recorre las películas para mostrar sus carteles en el slider-->
             {% if peliculas is defined %}
                 <div class="ism-slider" data-transition_type="fade" data-play_type="loop" data-buttons="false" data-radios="false" id="my-slider">
                     <ol>
@@ -30,6 +34,9 @@
                         Películas en total: {{ pagination.getTotalItemCount }}
                     </span>
                 </div>
+                <!--Se recorre el array de las películas que se ha enviado desde el controlador
+                y se van mostrando en la página de inicio.
+                Las películas que no tienen sesiones, no se muestran.-->
                 <table class="table table-bordered">
                     {% for pelicula in pagination %}
                         <tr>
@@ -38,6 +45,7 @@
                                 <h3><a href="{{ path("mostrar_pelicula", {"titulo":pelicula.titulo, "id":pelicula.id}) }}">{{ pelicula.titulo }}</a></h3>
                                 <p><strong>Duración: </strong>{{ pelicula.duracion }} minutos</p>
                                 <p><strong>Clasificación por edades: </strong><a href="{{ path("categoria_edad", {"clasificacion":pelicula.idEdad.clasificacion}) }}">{{ pelicula.idEdad.clasificacion }}</a></p>
+                                <!--Muestra de los actores, directores y géneros, recorriendo sus respectivos arrays-->
                                 <p>
                                     <strong>Reparto: </strong>
                                     {% for peli in pelicula.Actorpelicula %}
@@ -58,13 +66,18 @@
                                 </p>
                                 <p><strong>Sinopsis: </strong>{{ pelicula.sinopsis }}</p>
                                 <p>
+                                    <!--Se guardan los horarios en un array para luego mostrar los días de cada sesión en
+                                    una lista desplegable-->
                                     <strong>Sesiones: </strong><br>
                                     {% set array_sesiones = [] %}
                                     {% for sesiones in pelicula.Sesiones %}
                                         {% set array_sesiones = array_sesiones|merge([sesiones.horarios]) %}
                                     {% endfor %}
+                                    <!--Lista desplegable con los días de cada sesión para cada película-->
                                     <select id="{{ pelicula.id }}" class="form-control col-lg-2 float-left">
                                         {% for sesion in array_sesiones|sort %}
+                                            <!--Condiciones para que los días no se repitan las mismas veces que 
+                                            la cantidad de horas que tiene ese día-->
                                             {% if usado is defined and usado != sesion|date("d-m") %}
                                                 <option>{{ sesion|date("d-m") }}</option>
                                                 {% set usado = sesion|date("d-m") %}
@@ -76,6 +89,7 @@
                                             {% endif %}
                                         {% endfor %}
                                     </select>
+                                    <!--Aquí se muestran las horas de las sesiones para el día que ha sido seleccionado-->
                                     Horarios:
                                     <span id="horarios{{ pelicula.id }}"></span>
                                 </p>
@@ -84,6 +98,7 @@
                     {% endfor %}
                 </table>
             {% endif %}
+            <!--Botones de paginación-->
             <div class="navigation">
                 {{ knp_pagination_render(pagination) }}
             </div>
@@ -93,18 +108,23 @@
 {% block javascripts %}
     <script>
         'use strict'
-
+        //Función AJAX que se activa al seleccionar un día en el formulario de las sesiones
         $(document).ready(function ()
         {
             $("select").click(function ()
             {
+                //Se recoge el id del span correspondiente a la película seleccionada
                 var texto = "";
                 var idspan = $(this).closest("p").children("span").attr('id');
 
-        {% if peliculas is defined %}
-            {% for pelicula in peliculas %}
+                //Si el array de películas está definido, AJAX funcionará.
+                {% if peliculas is defined %}
+                    //Se recorre el array de películas para cada película.
+                    {% for pelicula in peliculas %}
                         if ($(this).attr('id') == {{ pelicula.id }})
                         {
+                            //Se recoge el valor de la opción seleccionada en el formulario y el id
+                            //de la película correspondiente, el cual es el mismo id que el del formulario
                             $.ajax({
                                 type: "POST",
                                 url: "{{ path('mostrar_sesiones_ajax') }}",
@@ -116,6 +136,11 @@
                                 {
                                     for (var i in data.sesiones)
                                     {
+                                        /*
+                                         * Se recorre el array enviado por el controlador al realizar la consulta
+                                         * y se van mostrando las diferentes horas para ese día seleccionado, cada una
+                                         * con un enlace que activa la función para reservar entradas.
+                                         */
                                         for (var horarios in data.sesiones[i])
                                         {
                                             var fecha = data.sesiones[i].horarios.date;
@@ -128,16 +153,13 @@
                                             {% endfor %}
                                             }
                                         }
+                                        //Comando para mostrar los resultados en la etiqueta span.
                                         $('#' + idspan).html(texto);
-                                    },
-                                    error: function (data, xhr, status)
-                                    {
-                                        alert(status)
                                     }
                                 });
                             }
-            {% endfor %}
-        {% endif %}
+                        {% endfor %}
+                    {% endif %}
                 });
             });
     </script>

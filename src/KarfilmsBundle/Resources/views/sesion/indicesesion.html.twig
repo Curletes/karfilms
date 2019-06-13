@@ -1,9 +1,12 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista que muestra las sesiones que existen en la base de datos-->
     <div class="col-lg-9">
         <h2>Sesiones</h2>
         <hr>
+        <!--Aquí se muestran los mensajes generados en el controlador al añadir
+        o editar una sesión-->
         {% for message in app.session.flashbag().get('status') %}
             {% if message == "Sesión añadida correctamente." or message == "Sesión editada correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>
@@ -23,12 +26,14 @@
                 <th>Sala</th>
                 <th>Acción</th>
             </tr>
-            
+            <!--Se recorre el array de sesiones y se van mostrando una a una-->
             {% for sesion in pagination %}
                 <tr>
                     <td>Día {{ sesion.horarios|date("d/m") }} a las {{ sesion.horarios|date("H:i") }}</td>
                     <td>{{ sesion.idPelicula.titulo }}</td>
                     <td>{{ sesion.idSala.nombre }}</td>
+                    <!--Botones para editar o eliminar una sesión, mandando su id a través de la
+                    url hasta el controlador-->
                     <td>
                         <a href="{{ path("editar_sesion", {"id":sesion.id}) }}" class="btn btn-warning">Editar</a>
                         <a href="{{ path("eliminar_sesion", {"id":sesion.id}) }}" class="btn btn-danger">Eliminar</a>
@@ -36,7 +41,9 @@
                 </tr>
             {% endfor %}
         </table>
+        <!--Botón que activa la función para añadir sesiones en el controlador-->
         <a href="{{ path("add_sesion") }}" class="btn btn-primary">Añadir sesión</a><br/><br/>
+        <!--Botones de paginación-->
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>

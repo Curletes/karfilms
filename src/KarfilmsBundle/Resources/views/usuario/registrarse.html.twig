@@ -5,9 +5,11 @@
 {%block estadologin %} active {% endblock %}
 
 {% block body %}
+    <!--Vista del formulario para registrar un usuario-->
     <div class="col-lg-6">
         <h2>Regístrate</h2>
         <hr>
+        <!--Muestra el mensaje si el usuario no se ha editado correctamente-->
         {% for message in app.session.flashbag().get('status') %}
             {% if message == "Registrado correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>
@@ -15,9 +17,12 @@
                 <div class="alert alert-danger">{{ message }}</div>
             {% endif %}
         {% endfor %}
+        <!--Muestra el formulario generado en el controlador-->
         {{ form_start(form, {'action':'', 'method':'POST'}) }}
         {{ form_end(form) }}
     </div>
     <div class="clearfix"></div>
+    <!--Botón para activar la función del controlador que muestra el formulario para
+    iniciar sesión-->
     <p>¿Ya estás registrado? <a href="{{ path("iniciar_sesion") }}">Iniciar sesión</a>.</p>
 {% endblock %}

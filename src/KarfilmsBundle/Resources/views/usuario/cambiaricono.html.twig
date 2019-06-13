@@ -1,12 +1,16 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista para cambiar el icono del usuario-->
+    <!--Condición para que solamente pueda acceder a esta página el usuario
+    al que le pertenezca este perfil-->
     {% if app.user.id is not defined or app.user.id != id %}
         <div class="alert alert-danger">No tienes permiso para acceder a esta página</div>
     {% else %}
     <div class="col-lg-8">
         <h2>Mi perfil</h2>
         <hr>
+        <!--Aquí se muestran los mensajes al editar el icono de usuario-->
         {% for message in app.session.flashbag().get('status') %}
             {% if message == "Perfil editado correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>
@@ -26,8 +30,10 @@
                        <img height="200" width="200" src="{{ asset('imagenes/perfiles/' ~ usuario.icono) }}">
                     </td>
                     <td>
+                        <!--Muestra el formulario enviado desde el controlador-->
                         {{ form_start(cambiar_icono, {'action':'', 'method':'POST'}) }}
                         {{ form_end(cambiar_icono) }}
+                        <!--Botón para cancelar, mandando de nuevo a la vista de mi perfil-->
                         <a href="{{ path("mi_perfil", {"id":app.user.id}) }}" class="btn btn-secondary">Cancelar</a>
                     </td>
                 </tr>

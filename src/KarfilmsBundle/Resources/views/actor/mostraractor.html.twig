@@ -3,6 +3,7 @@
 {% block estadoactor %} active {% endblock%}
 
 {% block body %}
+    <!--Vista de los actores para los usuarios-->
     <div class="col-lg-6">
         <h2>Actores</h2>
         <hr>
@@ -16,15 +17,20 @@
                 <th>Nombre</th>
                 <th>Acción</th>
             </tr>
+            <!--Muestra los actores uno a uno-->
             {% for actor in pagination %}
                 <tr>
                     <td>{{ actor.nombre }}</td>
                     <td>
+                        <!--Botón que activa la función para mostrar las películas
+                        organizadas según el actor seleccionado, enviando por la url
+                        el nombre del actor hacia el controlador-->
                         <a href="{{ path("categoria_actor", {"nombre":actor.nombre}) }}" class="btn btn-primary">Ver</a>
                     </td>
                 </tr>
             {% endfor %}
         </table>
+        <!--Botones de paginación-->
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>

@@ -1,16 +1,21 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista para editar tus datos de usuario-->
+    <!--Condición para que sólo pueda acceder a esta vista el usuario propietario
+    de este perfil-->
     {% if app.user.id is not defined or app.user.id != id %}
         <div class="alert alert-danger">No tienes permiso para acceder a esta página</div>
     {% else %}
         <div class="col-lg-6">
             <h2>Editar perfil</h2>
             <hr>
+            <!--Muestra el formulario generado en el controlador-->
             {{ form_start(form, {'action':'', 'method':'POST'}) }}
             {{ form_end(form) }}
         </div>
         <div class="clearfix"></div>
+        <!--Botón para cancelar, volviendo a la vista de mi perfil-->
         <a href="{{ path("mi_perfil", {"id":app.user.id}) }}" class="btn btn-secondary">Cancelar</a>
     {% endif %}
 {% endblock %}

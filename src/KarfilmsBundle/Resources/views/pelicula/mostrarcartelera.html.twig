@@ -3,6 +3,8 @@
 {%block estadocartelera %} active {% endblock %}
 
 {% block body %}
+    <!--Vista para la página de cartelera.
+    En esta vista se muestran todas las películas registradas en la página.-->
     <div class="col-lg-12">
         <h1>Cartelera</h1>
         <hr>
@@ -12,6 +14,8 @@
             </span>
         </div>
         <table class="table table-bordered">
+            <!--Se recorre el array de las películas que se ha enviado desde el controlador
+                y se van mostrando en la página de la cartelera-->
             {% for pelicula in pagination %}
                 <tr>
                     <td height="200" width="150"><img height="200" width="150" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}"</td>
@@ -19,6 +23,7 @@
                         <h3><a href="{{ path("mostrar_pelicula", {"titulo":pelicula.titulo, "id":pelicula.id}) }}">{{ pelicula.titulo }}</a></h3>
                         <p><strong>Duración: </strong>{{ pelicula.duracion }} minutos</p>
                         <p><strong>Clasificación por edades: </strong><a href="{{ path("categoria_edad", {"clasificacion":pelicula.idEdad.clasificacion}) }}">{{ pelicula.idEdad.clasificacion }}</a></p>
+                        <!--Muestra de los actores, directores y géneros, recorriendo sus respectivos arrays-->
                         <p>
                             <strong>Reparto: </strong>
                             {% for peli in pelicula.Actorpelicula %}
@@ -40,6 +45,10 @@
                         <p><strong>Sinopsis: </strong>{{ pelicula.sinopsis }}</p>
                         <p>
                             <strong>Sesiones: </strong><br>
+                            <!--Si la película no tiene sesiones disponibles, se muestra un mensaje correspondiente.
+                                Si tiene sesiones, se guardan estas en un array para luego mostrar los días en una lista
+                                desplegable, la cual ejecutará una función AJAX que llamará al controlador y mostrará las horas
+                                que correspondan a la sesión de ese día seleccionado-->
                             {% if pelicula.Sesiones is empty %}
                                 No hay sesiones disponibles.
                             {% else %}
@@ -68,6 +77,7 @@
                 </tr>
             {% endfor %}
         </table>
+        <!--Botones de paginación-->
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>
@@ -77,6 +87,11 @@
     <script>
         'use strict'
 
+        /*
+         * Función AJAX que recoge el día seleccionado y lo manda al controlador,
+         * donde se hace una consulta para que muestre las horas que corresponden
+         * a ese día y las pinte en la etiqueta span de la vista.
+         */
         $(document).ready(function ()
         {
             $("select").click(function ()
@@ -102,6 +117,11 @@
                                     {
                                         var fecha = data.sesiones[i].horarios.date;
                                         var hora = fecha.substring(11, 16);
+                                        /*
+                                         * Cada hora se muesta en una etiqueta "a" que activa la función de
+                                         * reservar entrada al pulsarse, enviándose el id de la película correspondiente,
+                                         * y el id de la sesión.
+                                         */
                                         {% for sesion in pelicula.Sesiones %}
                                             if(fecha == "{{sesion.horarios|date('Y-m-d H:i:s.sss')}}")
                                             {
@@ -111,10 +131,6 @@
                                     }
                                 }
                                 $('#' + idspan).html(texto);
-                            },
-                            error: function (data, xhr, status)
-                            {
-                                alert(status)
                             }
                         });
                     }

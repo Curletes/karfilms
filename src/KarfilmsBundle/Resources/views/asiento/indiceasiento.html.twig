@@ -1,9 +1,12 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista de todos los asientos-->
     <div class="col-lg-6">
         <h2>Asientos</h2>
         <hr>
+        <!--Aquí se muestran los mensajes para el usuario al editar o añadir
+        un asiento-->
         {% for message in app.session.flashbag().get('status') %}
             {% if message == "Asiento añadido correctamente." or message == "Asiento editado correctamente." or message == "Asientos añadidos correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>
@@ -23,7 +26,10 @@
                 <th>Butaca</th>
                 <th>Acción</th>
             </tr>
+            <!--Se recorre el array de asientos enviado desde el controlador-->
             {% for asiento in pagination %}
+                <!--Variable declarada para comprobar que el asiento esté reservado
+                o no, de esta forma el botón para eliminar asientos se mostrará desactivado o no-->
                 {% set enuso = false %}
                 <tr>
                     <td>{{ asiento.idSala.nombre }}</td>
@@ -31,29 +37,38 @@
                     <td>{{ asiento.butaca }}</td>
                     <td>
                         <a href="{{ path("editar_asiento", {"id":asiento.id}) }}" class="btn btn-warning">Editar</a>
+                        <!--Se recorre la tabla de asientoreservado. Si el id del asiento coincide
+                        con el id registrado en la tabla, la variable enuso cambiará a true-->
                         {% for asientoreservado in asientosreservados %}
                             {% if asiento.id == asientoreservado.idAsiento.id %}
                                 {% set enuso = true %}
                             {% endif %}
                         {% endfor %}
+                        <!--Si enuso es true, el botón de eliminar estará desactivado-->
                         {% if enuso == true %}
                             <a href="#" class="btn btn-danger disabled">Eliminar</a>
                         {% else %}
+                            <!--Botón para eliminar el asiento. Al pulsarse se manda el id del asiento correspondiente
+                            a través de la url hasta el controlador-->
                             <a href="{{ path("eliminar_asiento", {"id":asiento.id}) }}" class="btn btn-danger">Eliminar</a>
                         {% endif %}
                     </td>
                 </tr>
             {% endfor %}
         </table>
+        <!--Botón para añadir un asiento, activando la función correspondiente en el controlador-->
         <a href="{{ path("add_asiento") }}" class="btn btn-primary">Añadir asiento</a>
+        <!--Botón para añadir todos los asientos-->
         <a href="{{ path("add_todos_asientos") }}" class="btn btn-primary">Rellenar asientos</a>
         {% set enuso = false %}
         {% for asiento in pagination %}
             {% set enuso = true %}
         {% endfor %}
+        <!--Botón para eliminar todos los asientos-->
         {% if enuso == true %}
             <a href="{{ path("eliminar_todos_asientos") }}" class="btn btn-danger">Eliminar todos los asientos</a><br/><br/>
         {% endif %}
+        <!--Botones de paginación-->
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>

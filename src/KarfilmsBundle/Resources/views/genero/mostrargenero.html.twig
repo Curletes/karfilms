@@ -3,6 +3,7 @@
 {% block estadogenero %} active {% endblock%}
 
 {% block body %}
+    <!--Vista de los géneros para los usuarios-->
     <div class="col-lg-6">
         <h2>Géneros</h2>
         <hr>
@@ -16,15 +17,20 @@
                 <th>Nombre</th>
                 <th>Acción</th>
             </tr>
+            <!--Muestra los géneros uno a uno-->
             {% for genero in pagination %}
                 <tr>
                     <td>{{ genero.nombre }}</td>
                     <td>
+                        <!--Botón que activa la función para mostrar las películas
+                        organizadas según el género seleccionado, enviando por la url
+                        el nombre del actor hacia el controlador-->
                         <a href="{{ path("categoria_genero", {"nombre":genero.nombre}) }}" class="btn btn-primary">Ver</a>
                     </td>
                 </tr>
             {% endfor %}
         </table>
+        <!--Botones de paginación-->
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>

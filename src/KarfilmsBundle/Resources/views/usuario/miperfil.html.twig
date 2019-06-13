@@ -1,12 +1,15 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista de Mi Perfil.
+    Si el id del usuario no coincide con el id del usuario de este perfil, no se puede acceder a esta página-->
     {% if app.user.id is not defined or app.user.id != id %}
         <div class="alert alert-danger">No tienes permiso para acceder a esta página</div>
     {% else %}
         <div class="col-lg-8">
             <h1>Mi perfil</h1>
             <hr>
+            <!--Mensaje qe muestra los mensajes al editar los datos del usuario-->
             {% for message in app.session.flashbag().get('status') %}
                 {% if message == "Perfil editado correctamente." %}
                     <div class="alert alert-success">{{ message }}</div>
@@ -26,6 +29,7 @@
                         <img height="200" width="200" src="{{ asset('imagenes/perfiles/' ~ usuario.icono) }}">
                     </td>
                     <td>
+                        <!--Botones para cambiar el icono o editar los datos, mandando el id del usuario al controlador-->
                         <a href="{{ path("cambiar_icono", {"id":usuario.id}) }}" class="btn btn-primary">Cambiar icono</a>
                         <a href="{{ path("editar_usuario", {"id":usuario.id}) }}" class="btn btn-warning">Editar usuario</a>
                     </td>
@@ -36,6 +40,8 @@
             <h2>Tus sugerencias</h2>
             <hr>
             <table class="table table-bordered">
+                <!--Muestra de las sugerencias del usuario, recorriendo el array de sugerencias.
+                Funcionamiento igual que en la vista de sugerencias-->
                 {% for sugerencia in sugerencias %}
                     <tr>
                         <th height="100" width="100"><img height="100" width="100" src="{{ asset("imagenes/perfiles/") ~ sugerencia.idUsuario.icono }}"></th>

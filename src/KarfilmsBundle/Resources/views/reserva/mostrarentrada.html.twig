@@ -1,9 +1,12 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista para mostrar la entrada que se ha seleccionado-->
     <div class="col-lg-9">
         <h2>Tu entrada</h2>
         <hr>
+        <!--Mensajes para cuando el usuario reserva una entrada o ha ocurrido
+        un error al reservarla-->
         {% for message in app.session.flashbag().get('status') %}
             {% if message == "Asiento reservado correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>
@@ -11,6 +14,7 @@
                 <div class="alert alert-danger">{{ message }}</div>
             {% endif %}
         {% endfor %}
+        <!--Advertencia para el usuario-->
         <div class="alert alert-warning">Guarda o imprime esta página para no perder la entrada.</div>
         <table class="table table-bordered">
             <tr>
@@ -18,7 +22,8 @@
                 <th>Película</th>
                 <th>Sala</th>
                 <th>Asiento</th>
-            </tr>    
+            </tr>
+            <!--Datos de la entrada-->
             <tr>
                 <td>Día {{ sesion|date("d/m") }} a las {{ sesion|date("H:i") }}</td>
                 <td>{{ pelicula }}</td>

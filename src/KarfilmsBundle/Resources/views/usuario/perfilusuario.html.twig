@@ -1,16 +1,11 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista del perfil de un usuario que no eres tú.
+    Funcionamiento similar a la vista de Mi Perfil-->
     <div class="col-lg-8">
         <h1>Perfil de {{ usuario.nombre }}</h1>
         <hr>
-        {% for message in app.session.flashbag().get('status') %}
-            {% if message == "Perfil editado correctamente." %}
-                <div class="alert alert-success">{{ message }}</div>
-            {% else %}
-                <div class="alert alert-danger">{{ message }}</div>
-            {% endif %}
-        {% endfor %}
         <table class="table table-bordered">
             <tr>
                 <th>Nombre de usuario</th>

@@ -1,6 +1,7 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista para que el usuario seleccione el asiento que quiere reservar-->
     {% set accesible = false %}
     {% for hora in pelicula.Sesiones %}
         {% if hora.horarios == sesion.horarios %}
@@ -14,21 +15,26 @@
                         <th>Película</th>
                         <th>Precio</th>
                         <th>Seleccionar asiento</th>
-                    </tr>    
-                        <tr>
-                            <td>Día {{ sesion.horarios|date("d/m") }} a las {{ sesion.horarios|date("H:i") }}</td>
-                            <td>{{ pelicula.titulo }}</td>
-                            <td>5€</td>
-                            <td>
-                                {{ form_start(form, {'action':'', 'method':'POST'}) }}
-                                {{ form_end(form) }}
-                            </td>
-                        </tr>
+                    </tr>  
+                    <!--Se muestra la sesión, película, precio y asiento que se quiere reservar-->
+                    <tr>
+                        <td>Día {{ sesion.horarios|date("d/m") }} a las {{ sesion.horarios|date("H:i") }}</td>
+                        <td>{{ pelicula.titulo }}</td>
+                        <td>5€</td>
+                        <td>
+                            <!--Muestra el formulario que se ha generado en el controlador-->
+                            {{ form_start(form, {'action':'', 'method':'POST'}) }}
+                            {{ form_end(form) }}
+                        </td>
+                    </tr>
                 </table>
+                <!--Botón para volver a la página de inicio-->
                 <a href="{{ path("inicio") }}" class="btn btn-secondary">Cancelar</a>
             </div>
         {% endif %}
     {% endfor %}
+    <!--Condición para que el usuario no acceda a una página de reserva que realmente
+    no exista-->
     {% if accesible == false %}
         <div class="alert alert-danger">Imposible acceder a esta página.</div>
     {% endif %}

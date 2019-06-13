@@ -1,9 +1,12 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista que muestra las salas que existen en la base de datos-->
     <div class="col-lg-6">
         <h2>Salas</h2>
         <hr>
+        <!--Aquí se muestran los mensajes generados en el controlador al añadir
+        o editar una sala-->
         {% for message in app.session.flashbag().get('status') %}
             {% if message == "Sala añadida correctamente." or message == "Sala editada correctamente." %}
                 <div class="alert alert-success">{{ message }}</div>
@@ -16,12 +19,14 @@
                 <th>Clasificación</th>
                 <th>Acción</th>
             </tr>
+            <!--Se recorre el array de salas y se van mostrando uno a uno-->
             {% for sala in salas %}
                 {% set enuso = false %}
                 <tr>
                     <td>{{ sala.nombre }}</td>
                     <td>
                         <a href="{{ path("editar_sala", {"id":sala.id}) }}" class="btn btn-warning">Editar</a>
+                        <!--Si la saa tiene alguna sesión, no se puede eliminar-->
                         {% for sesion in sesiones %}
                             {% if sala.id == sesion.idSala.id %}
                                 {% set enuso = true %}
@@ -36,6 +41,7 @@
                 </tr>
             {% endfor %}
         </table>
+        <!--Botón que activa la función para añadir salas en el controlador-->
         <a href="{{ path("add_sala") }}" class="btn btn-primary">Añadir sala</a>
     </div>
     <div class="clearfix"></div>

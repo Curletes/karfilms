@@ -1,16 +1,20 @@
 {% extends '@Karfilms/layout.html.twig' %}
 
 {% block body %}
+    <!--Vista para editar películas-->
     <div class="col-lg-6">
         <h2>Editar película</h2>
         <hr>
         <img height="50" width="50" src="{{ asset('imagenes/carteles/' ~ cartel) }}">
         {{ form_start(form, {'action':'', 'method':'POST'}) }}
+        <!--Se muestran los inputs para añadir actores, directores y géneros, con los dato
+        que introdujo el usuario al añadir la película y separándolos por comas-->
             {{ form_row(form.actores, { 'value': actores|trim(",") }) }}
             {{ form_row(form.directores, { 'value': directores|trim(",") }) }}
             {{ form_row(form.generos, { 'value': generos|trim(",") }) }}
         {{ form_end(form) }}
     </div>
     <div class="clearfix"></div>
+    <!--Botón que lleva a la vista de todas las películas-->
     <a href="{{ path("indice_pelicula") }}" class="btn btn-secondary">Cancelar</a>
 {% endblock %}
