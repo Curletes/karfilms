@@ -36,13 +36,6 @@ KarfilmsBundle\Entity\Usuario:
             length: 255
             options:
                 fixed: false
-        estado:
-            type: string
-            nullable: false
-            length: 45
-            options:
-                fixed: false
-                default: 'Conectado'
         rol:
             type: string
             nullable: false

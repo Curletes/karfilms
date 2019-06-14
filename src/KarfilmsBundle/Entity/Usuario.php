@@ -47,13 +47,6 @@ class Usuario implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="estado", type="string", length=45, nullable=false)
-     */
-    private $estado = "Conectado";
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="rol", type="string", length=45, nullable=false)
      */
     private $rol = "ROLE_USER";
