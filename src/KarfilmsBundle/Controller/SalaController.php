@@ -19,6 +19,7 @@ class SalaController extends Controller {
     /*
      * Muestra las salas que están en la base de datos.
      */
+
     public function indiceSalaAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $sala_repo = $em->getRepository("KarfilmsBundle:Sala");
@@ -41,6 +42,7 @@ class SalaController extends Controller {
      * Función para crear un formulario para añadir nuevas salas a la base de
      * datos.
      */
+
     public function addSalaAction(Request $request) {
         /*
          * Se crea un objeto sala nuevo y se manda con el formulario para que
@@ -57,7 +59,7 @@ class SalaController extends Controller {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
                 $sala = new Sala();
-                
+
                 /*
                  * Se hace un set en la entidad Sala con el nombre introdudido
                  * en el formulario y se guarda con persist y flush.
@@ -99,18 +101,32 @@ class SalaController extends Controller {
         $sesion_repo = $em->getRepository("KarfilmsBundle:Sesion");
         $sesiones = $sesion_repo->findAll();
 
-        //Si la sala no tiene ninguna sesión, se borra.
-        if (empty($sesiones)) {
-            $em->remove($sala);
-            $em->flush();
-        } else {
-            foreach ($sesiones as $sesion) {
-                if ($sesion->getIdSala()->getId() != $sala->getId()) {
-                    $em->remove($sala);
-                    $em->flush();
-                }
+        $asiento_repo = $em->getRepository("KarfilmsBundle:Asiento");
+        $asientos = $asiento_repo->findAll();
+
+        $reserva_repo = $em->getRepository("KarfilmsBundle:Asientoreservado");
+        $reservas = $reserva_repo->findAll();
+
+        foreach ($sesiones as $sesion) {
+            if ($sesion->getIdSala()->getId() == $sala->getId()) {
+                $em->remove($sesion);
             }
         }
+
+        foreach ($reservas as $reserva) {
+            if ($reserva->getIdAsiento()->getIdSala()->getId() == $sala->getId()) {
+                $em->remove($reserva);
+            }
+        }
+
+        foreach ($asientos as $asiento) {
+            if ($asiento->getIdSala()->getId() == $sala->getId()) {
+                $em->remove($asiento);
+            }
+        }
+
+        $em->remove($sala);
+        $em->flush();
 
         return $this->redirectToRoute("indice_sala");
     }
@@ -121,6 +137,7 @@ class SalaController extends Controller {
      * el formulario de edición con la variable $request.
      * Funcionamiento similar al de la función para añadir salas.
      */
+
     public function editarSalaAction($id, Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $sala_repo = $em->getRepository("KarfilmsBundle:Sala");

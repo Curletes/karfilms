@@ -20,6 +20,7 @@ class DirectorController extends Controller {
      * Muestra los directores que están en la base de datos, listándolos por orden
      * alfabético y paginados (5 directores por página).
      */
+
     public function mostrarDirectorAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         /*
@@ -28,32 +29,31 @@ class DirectorController extends Controller {
          */
         $dql = "SELECT d FROM KarfilmsBundle:Director d ORDER BY d.nombre ASC";
         $query = $em->createQuery($dql);
- 
+
         //Paginación
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $query,
-                $request->query->getInt('page', 1),
-                5
+                $query, $request->query->getInt('page', 1), 5
         );
 
         return $this->render('@Karfilms/director/mostrardirector.html.twig', [
                     "pagination" => $pagination
         ]);
     }
-    
+
     /*
      * Método para mostrar las películas en las que ha participado el director
      * seleccionado desde la vista, recogiendo su nombre por la url y realizando
      * una consulta en la base de datos.
      */
+
     public function categoriaDirectorAction(Request $request, $nombre) {
         $em = $this->getDoctrine()->getEntityManager();
         $director_repo = $em->getRepository('KarfilmsBundle:Director');
-        
+
         //Búsqueda de un director en específico por el nombre enviado desde la url
         $director = $director_repo->findOneBy(["nombre" => $nombre]);
- 
+
         /*
          * Se recogen las películas en las que ha participado el director y se
          * guardan en un array.
@@ -63,14 +63,12 @@ class DirectorController extends Controller {
         foreach ($peliculas_obj as $pelicula) {
             $peliculas[] = $pelicula->getIdPelicula();
         }
-        
+
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $peliculas,
-                $request->query->getInt('page', 1),
-                5
+                $peliculas, $request->query->getInt('page', 1), 5
         );
-        
+
         /*
          * En el caso de que haya películas en la base de datos en las que ha
          * participado dicho director, se envía a la vista el array. Si no hay películas,
@@ -92,17 +90,16 @@ class DirectorController extends Controller {
      * Funcionamiento similar al método mostrarDirectorAction. Este método es para
      * la parte de administración de los directores.
      */
+
     public function indiceDirectorAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        
+
         $dql = "SELECT d FROM KarfilmsBundle:Director d ORDER BY d.nombre ASC";
         $query = $em->createQuery($dql);
- 
+
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $query,
-                $request->query->getInt('page', 1),
-                5
+                $query, $request->query->getInt('page', 1), 5
         );
 
         return $this->render('@Karfilms/director/indicedirector.html.twig', [
@@ -114,6 +111,7 @@ class DirectorController extends Controller {
      * Función para crear un formulario para añadir nuevos directores a la base de
      * datos.
      */
+
     public function addDirectorAction(Request $request) {
         /*
          * Se crea un objeto director nuevo y se manda con el formulario para que
@@ -130,7 +128,7 @@ class DirectorController extends Controller {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
                 $director = new Director();
-                
+
                 /*
                  * Se hace un set en la entidad Director con el nombre introdudido
                  * en el formulario y se guarda con persist y flush.
@@ -169,11 +167,17 @@ class DirectorController extends Controller {
         $director_repo = $em->getRepository("KarfilmsBundle:Director");
         $director = $director_repo->find($id);
 
-        //Si el director no está en ninguna película de la base de datos, se borra
-        if (count($director->getDirectorpelicula()) == 0) {
-            $em->remove($director);
-            $em->flush();
+        $dp_repository = $em->getRepository("KarfilmsBundle:Directorpelicula");
+        $directores = $dp_repository->findAll();
+
+        foreach ($directores as $dp) {
+            if ($dp->getIdDirector()->getId() == $director->getId()) {
+                $em->remove($dp);
+            }
         }
+
+        $em->remove($director);
+        $em->flush();
 
         return $this->redirectToRoute("indice_director");
     }
@@ -184,6 +188,7 @@ class DirectorController extends Controller {
      * el formulario de edición con la variable $request.
      * Funcionamiento similar al de la función para añadir directores.
      */
+
     public function editarDirectorAction($id, Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $director_repo = $em->getRepository("KarfilmsBundle:Director");
@@ -218,4 +223,5 @@ class DirectorController extends Controller {
                     "director" => $director
         ]);
     }
+
 }

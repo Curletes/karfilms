@@ -20,24 +20,23 @@ class GeneroController extends Controller {
      * Muestra los géneros que están en la base de datos, listándolos por orden
      * alfabético y paginados (5 actores por página).
      */
+
     public function mostrarGeneroAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        
+
         /*
          * Creación de una query para realizar una consulta a la base de datos.
          * Selecciona todos los géneros por orden alfabético.
          */
         $dql = "SELECT g FROM KarfilmsBundle:Genero g ORDER BY g.nombre ASC";
         $query = $em->createQuery($dql);
- 
+
         /*
          * Paginación.
          */
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $query,
-                $request->query->getInt('page', 1),
-                5
+                $query, $request->query->getInt('page', 1), 5
         );
 
         return $this->render('@Karfilms/genero/mostrargenero.html.twig', [
@@ -50,10 +49,11 @@ class GeneroController extends Controller {
      * desde la vista, recogiendo su nombre por la url y realizando
      * una consulta en la base de datos.
      */
+
     public function categoriaGeneroAction(Request $request, $nombre) {
         $em = $this->getDoctrine()->getEntityManager();
         $genero_repo = $em->getRepository('KarfilmsBundle:Genero');
-        
+
         //Búsqueda de un género en específico por el nombre enviado desde la url
         $genero = $genero_repo->findOneBy(["nombre" => $nombre]);
 
@@ -66,12 +66,10 @@ class GeneroController extends Controller {
         foreach ($peliculas_obj as $pelicula) {
             $peliculas[] = $pelicula->getIdPelicula();
         }
-        
+
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $peliculas,
-                $request->query->getInt('page', 1),
-                5
+                $peliculas, $request->query->getInt('page', 1), 5
         );
 
         /*
@@ -95,17 +93,16 @@ class GeneroController extends Controller {
      * Funcionamiento similar al método mostrarGéneroAction. Este método es para
      * la parte de administración de los géneros.
      */
+
     public function indiceGeneroAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        
+
         $dql = "SELECT g FROM KarfilmsBundle:Genero g";
         $query = $em->createQuery($dql);
- 
+
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $query,
-                $request->query->getInt('page', 1),
-                5
+                $query, $request->query->getInt('page', 1), 5
         );
 
         return $this->render('@Karfilms/genero/indicegenero.html.twig', [
@@ -117,6 +114,7 @@ class GeneroController extends Controller {
      * Función para crear un formulario para añadir nuevos géneros a la base de
      * datos.
      */
+
     public function addGeneroAction(Request $request) {
         /*
          * Se crea un objeto genero nuevo y se manda con el formulario para que
@@ -133,7 +131,7 @@ class GeneroController extends Controller {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
                 $genero = new Genero();
-                
+
                 /*
                  * Se hace un set en la entidad Genero con el nombre introdudido
                  * en el formulario y se guarda con persist y flush.
@@ -172,12 +170,17 @@ class GeneroController extends Controller {
         $genero_repo = $em->getRepository("KarfilmsBundle:Genero");
         $genero = $genero_repo->find($id);
 
-        //Si el género no está en ninguna película de la base de datos, se borra
-        if (count($genero->getGeneropelicula()) == 0) {
-            $em->remove($genero);
-            $em->flush();
-        }
+        $gp_repository = $em->getRepository("KarfilmsBundle:Generopelicula");
+        $generos = $gp_repository->findAll();
 
+        foreach ($generos as $gp) {
+            if ($gp->getIdGenero()->getId() == $genero->getId()) {
+                $em->remove($gp);
+            }
+        }
+        $em->remove($genero);
+        $em->flush();
+        
         return $this->redirectToRoute("indice_genero");
     }
 
@@ -187,6 +190,7 @@ class GeneroController extends Controller {
      * el formulario de edición con la variable $request.
      * Funcionamiento similar al de la función para añadir géneros.
      */
+
     public function editarGeneroAction($id, Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $genero_repo = $em->getRepository("KarfilmsBundle:Genero");

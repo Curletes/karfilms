@@ -57,14 +57,9 @@
                 <tr>
                     <td>{{ director.nombre }}</td>
                     <td>
+                        <!--Botones para editar o borrar director-->
                         <a href="{{ path("editar_director", {"id":director.id}) }}" class="btn btn-warning">Editar</a>
-                        <!--Si el director está registrado en alguna película, el botón de eliminar
-                        aparece desactivado-->
-                        {% if director.Directorpelicula|length == 0 %}
-                            <a href="{{ path("eliminar_director", {"id":director.id}) }}" class="btn btn-danger">Eliminar</a>
-                        {% else %}
-                            <a href="#" class="btn btn-danger disabled">Eliminar</a>
-                        {% endif %}
+                        <a href="{{ path("eliminar_director", {"id":director.id}) }}" class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}

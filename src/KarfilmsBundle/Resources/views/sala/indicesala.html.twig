@@ -53,18 +53,9 @@
                 <tr>
                     <td>{{ sala.nombre }}</td>
                     <td>
+                        <!--Botones para editar o eliminar sala-->
                         <a href="{{ path("editar_sala", {"id":sala.id}) }}" class="btn btn-warning">Editar</a>
-                        <!--Si la saa tiene alguna sesión, no se puede eliminar-->
-                        {% for sesion in sesiones %}
-                            {% if sala.id == sesion.idSala.id %}
-                                {% set enuso = true %}
-                            {% endif %}
-                        {% endfor %}
-                        {% if enuso == true %}
-                            <a href="#" class="btn btn-danger disabled">Eliminar</a>
-                        {% else %}
-                            <a href="{{ path("eliminar_sala", {"id":sala.id}) }}" class="btn btn-danger">Eliminar</a>
-                        {% endif %}
+                        <a href="{{ path("eliminar_sala", {"id":sala.id}) }}" class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}

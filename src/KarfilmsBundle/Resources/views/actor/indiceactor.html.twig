@@ -57,14 +57,9 @@
                 <tr>
                     <td>{{ actor.nombre }}</td>
                     <td>
+                        <!--Botones para editar o borrar actor-->
                         <a href="{{ path("editar_actor", {"id":actor.id}) }}" class="btn btn-warning">Editar</a>
-                        <!--Si el actor está registrado en alguna película, el botón de eliminar
-                        aparece desactivado-->
-                        {% if actor.Actorpelicula|length == 0 %}
-                            <a href="{{ path("eliminar_actor", {"id":actor.id}) }}" class="btn btn-danger">Eliminar</a>
-                        {% else %}
-                            <a href="#" class="btn btn-danger disabled">Eliminar</a>
-                        {% endif %}
+                        <a href="{{ path("eliminar_actor", {"id":actor.id}) }}" class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}

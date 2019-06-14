@@ -58,13 +58,9 @@
                     <td>{{ pelicula.titulo }}</td>
                     <td>
                         <a href="{{ path("detalles_pelicula", {"id":pelicula.id}) }}" class="btn btn-secondary">Ver detalles</a>
+                        <!--Botones para editar o eliminar película-->
                         <a href="{{ path("editar_pelicula", {"id":pelicula.id}) }}" class="btn btn-warning">Editar</a>
-                        <!--Si la película tiene alguna sesión, no se puede eliminar-->
-                        {% if pelicula.Sesiones|length == 0 %}
-                            <a href="{{ path("eliminar_pelicula", {"id":pelicula.id}) }}" class="btn btn-danger">Eliminar</a>
-                        {% else %}
-                            <a href="#" class="btn btn-danger disabled">Eliminar</a>
-                        {% endif %}
+                        <a href="{{ path("eliminar_pelicula", {"id":pelicula.id}) }}" class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}

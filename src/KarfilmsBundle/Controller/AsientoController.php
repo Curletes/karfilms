@@ -129,10 +129,21 @@ class AsientoController extends Controller {
     /*
      * Función para eliminar el asiento cuyo id se ha enviado a través de la url
      */
+
     public function eliminarAsientoAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
         $asiento_repo = $em->getRepository("KarfilmsBundle:Asiento");
         $asiento = $asiento_repo->find($id);
+
+        $reserva_repo = $em->getRepository("KarfilmsBundle:Asientoreservado");
+        $reservas = $reserva_repo->findAll();
+
+        foreach ($reservas as $reserva) {
+            if ($reserva->getIdAsiento()->getId() == $asiento->getId()) {
+                $em->remove($reserva);
+                $em->flush();
+            }
+        }
 
         $em->remove($asiento);
         $em->flush();
@@ -144,6 +155,7 @@ class AsientoController extends Controller {
      * Función para editar el asiento cuyo id se ha enviado desde la url.
      * Funcionamiento similar a la función de añadir asientos.
      */
+
     public function editarAsientoAction($id, Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $asiento_repo = $em->getRepository("KarfilmsBundle:Asiento");
@@ -198,8 +210,9 @@ class AsientoController extends Controller {
      * y su sesión correspondiente. Estos datos han sido enviados a través de la url
      * al seleccionar la hora en la página de inicio.
      */
+
     public function reservarEntradaAction(Request $request, $pelicula, $sesion) {
-        
+
         //Consulta para recoger los datos de la película y la sesión en cuestión.
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
@@ -211,7 +224,7 @@ class AsientoController extends Controller {
         //Se guarda el id de la sala a la que corresponde dicha sesión
         $sala = $sesion->getIdSala()->getId();
 
-        /* 
+        /*
          * Creación de formulario para elegir el asiento que se va a reservar,
          * enviando el objeto Asiento y el id de la sala correspondiente.
          */
@@ -305,12 +318,13 @@ class AsientoController extends Controller {
      * cada una.
      * Funciona de forma similar a la función de añadir asientos uno a uno.
      */
+
     public function addTodosLosAsientosAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
 
         $sala_repo = $em->getRepository("KarfilmsBundle:Sala");
         $salas = $sala_repo->findAll();
-        
+
         /*
          * Bucles para ir añadiendo 12 filas con 12 butaca a cada sala existente.
          */
@@ -355,22 +369,24 @@ class AsientoController extends Controller {
      * Funciona de forma similar a la función de eliminar asientos uno a uno y a la de
      * añadir todos los asientos.
      */
+
     public function eliminarTodosLosAsientosAction() {
         $em = $this->getDoctrine()->getEntityManager();
-        $sala_repo = $em->getRepository("KarfilmsBundle:Sala");
-        $salas = $sala_repo->findAll();
 
         $asiento_repo = $em->getRepository("KarfilmsBundle:Asiento");
         $asientos = $asiento_repo->findAll();
 
-        foreach ($salas as $sala) {
-            foreach ($asientos as $asiento) {
+        $reserva_repo = $em->getRepository("KarfilmsBundle:Asientoreservado");
+        $reservas = $reserva_repo->findAll();
 
-                if ($asiento->getIdSala()->getId() == $sala->getId()) {
-                    $em->remove($asiento);
-                    $em->flush();
-                }
-            }
+        foreach ($reservas as $reserva) {
+            $em->remove($reserva);
+            $em->flush();
+        }
+
+        foreach ($asientos as $asiento) {
+            $em->remove($asiento);
+            $em->flush();
         }
 
         return $this->redirectToRoute("indice_asiento");

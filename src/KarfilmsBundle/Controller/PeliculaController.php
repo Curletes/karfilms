@@ -22,6 +22,7 @@ class PeliculaController extends Controller {
      * Muestra las películas que están en la base de datos, listándolas por orden
      * alfabético y paginadas (5 películas por página).
      */
+
     public function mostrarCarteleraAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         /*
@@ -49,13 +50,14 @@ class PeliculaController extends Controller {
      * Se recogen las películas cuyo título coincida con lo que el usuario
      * haya escrito en el buscador de la barra de navegación.
      */
+
     public function pelicula($pelicula) {
         $em = $this->getDoctrine()->getEntityManager();
 
         return $em->createQuery("SELECT p.id, p.titulo "
-                . "FROM KarfilmsBundle:Pelicula p "
-                . "WHERE p.titulo LIKE :pelicula "
-                . "ORDER BY p.titulo ASC")
+                                . "FROM KarfilmsBundle:Pelicula p "
+                                . "WHERE p.titulo LIKE :pelicula "
+                                . "ORDER BY p.titulo ASC")
                         ->setParameter("pelicula", "%" . $pelicula . "%")
                         ->getResult();
     }
@@ -66,6 +68,7 @@ class PeliculaController extends Controller {
      * Guarda el resultado en formato json y lo devuelve a la vista para mostrar
      * los resultados.
      */
+
     public function peliculaAjaxAction(Request $request) {
         $pelicula = $request->request->get('pelicula');
         $peliculas = $this->pelicula($pelicula);
@@ -80,6 +83,7 @@ class PeliculaController extends Controller {
      * haya seleccionado en el formulario donde se muestran los días en los que
      * la película en específico tiene alguna sesión.
      */
+
     public function sesionesPeliculaCartelera($diames, $id) {
         $em = $this->getDoctrine()->getEntityManager();
 
@@ -96,9 +100,9 @@ class PeliculaController extends Controller {
          * y el mes especificado.
          */
         return $em->createQuery("SELECT s.horarios "
-                . "FROM KarfilmsBundle:Sesion s "
-                . "WHERE s.idPelicula = :id "
-                . "AND s.horarios LIKE :dia")
+                                . "FROM KarfilmsBundle:Sesion s "
+                                . "WHERE s.idPelicula = :id "
+                                . "AND s.horarios LIKE :dia")
                         ->setParameter("id", $id)->setParameter("dia", "%" . $dia . "%")
                         ->getResult();
     }
@@ -109,6 +113,7 @@ class PeliculaController extends Controller {
      * Guarda el resultado en formato json y lo devuelve a la vista para mostrar
      * los resultados.
      */
+
     public function sesionesPeliculaCarteleraAjaxAction(Request $request) {
         $diames = $request->request->get('diames');
         $id = $request->request->get('id');
@@ -123,6 +128,7 @@ class PeliculaController extends Controller {
      * Funcionamiento similar al método mostrarCarteleraAction. Este método es para
      * la parte de administración de las películas.
      */
+
     public function indicePeliculaAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
 
@@ -145,6 +151,7 @@ class PeliculaController extends Controller {
      * para identificarla correctamente.
      * Esta función es para la página de administración.
      */
+
     public function detallesPeliculaAction($id) {
         /*
          * Creación de arrays para guardar los directores, actores y géneros que
@@ -202,6 +209,7 @@ class PeliculaController extends Controller {
      * Funciona igual que la función anterior, pero esta es para la vista de
      * los usuarios normales.
      */
+
     public function mostrarPeliculaAction($id) {
         $directores = [];
         $actores = [];
@@ -243,6 +251,7 @@ class PeliculaController extends Controller {
      * Función para crear un formulario para añadir nuevas películas a la base de
      * datos.
      */
+
     public function addPeliculaAction(Request $request) {
         /*
          * Se crea un objeto pelicula nuevo y se manda con el formulario para que
@@ -392,20 +401,30 @@ class PeliculaController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $pelicula = $pelicula_repo->find($id);
-        
+
         /*
-         * Creación de repositorios para los directores, actores y géneros que están
+         * Creación de repositorios para las sesiones, los directores, actores y géneros que están
          * asignados a esta película.
          */
         $actorpelicula_repo = $em->getRepository("KarfilmsBundle:Actorpelicula");
         $directorpelicula_repo = $em->getRepository("KarfilmsBundle:Directorpelicula");
         $generopelicula_repo = $em->getRepository("KarfilmsBundle:Generopelicula");
+        $sesion_repo = $em->getRepository("KarfilmsBundle:Sesion");
 
         /*
-         * Búsqueda de los actores, directores y géneros de las tablas
-         * actorespeliculas, directorespeliculas y generospeliculas 
+         * Búsqueda de las sesiones, los actores, directores y géneros de las tablas
+         * sesiones, actorespeliculas, directorespeliculas y generospeliculas 
          * según la película especificada, para luego borrarlos.
          */
+        $sesiones = $sesion_repo->findAll();
+
+        foreach ($sesiones as $sesion) {
+            if ($sesion->getIdPelicula()->getId() == $pelicula->getId()) {
+                $em->remove($sesion);
+                $em->flush();
+            }
+        }
+
         $actorespelicula = $actorpelicula_repo->findBy(["idPelicula" => $pelicula]);
 
         foreach ($actorespelicula as $ap) {
@@ -441,6 +460,7 @@ class PeliculaController extends Controller {
      * el formulario de edición con la variable $request.
      * Funcionamiento similar al de la función para añadir películas.
      */
+
     public function editarPeliculaAction($id, Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");

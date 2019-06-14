@@ -57,14 +57,9 @@
                 <tr>
                     <td>{{ genero.nombre }}</td>
                     <td>
+                        <!--Botones para editar y eliminar género-->
                         <a href="{{ path("editar_genero", {"id":genero.id}) }}" class="btn btn-warning">Editar</a>
-                        <!--Si el género está registrado en alguna película, el botón de eliminar
-                        aparece desactivado-->
-                        {% if genero.Generopelicula|length == 0 %}
-                            <a href="{{ path("eliminar_genero", {"id":genero.id}) }}" class="btn btn-danger">Eliminar</a>
-                        {% else %}
-                            <a href="#" class="btn btn-danger disabled">Eliminar</a>
-                        {% endif %}
+                        <a href="{{ path("eliminar_genero", {"id":genero.id}) }}" class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}

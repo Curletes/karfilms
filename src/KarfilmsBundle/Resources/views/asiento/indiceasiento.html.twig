@@ -56,30 +56,14 @@
             </tr>
             <!--Se recorre el array de asientos enviado desde el controlador-->
             {% for asiento in pagination %}
-                <!--Variable declarada para comprobar que el asiento esté reservado
-                o no, de esta forma el botón para eliminar asientos se mostrará desactivado o no-->
-                {% set enuso = false %}
                 <tr>
                     <td>{{ asiento.idSala.nombre }}</td>
                     <td>{{ asiento.fila }}</td>
                     <td>{{ asiento.butaca }}</td>
                     <td>
+                        <!--Botones para editar y borrar asientos-->
                         <a href="{{ path("editar_asiento", {"id":asiento.id}) }}" class="btn btn-warning">Editar</a>
-                        <!--Se recorre la tabla de asientoreservado. Si el id del asiento coincide
-                        con el id registrado en la tabla, la variable enuso cambiará a true-->
-                        {% for asientoreservado in asientosreservados %}
-                            {% if asiento.id == asientoreservado.idAsiento.id %}
-                                {% set enuso = true %}
-                            {% endif %}
-                        {% endfor %}
-                        <!--Si enuso es true, el botón de eliminar estará desactivado-->
-                        {% if enuso == true %}
-                            <a href="#" class="btn btn-danger disabled">Eliminar</a>
-                        {% else %}
-                            <!--Botón para eliminar el asiento. Al pulsarse se manda el id del asiento correspondiente
-                            a través de la url hasta el controlador-->
-                            <a href="{{ path("eliminar_asiento", {"id":asiento.id}) }}" class="btn btn-danger">Eliminar</a>
-                        {% endif %}
+                        <a href="{{ path("eliminar_asiento", {"id":asiento.id}) }}" class="btn btn-danger">Eliminar</a>
                     </td>
                 </tr>
             {% endfor %}

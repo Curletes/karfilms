@@ -20,23 +20,22 @@ class ActorController extends Controller {
      * Muestra los actores que están en la base de datos, listándolos por orden
      * alfabético y paginados (5 actores por página).
      */
+
     public function mostrarActorAction(Request $request) {
-        $em = $this->getDoctrine()->getEntityManager();        
+        $em = $this->getDoctrine()->getEntityManager();
         /*
          * Creación de una query para realizar una consulta a la base de datos.
          * Selecciona todos los actores por orden alfabético.
          */
         $dql = "SELECT a FROM KarfilmsBundle:Actor a ORDER BY a.nombre ASC";
         $query = $em->createQuery($dql);
- 
+
         /*
          * Paginación.
          */
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $query,
-                $request->query->getInt('page', 1),
-                5
+                $query, $request->query->getInt('page', 1), 5
         );
 
         return $this->render('@Karfilms/actor/mostraractor.html.twig', [
@@ -49,10 +48,11 @@ class ActorController extends Controller {
      * seleccionado desde la vista, recogiendo su nombre por la url y realizando
      * una consulta en la base de datos.
      */
+
     public function categoriaActorAction(Request $request, $nombre) {
         $em = $this->getDoctrine()->getEntityManager();
         $actor_repo = $em->getRepository('KarfilmsBundle:Actor');
-        
+
         //Búsqueda de un actor en específico por el nombre enviado desde la url
         $actor = $actor_repo->findOneBy(["nombre" => $nombre]);
 
@@ -65,14 +65,12 @@ class ActorController extends Controller {
         foreach ($peliculas_obj as $pelicula) {
             $peliculas[] = $pelicula->getIdPelicula();
         }
-        
+
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $peliculas,
-                $request->query->getInt('page', 1),
-                5
+                $peliculas, $request->query->getInt('page', 1), 5
         );
-        
+
         /*
          * En el caso de que haya películas en la base de datos en las que ha
          * participado dicho actor, se envía a la vista el array. Si no hay películas,
@@ -94,17 +92,16 @@ class ActorController extends Controller {
      * Funcionamiento similar al método mostrarActorAction. Este método es para
      * la parte de administración de los actores.
      */
+
     public function indiceActorAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        
+
         $dql = "SELECT a FROM KarfilmsBundle:Actor a ORDER BY a.nombre ASC";
         $query = $em->createQuery($dql);
- 
+
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $query,
-                $request->query->getInt('page', 1),
-                5
+                $query, $request->query->getInt('page', 1), 5
         );
 
         return $this->render('@Karfilms/actor/indiceactor.html.twig', [
@@ -116,6 +113,7 @@ class ActorController extends Controller {
      * Función para crear un formulario para añadir nuevos actores a la base de
      * datos.
      */
+
     public function addActorAction(Request $request) {
         /*
          * Se crea un objeto actor nuevo y se manda con el formulario para que
@@ -132,7 +130,7 @@ class ActorController extends Controller {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
                 $actor = new Actor();
-                
+
                 /*
                  * Se hace un set en la entidad Actor con el nombre introdudido
                  * en el formulario y se guarda con persist y flush.
@@ -141,7 +139,7 @@ class ActorController extends Controller {
 
                 $em->persist($actor);
                 $flush = $em->flush();
-                
+
                 //Si la variable flush está vacía, significa que los datos se han añadido sin problema.
                 if ($flush == null) {
                     $status = "Actor añadido correctamente.";
@@ -151,7 +149,7 @@ class ActorController extends Controller {
             } else {
                 $status = "El actor no se ha añadido porque el formulario no es válido.";
             }
-            
+
             /*
              * Se envía a la vista el mensaje creado y guardado en la variable status,
              * y redirige hacia la vista de todos los actores.
@@ -164,19 +162,25 @@ class ActorController extends Controller {
                     "form" => $form->createView()
         ]);
     }
-    
+
     //Método para eliminar actores, reconociendo el actor en específico por el id enviado desde la url
     public function eliminarActorAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
         $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
         $actor = $actor_repo->find($id);
 
-        //Si el actor no está en ninguna película de la base de datos, se borra
-        if (count($actor->getActorpelicula()) == 0) {
-            $em->remove($actor);
-            $em->flush();
-        }
+        $actorpelicula_repo = $em->getRepository("KarfilmsBundle:Actorpelicula");
+        $actorespeliculas = $actorpelicula_repo->findAll();
 
+        foreach ($actorespeliculas as $actorpelicula) {
+            if ($actorpelicula->getIdActor()->getId() == $actor->getId()) {
+                $em->remove($actorpelicula);
+            }
+        }
+        
+        $em->remove($actor);
+        $em->flush();
+        
         return $this->redirectToRoute("indice_actor");
     }
 
@@ -186,6 +190,7 @@ class ActorController extends Controller {
      * el formulario de edición con la variable $request.
      * Funcionamiento similar al de la función para añadir actores.
      */
+
     public function editarActorAction($id, Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
