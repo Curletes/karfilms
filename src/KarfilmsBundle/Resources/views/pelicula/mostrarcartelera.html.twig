@@ -18,7 +18,7 @@
                 y se van mostrando en la página de la cartelera-->
             {% for pelicula in pagination %}
                 <tr>
-                    <td height="200" width="150"><img height="200" width="150" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}"</td>
+                    <td height="200" width="150"><img height="200" width="150" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}"></td>
                     <td>
                         <h3><a href="{{ path("mostrar_pelicula", {"titulo":pelicula.titulo, "id":pelicula.id}) }}">{{ pelicula.titulo }}</a></h3>
                         <p><strong>Duración: </strong>{{ pelicula.duracion }} minutos</p>

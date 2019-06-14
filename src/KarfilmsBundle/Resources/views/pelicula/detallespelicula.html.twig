@@ -8,55 +8,73 @@
 
 {% block body %}
     <!--Vista de los detalles de la película seleccionada por el usuario-->
-    <section class="col-lg-12">
-        <h2>{{ pelicula.titulo }}</h2>
-        <hr>
-        <table class="table">
-            <tr>
-                <th>Cartel</th>
-                <th>Trailer</th>
-            </tr>
-            <tr>
-                <td>
-                    <img height="606" width="410" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}">
-                </td>
-                <td colspan="2">
-                    <video height="606" width="800"  controls>
-                        <source src="{{ asset("imagenes/trailers/" ~ pelicula.trailer) }}">
-                    </video>
-                </td>
-            </tr>
-            <tr>
-                <th>Directores</th>
-                <th>Actores principales</th>
-                <th>Géneros</th>
-            </tr>
-            <tr>
-                <!--Se recorren los arrays de directores, actores y géneros para mostrarlos
-                en su sección específica de los detalles de la película-->
-                <td>
-                    {% for director in directores %}
-                        {{ director }}<br>
+    <section class="row">
+        <article class="col-lg-8">
+            <img class="float-left" height="200" width="150" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}">
+            <div class="float-left">
+                <h3><a href="{{ path("mostrar_pelicula", {"titulo":pelicula.titulo, "id":pelicula.id}) }}">{{ pelicula.titulo }}</a></h3>
+                <a href="{{ path("categoria_edad", {"clasificacion":pelicula.idEdad.clasificacion}) }}">{{ pelicula.idEdad.clasificacion }}</a>
+                {{ pelicula.duracion }} minutos
+                {% for peli in pelicula.Generopelicula %}
+                    <a href="{{ path("categoria_genero", {"nombre":peli.idGenero.nombre}) }}">{{ peli.idGenero.nombre }}</a>
+                {% endfor %}
+            </div>
+            <div class="clearfix"></div>
+            <div>
+                <h5>Trailer</h5>
+                <video controls>
+                    <source src="{{ asset("imagenes/trailers/" ~ pelicula.trailer) }}">
+                </video>
+                <h5>Sinopsis: </h5>{{ pelicula.sinopsis }}
+                <p>
+                    <strong>Actores: </strong>
+                    {% for peli in pelicula.Actorpelicula %}
+                        <a href="{{ path("categoria_actor", {"nombre":peli.idActor.nombre}) }}">{{ peli.idActor.nombre }}</a>
                     {% endfor %}
-                </td>
-                <td>
-                    {% for actor in actores %}
-                        {{ actor }}<br>
+                </p>
+                <p>
+                    <strong>Dirección: </strong>
+                    {% for peli in pelicula.Directorpelicula %}
+                        <a href="{{ path("categoria_director", {"nombre":peli.idDirector.nombre}) }}">{{ peli.idDirector.nombre }}</a>
                     {% endfor %}
-                </td>
-                <td>
-                    {% for genero in generos %}
-                        {{ genero }}<br>
+                </p>
+            </div>
+        </article>
+        <aside class="col-lg-4">
+            <div>
+                <strong>Sesiones: </strong><br>
+                <!--Si la película no tiene sesiones disponibles, se muestra un mensaje correspondiente.
+                    Si tiene sesiones, se guardan estas en un array para luego mostrar los días en una lista
+                    desplegable, la cual ejecutará una función AJAX que llamará al controlador y mostrará las horas
+                    que correspondan a la sesión de ese día seleccionado-->
+                {% if pelicula.Sesiones is empty %}
+                    No hay sesiones disponibles.
+                {% else %}
+                    {% set array_sesiones = [] %}
+                    {% for sesiones in pelicula.Sesiones %}
+                        {% set array_sesiones = array_sesiones|merge([sesiones.horarios]) %}
                     {% endfor %}
-                </td>
-            </tr>
-            <tr>
-                <th>Sinopsis</th>
-            </tr>
-            <tr>
-                <td colspan="3">{{ pelicula.sinopsis }}</td>
-            </tr>
-        </table>
+                    <select id="{{ pelicula.id }}" class="form-control col-lg-4 float-left">
+                        {% for sesion in array_sesiones|sort %}
+                            {% if usado is defined and usado != sesion|date("d-m") %}
+                                <option>{{ sesion|date("d-m") }}</option>
+                                {% set usado = sesion|date("d-m") %}
+                            {% elseif usado is defined and usado == sesion|date("d-m") %}
+                                {% set usado = sesion|date("d-m") %}
+                            {% else %}
+                                <option>{{ sesion|date("d-m") }}</option>
+                                {% set usado = sesion|date("d-m") %}
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <div class="clearfix"></div>
+                    <p>
+                        Horarios:
+                        <span id="sesiones"></span>
+                    </p>
+                </div>
+            {% endif %}
+        </aside>
         <!--Si el rol del usuario conectado es el de administrador, el botón llevará
         a la vista de todas las películas en la sección de administrador. Además se
         mostrará el botón para editar la película.
@@ -69,4 +87,58 @@
         {% endif %}
     </section>
     <div class="clearfix"></div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        'use strict'
+
+        /*
+         * Función AJAX que recoge el día seleccionado y lo manda al controlador,
+         * donde se hace una consulta para que muestre las horas que corresponden
+         * a ese día y las pinte en la etiqueta span de la vista.
+         */
+        $(document).ready(function ()
+        {
+            $("select").click(function ()
+            {
+                var texto = "";
+
+                if ($(this).attr('id') == {{ pelicula.id }})
+                {
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('mostrar_sesiones_ajax') }}",
+                        data: {
+                            diames: $(this).children("option:selected").val(),
+                            id: $(this).attr('id')
+                        },
+                        success: function (data)
+                        {
+                            for (var i in data.sesiones)
+                            {
+                                for (var horarios in data.sesiones[i])
+                                {
+                                    var fecha = data.sesiones[i].horarios.date;
+                                    var hora = fecha.substring(11, 16);
+                                    /*
+                                     * Cada hora se muesta en una etiqueta "a" que activa la función de
+                                     * reservar entrada al pulsarse, enviándose el id de la película correspondiente,
+                                     * y el id de la sesión.
+                                     */
+                                    {% for sesion in pelicula.Sesiones %}
+                                        if (fecha == "{{sesion.horarios|date('Y-m-d H:i:s.sss')}}")
+                                        {
+                                            texto += "<a id='sesion" + i + "' href='{{ path("reservar_entrada", {"pelicula":pelicula.id, "sesion":sesion.id}) }}'>" + hora + "</a>";
+                                        }
+                                    {% endfor %}
+                                    }
+                                }
+                                
+                                $('#sesiones').html(texto);
+                            }
+                        });
+                    }
+                });
+            });
+    </script>
 {% endblock %}
