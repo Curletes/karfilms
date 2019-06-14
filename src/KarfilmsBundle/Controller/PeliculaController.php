@@ -506,6 +506,7 @@ class PeliculaController extends Controller {
                     } else {
                         $status2 = "Sólo se permiten las extensiones .mp4, .avi, .wmv y .mov.";
                         $this->session->getFlashBag()->add("status", $status2);
+
                         return $this->redirectToRoute("indice_pelicula");
                     }
                 } else {

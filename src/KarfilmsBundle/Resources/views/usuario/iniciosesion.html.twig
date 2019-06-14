@@ -15,6 +15,9 @@
                 <div class="alert alert-danger">{{ message }}</div>
             {% endif %}
         {% endfor %}
+        {% if error is not null %}
+            <div class="alert alert-danger">Nombre de usuario o contraseña incorrectos</div>
+        {% endif %}
         <h2>Identifícate</h2>
         <hr>
         <form action="{{ path("iniciar_sesion_check") }}" method="post">
