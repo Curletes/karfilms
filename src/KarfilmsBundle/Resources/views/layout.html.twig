@@ -45,7 +45,7 @@
                         <div class="dropdown"><span id="resultados"></span></div>
                     </form>
                 </ul>
-                <ul class="nav navbar-nav ml-auto mr-5">
+                <ul class="nav navbar-nav mr-5">
                     <!--Este apartado sólo se mostrará para los usuarios que están registrados en la página-->
                     {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
                         <!--Si el rol del usuario con la sesión iniciada es administrador, se mostrará este apartado-->
