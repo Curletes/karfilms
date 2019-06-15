@@ -113,3 +113,21 @@ h1,h2,h3,h4,h5{
 section {
     margin-top: 2em;
 }
+
+.page-link {
+    color: #ba0a0a !important;
+}
+
+.active span{
+    color: #919aa8 !important;
+    background-color: #303030 !important;
+    border-color: #303030 !important;
+}
+
+.disabled span{
+    color: #919aa8 !important;
+}
+
+.page-item {
+    color: black; 
+}
