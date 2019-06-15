@@ -98,9 +98,13 @@
                 </ul>
             </div>
         </nav>
+                <div class="contenedor">
         <div class="container">
         {% block body %}{% endblock %}
-    </div>
+        </div>
+        <footer>
+            © 2019 Karfilms. Todos los derechos reservados. <span id="minombre">Desarrollado por Carlos Vega Nieto.</span>
+        </footer></div>
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 {% block javascripts %}{% endblock %}
 <script src="{{ asset("slider/ism/js/ism-2.2.min.js") }}"></script>

@@ -17,6 +17,10 @@ a span#kar{
     color: rgb(186,10,10);
 }
 
+a.active{
+    color: #ba0a0a;
+}
+
 nav a, #usuario, #admin-dropdown {
     color: #ffffff;
     text-decoration: none;
@@ -44,6 +48,9 @@ a, .breadcrumb a {
 
 body {
     background-color: rgb(213,213,213);
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
 h1,h2,h3,h4,h5{
@@ -130,4 +137,25 @@ section {
 
 .page-item {
     color: black; 
+}
+
+.contenedor{
+    min-height: 100vh; /* will cover the 100% of viewport */
+    overflow: hidden;
+    display: block;
+    position: relative;
+    padding-bottom: 100px;
+}
+
+footer {
+    padding: 1%;
+    color: white;
+    background-color: rgb(41,41,41);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+#minombre {
+    margin-left: 44em;
 }
