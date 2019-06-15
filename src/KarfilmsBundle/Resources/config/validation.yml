@@ -39,19 +39,6 @@ KarfilmsBundle\Entity\Sala:
                 max: 1
                 minMessage: "El nombre sólo debe tener 1 caracter."
                 
-KarfilmsBundle\Entity\Asiento:
-    properties:
-        fila:
-            - NotBlank: { message: "La fila no puede estar vacía." }
-            - Length:
-                min: 1
-                minMessage: "La fila debe tener como mínimo 1 caracter."
-        butaca:
-            - NotBlank: { message: "La butaca no puede estar vacía." }
-            - Length:
-                min: 1
-                minMessage: "La butaca debe tener como mínimo 1 caracter."
-                
 KarfilmsBundle\Entity\Pelicula:
     properties:
         titulo:

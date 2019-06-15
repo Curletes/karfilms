@@ -56,8 +56,6 @@ class AsientoController extends Controller {
          * Creación del formulario para añadir nuevos asientos, mandando un 
          * objeto Asiento al formulario.
          */
-        $authenticationUtils = $this->get("security.authentication_utils");
-        $error = $authenticationUtils->getLastAuthenticationError();
         $asiento = new Asiento();
         $form = $this->createForm(AsientoType::class, $asiento);
 
@@ -69,6 +67,11 @@ class AsientoController extends Controller {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
 
+                if ($form->get("fila")->getData() == null || $form->get("butaca") == null) {
+                    $status = "Sólo se pueden introducir números.";
+                    $this->session->getFlashBag()->add("status", $status);
+                    return $this->redirectToRoute("indice_asiento");
+                }
                 /*
                  * Comprobación de si el asiento que acaba de enviarse por el formulario
                  * ya está en la base de datos, buscándolo según su sala, fila y butaca.
@@ -118,16 +121,13 @@ class AsientoController extends Controller {
              * Creación del mensaje que se mostrará para el usuario al haber mandado
              * el formulario. Se redirige a la lista de asientos.
              */
-            if ($status == "Asiento añadido correctamente.") {
-                $this->session->getFlashBag()->add("status", $status);
-                return $this->redirectToRoute("indice_asiento");
-            }
+            $this->session->getFlashBag()->add("status", $status);
+            return $this->redirectToRoute("indice_asiento");
         }
 
         //Se envía el formulario a la vista.
         return $this->render('@Karfilms/asiento/addasiento.html.twig', [
                     "form" => $form->createView(),
-                    "error" => $error
         ]);
     }
 
@@ -162,8 +162,6 @@ class AsientoController extends Controller {
      */
 
     public function editarAsientoAction($id, Request $request) {
-        $authenticationUtils = $this->get("security.authentication_utils");
-        $error = $authenticationUtils->getLastAuthenticationError();
         $em = $this->getDoctrine()->getEntityManager();
         $asiento_repo = $em->getRepository("KarfilmsBundle:Asiento");
         $asiento = $asiento_repo->find($id);
@@ -175,6 +173,12 @@ class AsientoController extends Controller {
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
+
+                if ($form->get("fila")->getData() == null || $form->get("butaca") == null) {
+                    $status = "Sólo se pueden introducir números.";
+                    $this->session->getFlashBag()->add("status", $status);
+                    return $this->redirectToRoute("indice_asiento");
+                }
 
                 $asiento_repo = $em->getRepository("KarfilmsBundle:Asiento");
                 $asiento_existe = $asiento_repo->findOneBy([
@@ -202,16 +206,13 @@ class AsientoController extends Controller {
                 $status = "El asiento no se ha editada porque el formulario no es válido.";
             }
 
-            if ($status == "Asiento editado correctamente.") {
-                $this->session->getFlashBag()->add("status", $status);
-                return $this->redirectToRoute("indice_asiento");
-            }
+            $this->session->getFlashBag()->add("status", $status);
+            return $this->redirectToRoute("indice_asiento");
         }
 
         return $this->render('@Karfilms/asiento/editarasiento.html.twig', [
                     "form" => $form->createView(),
                     "asiento" => $asiento,
-                    "error" => $error
         ]);
     }
 
