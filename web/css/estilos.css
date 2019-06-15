@@ -159,3 +159,8 @@ footer {
 #minombre {
     margin-left: 44em;
 }
+
+.dropdown-item:active, .dropdown-item:hover{
+    color: white;
+    background-color: rgb(82,82,82);
+}
