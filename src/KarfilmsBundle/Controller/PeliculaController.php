@@ -257,8 +257,6 @@ class PeliculaController extends Controller {
          * Se crea un objeto pelicula nuevo y se manda con el formulario para que
          * muestre los campos de la entidad que tienen que rellenarse.
          */
-        $authenticationUtils = $this->get("security.authentication_utils");
-        $error = $authenticationUtils->getLastAuthenticationError();
         $pelicula = new Pelicula();
         $form = $this->createForm(PeliculaType::class, $pelicula);
 
@@ -268,6 +266,11 @@ class PeliculaController extends Controller {
         //Esta parte de la función se ejecuta cuando el formulario se ha enviado y es válido.
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
+                if ($form->get("titulo")->getData() == null || $form->get("sinopsis")->getData() == null || $form->get("duracion")->getData() == null) {
+                    $status2 = "No puede haber campos vacíos en el formulario. La duración solamente admite números enteros.";
+                    $this->session->getFlashBag()->add("status", $status2);
+                    return $this->redirectToRoute("indice_pelicula");
+                }
                 $em = $this->getDoctrine()->getEntityManager();
                 $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
 
@@ -396,7 +399,6 @@ class PeliculaController extends Controller {
 
         return $this->render('@Karfilms/pelicula/addpelicula.html.twig', [
                     "form" => $form->createView(),
-                    "error" => $error
         ]);
     }
 
@@ -466,8 +468,6 @@ class PeliculaController extends Controller {
      */
 
     public function editarPeliculaAction($id, Request $request) {
-        $authenticationUtils = $this->get("security.authentication_utils");
-        $error = $authenticationUtils->getLastAuthenticationError();
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $pelicula = $pelicula_repo->find($id);
@@ -497,6 +497,11 @@ class PeliculaController extends Controller {
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
+                if ($form->get("titulo")->getData() == null || $form->get("sinopsis")->getData() == null || $form->get("duracion")->getData() == null) {
+                    $status2 = "No puede haber campos vacíos en el formulario. La duración solamente admite números enteros.";
+                    $this->session->getFlashBag()->add("status", $status2);
+                    return $this->redirectToRoute("indice_pelicula");
+                }
                 $pelicula->setTitulo($form->get("titulo")->getData());
                 $pelicula->setSinopsis($form->get("sinopsis")->getData());
 
@@ -614,7 +619,6 @@ class PeliculaController extends Controller {
                     "directores" => $directores,
                     "generos" => $generos,
                     "pelicula" => $pelicula,
-                    "error" => $error
         ]);
     }
 

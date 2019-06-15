@@ -39,28 +39,6 @@ KarfilmsBundle\Entity\Sala:
                 max: 1
                 minMessage: "El nombre sólo debe tener 1 caracter."
                 
-KarfilmsBundle\Entity\Pelicula:
-    properties:
-        titulo:
-            - NotBlank: { message: "El título no puede estar vacío." }
-            - Length:
-                min: 1
-                minMessage: "El título debe tener como mínimo 1 caracter."
-        sinopsis:
-            - NotBlank: { message: "La sinopsis no puede estar vacía." }
-            - Length:
-                min: 1
-                minMessage: "La sinopsis debe tener como mínimo 1 caracter."
-        duracion:
-            - NotBlank: { message: "La duración no puede estar vacía." }
-            - Length:
-                min: 1
-                max: 3
-                minMessage: "La duración sólo puede tener 3 números como máximo."
-            - Type: 
-                type: integer
-                message: "La duración debe ser un número entero."
-                
 KarfilmsBundle\Entity\Usuario:
     properties:
         nombre:
