@@ -5,12 +5,14 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Karfilms{% endblock %}</title>
         {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset("slider/ism/css/my-slider.css") }}"/>
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+            <link rel="stylesheet" href="{{ asset("css/estilos.css") }}"/>
         {% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="{{ path("inicio") }}">Karfilms</a>
+        <nav class="navbar navbar-expand-lg position-sticky">
+            <a id="logo" class="navbar-brand" href="{{ path("inicio") }}">Kar<span id="films">films</span></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -51,7 +53,7 @@
                         <!--Si el rol del usuario con la sesión iniciada es administrador, se mostrará este apartado-->
                         {% if is_granted('ROLE_ADMIN') %}
                             <div class="dropdown">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <button id="admin-dropdown" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                     <img src="{{ asset('imagenes/iconos/tuerca.svg') }}">
                                 </button>
                                 <div class="dropdown-menu">
@@ -72,7 +74,7 @@
                         <!--Botón con el nombre del usuario para desplegar una lista con las opciones de ver
                         Mi Perfil y cerrar sesión-->
                         <div class="dropdown">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <button id="usuario" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                 {{ app.user.nombre }}
                             </button>
                             <div class="dropdown-menu">
@@ -91,78 +93,77 @@
         </nav>
         <div class="container">
         {% block body %}{% endblock %}
-        </div>
-        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-        {% block javascripts %}{% endblock %}
-        <link rel="stylesheet" href="{{ asset("slider/ism/css/my-slider.css") }}"/>
-        <script src="{{ asset("slider/ism/js/ism-2.2.min.js") }}"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-        <script>
-            'use strict'
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+{% block javascripts %}{% endblock %}
+<script src="{{ asset("slider/ism/js/ism-2.2.min.js") }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+    'use strict'
 
-            $(document).ready(function ()
-            {
-                /*
-                 * Función AJAX que se activa al comenzar a escribir en el buscador
-                 */
-                $("#buscador").keyup(function ()
+    $(document).ready(function ()
+    {
+        /*
+         * Función AJAX que se activa al comenzar a escribir en el buscador
+         */
+        $("#buscador").keyup(function ()
+        {
+            var texto = "";
+            $.ajax({
+                type: "POST",
+                url: "{{ path('mostrar_peliculas_ajax') }}",
+                data: {
+                    pelicula: $(this).val(),
+                },
+                success: function (data)
                 {
-                    var texto = "";
-                    $.ajax({
-                        type: "POST",
-                        url: "{{ path('mostrar_peliculas_ajax') }}",
-                        data: {
-                            pelicula: $(this).val(),
-                        },
-                        success: function (data)
+                    /*
+                     * Si lo que ha escrito el usuario coincide con las películas registradas en la base de datos,
+                     * se mostrarán los títulos en la lista desplegable
+                     */
+                    texto += "<div class='dropdown-menu show'>";
+                    for (var i in data.peliculas)
+                    {
+                        var titulo = data.peliculas[i].titulo;
+                        var id = data.peliculas[i].id;
+                        /*
+                         * Condiciones para generar un enlace distinto para las películas según en qué parte de la página
+                         * se encuentre el usuario, comprobándolo mirando la url y usando expresiones regulares.
+                         */
+                        if (/(edades|directores|actores|generos\/[a-zA-Z0-9_])/.test(window.location.href))
                         {
-                            /*
-                             * Si lo que ha escrito el usuario coincide con las películas registradas en la base de datos,
-                             * se mostrarán los títulos en la lista desplegable
-                             */
-                            texto += "<div class='dropdown-menu show'>";
-                            for (var i in data.peliculas)
-                            {
-                                var titulo = data.peliculas[i].titulo;
-                                var id = data.peliculas[i].id;
-                                /*
-                                 * Condiciones para generar un enlace distinto para las películas según en qué parte de la página
-                                 * se encuentre el usuario, comprobándolo mirando la url y usando expresiones regulares.
-                                 */
-                                if (/(edades|directores|actores|generos\/[a-zA-Z0-9_])/.test(window.location.href))
-                                {
-                                    texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
-                                } else if (/(admin)\/.+\/\d/.test(window.location.href))
-                                {
-                                    texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
-                                } else if (/(admin)\/.+\/.+$/.test(window.location.href))
-                                {
-                                    texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
-                                } else if (/(admin)\//.test(window.location.href))
-                                {            
-                                    texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
-                                } else if (/(reserva)/.test(window.location.href))
-                                {
-                                    texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
-                                } else if (/((-\d+)|registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias|edades|page=\d)$/.test(window.location.href))
-                                {
-                                    texto += "<a class='dropdown-item' id='pelicula" + i + "' href='cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
-                                } else if (/(registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias|page=\d)\/.+\//.test(window.location.href))
-                                {
-                                    texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
-                                } else if (/(registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias|edades|page=\d)\//.test(window.location.href))
-                                {
-                                    texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
-                                }
-                            }
-                            texto += "</div>";
-                            $('#resultados').html(texto);
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
+                        } else if (/(admin)\/.+\/\d/.test(window.location.href))
+                        {
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
+                        } else if (/(admin)\/.+\/.+$/.test(window.location.href))
+                        {
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
+                        } else if (/(admin)\//.test(window.location.href))
+                        {
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
+                        } else if (/(reserva)/.test(window.location.href))
+                        {
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
+                        } else if (/((-\d+)|registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias|edades|page=\d)$/.test(window.location.href))
+                        {
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
+                        } else if (/(registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias|page=\d)\/.+\//.test(window.location.href))
+                        {
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
+                        } else if (/(registrarse|iniciar-sesion|mi-perfil|inicio|cartelera|generos|actores|directores|sugerencias|edades|page=\d)\//.test(window.location.href))
+                        {
+                            texto += "<a class='dropdown-item' id='pelicula" + i + "' href='../cartelera/" + titulo + "/" + id + "'>" + titulo + "</a>";
                         }
-                    });
+                    }
+                    texto += "</div>";
+                    $('#resultados').html(texto);
                 }
-                );
             });
-        </script>
-    </body>
+        }
+        );
+    });
+</script>
+</body>
 </html>

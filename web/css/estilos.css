@@ -1,0 +1,43 @@
+nav {
+    background-color: #303030;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 9999;
+}
+
+a span#films{
+    color: rgb(186,10,10);
+}
+
+nav a, #usuario, #admin-dropdown {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+nav a:hover{
+    color: #919aa8;
+}
+
+a:hover{
+    color: rgb(40,40,40);
+}
+
+a {
+    color: rgb(186,10,10);
+}
+
+#logo {
+    color: #919aa8;
+}
+
+.dropdown-menu {
+    background-color: #cccccc;
+}
+
+body {
+    background-color: rgb(213,213,213);
+}
+
+h1,h2,h3,h4,h5{
+    color: rgb(186,10,10);
+}
