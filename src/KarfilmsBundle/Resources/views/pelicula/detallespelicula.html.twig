@@ -13,10 +13,16 @@
             <img class="float-left" height="200" width="150" src="{{ asset("imagenes/carteles/" ~ pelicula.cartel) }}">
             <div class="float-left">
                 <h3><a href="{{ path("mostrar_pelicula", {"titulo":pelicula.titulo, "id":pelicula.id}) }}">{{ pelicula.titulo }}</a></h3>
-                <a href="{{ path("categoria_edad", {"clasificacion":pelicula.idEdad.clasificacion}) }}">{{ pelicula.idEdad.clasificacion }}</a>
-                {{ pelicula.duracion }} minutos
+                <span class="datospeli">
+                    <a href="{{ path("categoria_edad", {"clasificacion":pelicula.idEdad.clasificacion}) }}">{{ pelicula.idEdad.clasificacion }}</a>
+                </span>
+                <span class="datospeli">
+                    {{ pelicula.duracion }} minutos
+                </span>
                 {% for peli in pelicula.Generopelicula %}
+                <span class="datospeli">
                     <a href="{{ path("categoria_genero", {"nombre":peli.idGenero.nombre}) }}">{{ peli.idGenero.nombre }}</a>
+                </span>
                 {% endfor %}
             </div>
             <div class="clearfix"></div>
@@ -69,7 +75,7 @@
                     </select>
                     <div class="clearfix"></div>
                     <p>
-                        Horarios:
+                        Horarios:<br>
                         <span id="sesiones"></span>
                     </p>
                 </div>
@@ -128,7 +134,7 @@
                                     {% for sesion in pelicula.Sesiones %}
                                         if (fecha == "{{sesion.horarios|date('Y-m-d H:i:s.sss')}}")
                                         {
-                                            texto += "<a id='sesion" + i + "' href='{{ path("reservar_entrada", {"pelicula":pelicula.id, "sesion":sesion.id}) }}'>" + hora + "</a>";
+                                            texto += "<a class='horas' id='sesion" + i + "' href='{{ path("reservar_entrada", {"pelicula":pelicula.id, "sesion":sesion.id}) }}'>" + hora + "</a>";
                                         }
                                     {% endfor %}
                                     }

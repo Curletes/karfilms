@@ -66,15 +66,21 @@
                         <!--Si el usuario tiene la sesión iniciada y la sugerencia no tiene valoraciones, se mostrará el botón
                         de like en gris-->
                         {% if app.user.id is defined and sugerencia.Valoracion|length == 0 %}
-                            <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
+                            <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">
+                                <img src="{{ asset('imagenes/iconos/like.svg') }}">
+                            </a>
                         <!--Si el usuario tiene la sesión iniciada y el botón de like está en true, significa que el usuario con
                         la sesión iniciada ha pulsado el botón, por lo que se mostrará en verde-->
                         {% elseif app.user.id is defined and like == "true" %}
-                            <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-success">Like</a>
+                            <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-success">
+                                <img src="{{ asset('imagenes/iconos/like.svg') }}">
+                            </a>
                         <!--Si el usuario tiene la sesión iniciada y el botón de like está en false, significa que no hay valoraciones suyas,
                         por lo que se mostrará en gris-->
                         {% elseif app.user.id is defined and like == "false" %}
-                            <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">Like</a>
+                            <a href="{{ path("like_sugerencia", {"idSugerencia":sugerencia.id, "idUsuario":app.user.id}) }}" class="btn btn-secondary">
+                                <img src="{{ asset('imagenes/iconos/like.svg') }}">
+                            </a>
                         {% endif %}
                         <!--Muestra cuantas valoraciones tiene el usuario-->
                         <span id="valoracionescont">Le gusta a {{ sugerencia.Valoracion|length }} usuario{% if sugerencia.Valoracion|length != 1 %}s{% endif %}.</span>

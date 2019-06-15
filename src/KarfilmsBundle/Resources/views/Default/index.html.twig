@@ -89,6 +89,7 @@
                                         {% endfor %}
                                     </select>
                                     <!--Aquí se muestran las horas de las sesiones para el día que ha sido seleccionado-->
+                                    <br><br>
                                     Horarios:
                                     <span id="horarios{{ pelicula.id }}"></span>
                                 </p>
@@ -147,7 +148,7 @@
                                             {% for sesion in pelicula.Sesiones %}
                                                 if (fecha == "{{sesion.horarios|date('Y-m-d H:i:s.sss')}}")
                                                 {
-                                                    texto += "<a id='sesion" + i + "' href='{{ path("reservar_entrada", {"pelicula":pelicula.id, "sesion":sesion.id}) }}'>" + hora + "</a>";
+                                                    texto += "<a class='horas' id='sesion" + i + "' href='{{ path("reservar_entrada", {"pelicula":pelicula.id, "sesion":sesion.id}) }}'>" + hora + "</a>";
                                                 }
                                             {% endfor %}
                                             }

@@ -5,7 +5,15 @@ nav {
     z-index: 9999;
 }
 
-a span#films{
+.navbar-toggler{
+    background-color: #919aa8;
+}
+
+.navbar-toggler-icon{
+    color: #ffffff;
+}
+
+a span#kar{
     color: rgb(186,10,10);
 }
 
@@ -18,11 +26,11 @@ nav a:hover{
     color: #919aa8;
 }
 
-a:hover{
+a:hover, .breadcrumb a:hover{
     color: rgb(40,40,40);
 }
 
-a {
+a, .breadcrumb a {
     color: rgb(186,10,10);
 }
 
@@ -40,4 +48,68 @@ body {
 
 h1,h2,h3,h4,h5{
     color: rgb(186,10,10);
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+    background-color: rgb(152,0,0) !important;
+    border-color: rgb(152,0,0) !important;
+}
+
+.btn-primary {
+    background-color: rgb(186,10,10);
+    border-color: rgb(186,10,10);
+}
+
+.btn-warning:hover, .btn-warning:active, .btn-warning:focus {
+    background-color: rgb(34,172,238) !important;
+    border-color: rgb(34,172,238) !important;
+}
+
+.btn-warning {
+    background-color: rgb(16,150,212);
+    border-color: rgb(16,150,212);
+}
+
+.btn-danger:hover, .btn-danger:active, .btn-danger:focus {
+    color: rgb(0,0,0);
+    background-color: rgb(224,168,0) !important;
+    border-color: rgb(224,168,0) !important;
+}
+
+.btn-danger {
+    color: rgb(0,0,0);
+    background-color: rgb(255, 193, 7);
+    border-color: rgb(255, 193, 7);
+}
+
+.table {
+    background-color: white !important;
+    border-radius: 15px
+}
+
+.datospeli{
+    background-color: rgb(40,40,40);
+    color: white;
+    padding: 5px;
+    margin-left: 5px;
+    border-radius: 5px
+}
+
+.datospeli a, .horas{
+    color: rgb(213,213,213);
+}
+
+.datospeli a:hover, .horas:hover{
+    color: white;
+}
+
+.horas{
+    background-color: rgb(40,40,40);
+    padding: 5px;
+    margin-left: 5px;
+    border-radius: 5px
+}
+
+section {
+    margin-top: 2em;
 }
