@@ -117,6 +117,8 @@ class DirectorController extends Controller {
          * Se crea un objeto director nuevo y se manda con el formulario para que
          * muestre los campos de la entidad que tienen que rellenarse.
          */
+        $authenticationUtils = $this->get("security.authentication_utils");
+        $error = $authenticationUtils->getLastAuthenticationError();
         $director = new Director();
         $form = $this->createForm(DirectorType::class, $director);
 
@@ -152,12 +154,15 @@ class DirectorController extends Controller {
              * Se envía a la vista el mensaje creado y guardado en la variable status,
              * y redirige hacia la vista de todos los directores.
              */
-            $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("indice_director");
+            if ($status == "Director añadido correctamente.") {
+                $this->session->getFlashBag()->add("status", $status);
+                return $this->redirectToRoute("indice_director");
+            }
         }
 
         return $this->render('@Karfilms/director/adddirector.html.twig', [
-                    "form" => $form->createView()
+                    "form" => $form->createView(),
+                    "error" => $error
         ]);
     }
 
@@ -190,6 +195,8 @@ class DirectorController extends Controller {
      */
 
     public function editarDirectorAction($id, Request $request) {
+        $authenticationUtils = $this->get("security.authentication_utils");
+        $error = $authenticationUtils->getLastAuthenticationError();
         $em = $this->getDoctrine()->getEntityManager();
         $director_repo = $em->getRepository("KarfilmsBundle:Director");
         $director = $director_repo->find($id);
@@ -214,13 +221,16 @@ class DirectorController extends Controller {
                 $status = "El director no se ha editado porque el formulario no es válido.";
             }
 
-            $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("indice_director");
+            if ($status == "Director editado correctamente.") {
+                $this->session->getFlashBag()->add("status", $status);
+                return $this->redirectToRoute("indice_director");
+            }
         }
 
         return $this->render('@Karfilms/director/editardirector.html.twig', [
                     "form" => $form->createView(),
-                    "director" => $director
+                    "director" => $director,
+                    "error" => $error
         ]);
     }
 

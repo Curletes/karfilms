@@ -119,6 +119,8 @@ class ActorController extends Controller {
          * Se crea un objeto actor nuevo y se manda con el formulario para que
          * muestre los campos de la entidad que tienen que rellenarse.
          */
+        $authenticationUtils = $this->get("security.authentication_utils");
+        $error = $authenticationUtils->getLastAuthenticationError();
         $actor = new Actor();
         $form = $this->createForm(ActorType::class, $actor);
 
@@ -154,12 +156,15 @@ class ActorController extends Controller {
              * Se envía a la vista el mensaje creado y guardado en la variable status,
              * y redirige hacia la vista de todos los actores.
              */
-            $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("indice_actor");
+            if ($status == "Actor añadido correctamente.") {
+                $this->session->getFlashBag()->add("status", $status);
+                return $this->redirectToRoute("indice_actor");
+            }
         }
 
         return $this->render('@Karfilms/actor/addactor.html.twig', [
-                    "form" => $form->createView()
+                    "form" => $form->createView(),
+                    "error" => $error
         ]);
     }
 
@@ -177,10 +182,10 @@ class ActorController extends Controller {
                 $em->remove($actorpelicula);
             }
         }
-        
+
         $em->remove($actor);
         $em->flush();
-        
+
         return $this->redirectToRoute("indice_actor");
     }
 
@@ -192,6 +197,8 @@ class ActorController extends Controller {
      */
 
     public function editarActorAction($id, Request $request) {
+        $authenticationUtils = $this->get("security.authentication_utils");
+        $error = $authenticationUtils->getLastAuthenticationError();
         $em = $this->getDoctrine()->getEntityManager();
         $actor_repo = $em->getRepository("KarfilmsBundle:Actor");
         $actor = $actor_repo->find($id);
@@ -216,13 +223,16 @@ class ActorController extends Controller {
                 $status = "El actor no se ha editado porque el formulario no es válido.";
             }
 
-            $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("indice_actor");
+            if ($status == "Actor editado correctamente.") {
+                $this->session->getFlashBag()->add("status", $status);
+                return $this->redirectToRoute("indice_actor");
+            }
         }
 
         return $this->render('@Karfilms/actor/editaractor.html.twig', [
                     "form" => $form->createView(),
-                    "actor" => $actor
+                    "actor" => $actor,
+                    "error" => $error
         ]);
     }
 

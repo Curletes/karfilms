@@ -208,6 +208,8 @@ class UsuarioController extends Controller {
      * Funcionamiento similar al de la función para añadir usuarios.
      */
     public function editarUsuarioAction($id, Request $request) {
+        $authenticationUtils = $this->get("security.authentication_utils");
+        $error = $authenticationUtils->getLastAuthenticationError();
         $em = $this->getDoctrine()->getEntityManager();
         $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
         $usuario = $usuario_repo->find($id);

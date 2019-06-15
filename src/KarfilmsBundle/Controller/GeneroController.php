@@ -120,6 +120,8 @@ class GeneroController extends Controller {
          * Se crea un objeto genero nuevo y se manda con el formulario para que
          * muestre los campos de la entidad que tienen que rellenarse.
          */
+        $authenticationUtils = $this->get("security.authentication_utils");
+        $error = $authenticationUtils->getLastAuthenticationError();
         $genero = new Genero();
         $form = $this->createForm(GeneroType::class, $genero);
 
@@ -155,12 +157,15 @@ class GeneroController extends Controller {
              * Se envía a la vista el mensaje creado y guardado en la variable status,
              * y redirige hacia la vista de todos los géneros.
              */
-            $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("indice_genero");
+            if ($status == "Género añadido correctamente.") {
+                $this->session->getFlashBag()->add("status", $status);
+                return $this->redirectToRoute("indice_genero");
+            }
         }
 
         return $this->render('@Karfilms/genero/addgenero.html.twig', [
-                    "form" => $form->createView()
+                    "form" => $form->createView(),
+                    "error" => $error
         ]);
     }
 
@@ -180,7 +185,7 @@ class GeneroController extends Controller {
         }
         $em->remove($genero);
         $em->flush();
-        
+
         return $this->redirectToRoute("indice_genero");
     }
 
@@ -192,6 +197,8 @@ class GeneroController extends Controller {
      */
 
     public function editarGeneroAction($id, Request $request) {
+        $authenticationUtils = $this->get("security.authentication_utils");
+        $error = $authenticationUtils->getLastAuthenticationError();
         $em = $this->getDoctrine()->getEntityManager();
         $genero_repo = $em->getRepository("KarfilmsBundle:Genero");
         $genero = $genero_repo->find($id);
@@ -216,13 +223,16 @@ class GeneroController extends Controller {
                 $status = "El género no se ha editado porque el formulario no es válido.";
             }
 
-            $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("indice_genero");
+            if ($status == "Género editado correctamente.") {
+                $this->session->getFlashBag()->add("status", $status);
+                return $this->redirectToRoute("indice_genero");
+            }
         }
 
         return $this->render('@Karfilms/genero/editargenero.html.twig', [
                     "form" => $form->createView(),
-                    "genero" => $genero
+                    "genero" => $genero,
+                    "error" => $error
         ]);
     }
 

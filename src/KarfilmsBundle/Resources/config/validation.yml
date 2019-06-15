@@ -1,7 +1,96 @@
 KarfilmsBundle\Entity\Genero:
     properties:
         nombre:
-            - NotBlank: { message: "El nombre no puede estar vacío" }
+            - NotBlank: { message: "El nombre no puede estar vacío." }
             - Length:
                 min: 2
-                minMessage: "El nombre debe tener más de 2 caracteres"
+                minMessage: "El nombre debe tener mínimo 2 caracteres."
+
+KarfilmsBundle\Entity\Sugerencia:
+    properties:
+        texto:
+            - NotBlank: { message: "La sugerencia no puede estar vacía." }
+            - Length:
+                min: 1
+                minMessage: "La sugerencia debe tener mínimo 1 caracter."
+                
+KarfilmsBundle\Entity\Actor:
+    properties:
+        nombre:
+            - NotBlank: { message: "El nombre no puede estar vacío" }
+            - Length:
+                min: 1
+                minMessage: "El nombre debe tener mínimo 1 caracter."
+                
+KarfilmsBundle\Entity\Director:
+    properties:
+        nombre:
+            - NotBlank: { message: "El nombre no puede estar vacío" }
+            - Length:
+                min: 1
+                minMessage: "El nombre debe tener mínimo 1 caracter."
+                
+KarfilmsBundle\Entity\Sala:
+    properties:
+        nombre:
+            - NotBlank: { message: "El nombre no puede estar vacío" }
+            - Length:
+                min: 1
+                max: 1
+                minMessage: "El nombre sólo debe tener 1 caracter."
+                
+KarfilmsBundle\Entity\Asiento:
+    properties:
+        fila:
+            - NotBlank: { message: "La fila no puede estar vacía." }
+            - Length:
+                min: 1
+                minMessage: "La fila debe tener como mínimo 1 caracter."
+        butaca:
+            - NotBlank: { message: "La butaca no puede estar vacía." }
+            - Length:
+                min: 1
+                minMessage: "La butaca debe tener como mínimo 1 caracter."
+                
+KarfilmsBundle\Entity\Pelicula:
+    properties:
+        titulo:
+            - NotBlank: { message: "El título no puede estar vacío." }
+            - Length:
+                min: 1
+                minMessage: "El título debe tener como mínimo 1 caracter."
+        sinopsis:
+            - NotBlank: { message: "La sinopsis no puede estar vacía." }
+            - Length:
+                min: 1
+                minMessage: "La sinopsis debe tener como mínimo 1 caracter."
+        duracion:
+            - NotBlank: { message: "La duración no puede estar vacía." }
+            - Length:
+                min: 1
+                max: 3
+                minMessage: "La duración sólo puede tener 3 números como máximo."
+            - Type: 
+                type: integer
+                message: "La duración debe ser un número entero."
+                
+KarfilmsBundle\Entity\Usuario:
+    properties:
+        nombre:
+            - NotBlank: { message: "El nombre no puede estar vacío" }
+            - Length:
+                min: 1
+                minMessage: "El nombre debe tener mínimo 1 caracter."
+        password:
+            - NotBlank: { message: "La contraseña no puede estar vacía." }
+            - Length:
+                min: 8
+                minMessage: "La contraseña debe tener mínimo 8 caracteres."
+
+KarfilmsBundle\Entity\Edad:
+    properties:
+        clasificacion:
+            - NotBlank: { message: "La clasificación no puede estar vacía." }
+            - Length:
+                min: 2
+                minMessage: "La clasificación debe tener mínimo 2 caracteres. (Ej: +7)."

@@ -48,6 +48,8 @@ class SalaController extends Controller {
          * Se crea un objeto sala nuevo y se manda con el formulario para que
          * muestre los campos de la entidad que tienen que rellenarse.
          */
+        $authenticationUtils = $this->get("security.authentication_utils");
+        $error = $authenticationUtils->getLastAuthenticationError();
         $sala = new Sala();
         $form = $this->createForm(SalaType::class, $sala);
 
@@ -83,12 +85,15 @@ class SalaController extends Controller {
              * Se envía a la vista el mensaje creado y guardado en la variable status,
              * y redirige hacia la vista de todas las salas.
              */
-            $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("indice_sala");
+            if ($status == "Sala añadida correctamente.") {
+                $this->session->getFlashBag()->add("status", $status);
+                return $this->redirectToRoute("indice_sala");
+            }
         }
 
         return $this->render('@Karfilms/sala/addsala.html.twig', [
-                    "form" => $form->createView()
+                    "form" => $form->createView(),
+                    "error" => $error
         ]);
     }
 
@@ -139,6 +144,8 @@ class SalaController extends Controller {
      */
 
     public function editarSalaAction($id, Request $request) {
+        $authenticationUtils = $this->get("security.authentication_utils");
+        $error = $authenticationUtils->getLastAuthenticationError();
         $em = $this->getDoctrine()->getEntityManager();
         $sala_repo = $em->getRepository("KarfilmsBundle:Sala");
         $sala = $sala_repo->find($id);
@@ -163,13 +170,16 @@ class SalaController extends Controller {
                 $status = "El sala no se ha editada porque el formulario no es válido.";
             }
 
-            $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("indice_sala");
+            if ($status == "Sala editada correctamente.") {
+                $this->session->getFlashBag()->add("status", $status);
+                return $this->redirectToRoute("indice_sala");
+            }
         }
 
         return $this->render('@Karfilms/sala/editarsala.html.twig', [
                     "form" => $form->createView(),
-                    "sala" => $sala
+                    "sala" => $sala,
+                    "error" => $error
         ]);
     }
 

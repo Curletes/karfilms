@@ -19,6 +19,7 @@ class EdadController extends Controller {
     /*
      * Muestra las clasificaciones por edades que están en la base de datos.
      */
+
     public function mostrarEdadAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $edad_repo = $em->getRepository("KarfilmsBundle:Edad");
@@ -34,6 +35,7 @@ class EdadController extends Controller {
      * seleccionada desde la vista, recogiendo su nombre por la url y realizando
      * una consulta en la base de datos.
      */
+
     public function categoriaEdadAction(Request $request, $clasificacion) {
         $em = $this->getDoctrine()->getEntityManager();
         $edad_repo = $em->getRepository('KarfilmsBundle:Edad');
@@ -76,6 +78,7 @@ class EdadController extends Controller {
      * Funcionamiento similar al método mostrarEdadAction. Este método es para
      * la parte de administración de las edades.
      */
+
     public function indiceEdadAction() {
         $em = $this->getDoctrine()->getEntityManager();
         $edad_repo = $em->getRepository("KarfilmsBundle:Edad");
@@ -94,11 +97,14 @@ class EdadController extends Controller {
      * Función para crear un formulario para añadir nuevas edades a la base de
      * datos.
      */
+
     public function addEdadAction(Request $request) {
         /*
          * Se crea un objeto edad nuevo y se manda con el formulario para que
          * muestre los campos de la entidad que tienen que rellenarse.
          */
+        $authenticationUtils = $this->get("security.authentication_utils");
+        $error = $authenticationUtils->getLastAuthenticationError();
         $edad = new Edad();
         $form = $this->createForm(EdadType::class, $edad);
 
@@ -110,7 +116,7 @@ class EdadController extends Controller {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
                 $edad = new Edad();
-                
+
                 /*
                  * Se hace un set en la entidad Edad con el nombre de la clasificación
                  * introducida en el formulario y se guarda con persist y flush.
@@ -134,11 +140,14 @@ class EdadController extends Controller {
              * Se envía a la vista el mensaje creado y guardado en la variable status,
              * y redirige hacia la vista de todas las clasificaciones por edad.
              */
-            $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("indice_edad");
+            if ($status == "Edad añadida correctamente.") {
+                $this->session->getFlashBag()->add("status", $status);
+                return $this->redirectToRoute("indice_edad");
+            }
         }
 
         return $this->render('@Karfilms/edad/addedad.html.twig', [
+                    'error' => $error,
                     "form" => $form->createView()
         ]);
     }
@@ -174,7 +183,10 @@ class EdadController extends Controller {
      * el formulario de edición con la variable $request.
      * Funcionamiento similar al de la función para añadir edades.
      */
+
     public function editarEdadAction($id, Request $request) {
+        $authenticationUtils = $this->get("security.authentication_utils");
+        $error = $authenticationUtils->getLastAuthenticationError();
         $em = $this->getDoctrine()->getEntityManager();
         $edad_repo = $em->getRepository("KarfilmsBundle:Edad");
         $edad = $edad_repo->find($id);
@@ -198,12 +210,14 @@ class EdadController extends Controller {
             } else {
                 $status = "El edad no se ha editada porque el formulario no es válido.";
             }
-
-            $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("indice_edad");
+            if ($status == "Edad editada correctamente.") {
+                $this->session->getFlashBag()->add("status", $status);
+                return $this->redirectToRoute("indice_edad");
+            }
         }
 
         return $this->render('@Karfilms/edad/editaredad.html.twig', [
+                    "error" => $error,
                     "form" => $form->createView(),
                     "edad" => $edad
         ]);

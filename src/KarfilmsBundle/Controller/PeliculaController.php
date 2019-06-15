@@ -257,6 +257,8 @@ class PeliculaController extends Controller {
          * Se crea un objeto pelicula nuevo y se manda con el formulario para que
          * muestre los campos de la entidad que tienen que rellenarse.
          */
+        $authenticationUtils = $this->get("security.authentication_utils");
+        $error = $authenticationUtils->getLastAuthenticationError();
         $pelicula = new Pelicula();
         $form = $this->createForm(PeliculaType::class, $pelicula);
 
@@ -379,7 +381,6 @@ class PeliculaController extends Controller {
                     $status = "Error al añadir la película.";
                 }
             } else {
-                die(var_dump($form["trailer"]->getData()));
                 $status = "La pelicula no se ha añadido porque el formulario no es válido.";
             }
 
@@ -387,12 +388,15 @@ class PeliculaController extends Controller {
              * Se envía a la vista el mensaje creado y guardado en la variable status,
              * y redirige hacia la vista de todas las películas.
              */
-            $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("indice_pelicula");
+            if ("Película añadida correctamente.") {
+                $this->session->getFlashBag()->add("status", $status);
+                return $this->redirectToRoute("indice_pelicula");
+            }
         }
 
         return $this->render('@Karfilms/pelicula/addpelicula.html.twig', [
-                    "form" => $form->createView()
+                    "form" => $form->createView(),
+                    "error" => $error
         ]);
     }
 
@@ -462,6 +466,8 @@ class PeliculaController extends Controller {
      */
 
     public function editarPeliculaAction($id, Request $request) {
+        $authenticationUtils = $this->get("security.authentication_utils");
+        $error = $authenticationUtils->getLastAuthenticationError();
         $em = $this->getDoctrine()->getEntityManager();
         $pelicula_repo = $em->getRepository("KarfilmsBundle:Pelicula");
         $pelicula = $pelicula_repo->find($id);
@@ -594,8 +600,10 @@ class PeliculaController extends Controller {
                 $status = "La película no se ha editado porque el formulario no es válido.";
             }
 
-            $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("indice_pelicula");
+            if ($status == "Película editada correctamente.") {
+                $this->session->getFlashBag()->add("status", $status);
+                return $this->redirectToRoute("indice_pelicula");
+            }
         }
 
         return $this->render('@Karfilms/pelicula/editarpelicula.html.twig', [
@@ -605,7 +613,8 @@ class PeliculaController extends Controller {
                     "actores" => $actores,
                     "directores" => $directores,
                     "generos" => $generos,
-                    "pelicula" => $pelicula
+                    "pelicula" => $pelicula,
+                    "error" => $error
         ]);
     }
 
