@@ -47,7 +47,6 @@ KarfilmsBundle\Entity\Usuario:
                 min: 1
                 minMessage: "El nombre debe tener mínimo 1 caracter."
         password:
-            - NotBlank: { message: "La contraseña no puede estar vacía." }
             - Length:
                 min: 8
                 minMessage: "La contraseña debe tener mínimo 8 caracteres."

@@ -22,6 +22,7 @@ class UsuarioController extends Controller {
      * Función para iniciar sesión, recogiendo los datos que ha enviado el usuario
      * a través del formulario.
      */
+
     public function iniciarSesionAction(Request $request) {
         /*
          * Comprobaciones de que los datos coinciden con los del usuario registrado
@@ -43,6 +44,7 @@ class UsuarioController extends Controller {
      * Función para crear un formulario para añadir nuevos usuarios a la base de
      * datos.
      */
+
     public function registrarseAction(Request $request) {
         $authenticationUtils = $this->get("security.authentication_utils");
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -113,9 +115,9 @@ class UsuarioController extends Controller {
 
             if ($status == "Registrado correctamente.") {
                 /*
-                * Se envía a la vista el mensaje creado y guardado en la variable status,
-                * y redirige hacia el formulario para iniciar sesión.
-                */
+                 * Se envía a la vista el mensaje creado y guardado en la variable status,
+                 * y redirige hacia el formulario para iniciar sesión.
+                 */
                 return $this->redirectToRoute("iniciar_sesion");
             }
         }
@@ -135,24 +137,23 @@ class UsuarioController extends Controller {
      * Muestra los usuarios que están en la base de datos, listándolos por orden
      * alfabético y paginados (5 usuarios por página).
      */
+
     public function indiceUsuarioAction(Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
-        
+
         /*
          * Creación de una query para realizar una consulta a la base de datos.
          * Selecciona todos los usuarios por orden alfabético.
          */
         $dql = "SELECT u FROM KarfilmsBundle:Usuario u ORDER BY u.nombre ASC";
         $query = $em->createQuery($dql);
- 
+
         /*
          * Paginación
          */
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $query,
-                $request->query->getInt('page', 1),
-                5
+                $query, $request->query->getInt('page', 1), 5
         );
 
         return $this->render('@Karfilms/usuario/indiceusuario.html.twig', [
@@ -165,7 +166,7 @@ class UsuarioController extends Controller {
         $em = $this->getDoctrine()->getEntityManager();
         $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
         $usuario = $usuario_repo->find($id);
-        
+
         /*
          * Comprobación de si el usuario ha enviado sugerencias o ha valorado alguna.
          * Si se da el caso, las valoraciones y/o sugerencias se eliminan para
@@ -173,23 +174,19 @@ class UsuarioController extends Controller {
          */
         $sugerencia_repo = $em->getRepository("KarfilmsBundle:Sugerencia");
         $sugerencias = $sugerencia_repo->findAll();
-        
+
         $valoracion_repo = $em->getRepository("KarfilmsBundle:Valoracion");
         $valoraciones = $valoracion_repo->findAll();
-        
-        foreach($sugerencias as $sugerencia)
-        {
-            if($sugerencia->getIdUsuario()->getId() == $id)
-            {
+
+        foreach ($sugerencias as $sugerencia) {
+            if ($sugerencia->getIdUsuario()->getId() == $id) {
                 $em->remove($sugerencia);
                 $em->flush();
             }
         }
-        
-        foreach($valoraciones as $valoracion)
-        {
-            if($valoracion->getIdUsuario()->getId() == $id)
-            {
+
+        foreach ($valoraciones as $valoracion) {
+            if ($valoracion->getIdUsuario()->getId() == $id) {
                 $em->remove($valoracion);
                 $em->flush();
             }
@@ -207,6 +204,7 @@ class UsuarioController extends Controller {
      * el formulario de edición con la variable $request.
      * Funcionamiento similar al de la función para añadir usuarios.
      */
+
     public function editarUsuarioAction($id, Request $request) {
         $authenticationUtils = $this->get("security.authentication_utils");
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -247,7 +245,7 @@ class UsuarioController extends Controller {
                 } else {
                     $usuario->setPassword($password);
                 }
-                
+
                 $em->persist($usuario);
                 $flush = $em->flush();
 
@@ -259,23 +257,25 @@ class UsuarioController extends Controller {
             } else {
                 $status = "El perfil no se ha editado porque el formulario no es válido.";
             }
-
-            $this->session->getFlashBag()->add("status", $status);
-            return $this->redirectToRoute("mi_perfil", ["id" => $id]);
+            if ($status == "Perfil editado correctamente.") {
+                $this->session->getFlashBag()->add("status", $status);
+                return $this->redirectToRoute("mi_perfil", ["id" => $id]);
+            }
         }
 
         return $this->render('@Karfilms/usuario/editarusuario.html.twig', [
                     "form" => $form->createView(),
-                    "id" => $id
+                    "id" => $id,
+                    "error" => $error
         ]);
     }
-    
+
     /*
      * Función para cambiar tu icono de usuario, reconociendo el usuario a través
      * del id enviado por la url.
      */
-    public function cambiarIconoAction($id, Request $request)
-    {
+
+    public function cambiarIconoAction($id, Request $request) {
         $em = $this->getDoctrine()->getEntityManager();
         $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
         $usuario = $usuario_repo->find($id);
@@ -341,7 +341,7 @@ class UsuarioController extends Controller {
                 } else {
                     $usuario->setIcono($icono);
                 }
-                
+
                 $em->persist($usuario);
                 $flush = $em->flush();
 
@@ -373,6 +373,7 @@ class UsuarioController extends Controller {
      * Función para asignar el rol administrador al usuario especificado, reconociéndolo
      * por el id enviado desde la url al pulsar le botón.
      */
+
     public function administradorAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
         $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
@@ -396,11 +397,12 @@ class UsuarioController extends Controller {
     /*
      * Función para mostrar tu perfil, junto a tus sugerencias.
      */
+
     public function miPerfilAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
         $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
         $usuario = $usuario_repo->find($id);
-        
+
         $sugerencia_repo = $em->getRepository("KarfilmsBundle:Sugerencia");
         $sugerencias = $sugerencia_repo->findBy(["idUsuario" => $id]);
 
@@ -410,15 +412,16 @@ class UsuarioController extends Controller {
                     "id" => $id
         ]);
     }
-    
+
     /*
      * Función para mostrar el perfil de usuario seleccionado, junto a sus sugerencias.
      */
+
     public function perfilUsuarioAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
         $usuario_repo = $em->getRepository("KarfilmsBundle:Usuario");
         $usuario = $usuario_repo->find($id);
-        
+
         $sugerencia_repo = $em->getRepository("KarfilmsBundle:Sugerencia");
         $sugerencias = $sugerencia_repo->findBy(["idUsuario" => $id]);
 
@@ -428,4 +431,5 @@ class UsuarioController extends Controller {
                     "id" => $id
         ]);
     }
+
 }
