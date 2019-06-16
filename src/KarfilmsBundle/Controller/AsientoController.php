@@ -313,7 +313,10 @@ class AsientoController extends Controller {
                             "sala" => $sesion->getIdSala()->getNombre()
                 ]);
             } else {
-                return $this->redirectToRoute("inicio");
+                return $this->render('@Karfilms/reserva/reservarentrada.html.twig', [
+                "pelicula" => $pelicula,
+                "sesion" => $sesion,
+                "form" => $form->createView()]);
             }
         }
         return $this->render('@Karfilms/reserva/reservarentrada.html.twig', [

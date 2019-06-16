@@ -9,13 +9,6 @@
         <hr>
         <!--Muestra los mensajes generados en el controlador
         que se envían al usuario al registrar asientos-->
-        {% for message in app.session.flashbag().get('status') %}
-            {% if message == "Asiento reservado correctamente." %}
-                <div class="alert alert-success">{{ message }}</div>
-            {% else %}
-                <div class="alert alert-danger">{{ message }}</div>
-            {% endif %}
-        {% endfor %}
         {% if pagination is defined %}
             <!--Array que recorre las películas para mostrar sus carteles en el slider-->
             {% if peliculas is defined %}

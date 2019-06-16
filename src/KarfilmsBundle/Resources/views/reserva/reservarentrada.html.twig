@@ -6,6 +6,14 @@
     {% for hora in pelicula.Sesiones %}
         {% if hora.horarios == sesion.horarios %}
             {% set accesible = true %}
+            <br>
+            {% for message in app.session.flashbag().get('status') %}
+                {% if message == "Asiento reservado correctamente." %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% else %}
+                    <div class="alert alert-danger">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
             <section class="col-lg-9">
                 <h2>Reserva de entrada</h2>
                 <hr>
